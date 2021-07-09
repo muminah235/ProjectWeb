@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 
 function App() {
 
+
   const[searchText, setSeachText] = useState ('');
 
   return (
@@ -19,6 +20,7 @@ function App() {
         <DrugItem title="ยาแก้ไอ" thumbnailUrl="/img/iiii.png" />
         <DrugItem title="เครื่องดื่มเกลือแร่" thumbnailUrl="/img/vitamin.jpg" />
       </div>
+
 
       
 
