@@ -1,0 +1,24 @@
+.app-header {
+    background-color: #576DBE;
+    border-bottom: 1px solid #576DBE;
+    height: 65px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 16px;
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.drug-item img {
+    display: block;
+    width: 323px;
+    height: 268px;
+}
