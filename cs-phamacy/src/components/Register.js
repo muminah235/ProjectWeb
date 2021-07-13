@@ -4,6 +4,7 @@ import Axios from 'axios'
 export default function Login() {
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
+    const [PasswordConfirm, setPasswordConfirm] = useState("");
     const [User_fname, setUser_fname] = useState("");
     const [User_lname, setUser_lname] = useState("");
     const [User_birthday, setUser_birthday] = useState("");
@@ -12,7 +13,7 @@ export default function Login() {
     const [customerList, setCustomerList] = useState([]);
 
     const register = () => {
-      Axios.post('http://localhost:8080/register', {
+      Axios.post('http://localhost:4005/register', {
         username: Username,
         password: Password,
         name: User_fname,
@@ -22,7 +23,6 @@ export default function Login() {
         tel: User_tel
       }).then((response) => {
         console.log(response);
-  
       })
     }
     return (
@@ -39,6 +39,7 @@ export default function Login() {
               <label htmlFor="password" className="form-label">Password</label>
               <input type="password" className="form-control" placeholder="Enter password" onChange={(event) => { setPassword(event.target.value) }} />
             </dir>
+            
             <dir className="mb-3">
               <label htmlFor="name" className="form-label">Name</label>
               <input type="text" className="form-control" placeholder="Enter name" onChange={(event) => { setUser_fname(event.target.value) }} />

@@ -8,9 +8,12 @@ import {BrowserRouter as Router,Route} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Axios from 'axios';
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 
 
+dotenv.config({path:'./.env'});
 
 function App() {
   return (
