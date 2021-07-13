@@ -20,7 +20,7 @@ db.connect((error)=>{
     }
 })
 
-app.post('/create',(req,res)=>{
+app.post('/register',(req,res)=>{
     const Username = req.body.username;
     const Password = req.body.password;
     const User_fname = req.body.name;
@@ -43,6 +43,26 @@ app.post('/create',(req,res)=>{
     }
     );
 })
+
+app.post('/login',(req,res)=>{
+    const Username = req.body.username;
+    const Password = req.body.password;
+    if( !Username || !Password){
+        res.send({message: "Please provide an username and password"});
+    }
+    
+    db.query("SELECT * FROM customer WHERE Username = ? AND Password = ? ",[Username,Password],(err,result)=>{
+        if (err){
+            res.send({err:err})
+        }else {
+            if (result.length>0){
+                res.send(result);
+            }else{
+                res.send({message: "Wrong username/password"});
+            }
+        }
+    });
+});
 
 app.listen('8080',()=>{
     console.log('Sever is running on port 8080');

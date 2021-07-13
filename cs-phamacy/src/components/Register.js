@@ -9,39 +9,27 @@ export default function Login() {
     const [User_birthday, setUser_birthday] = useState("");
     const [User_address, setUser_address] = useState("");
     const [User_tel, setUser_tel] = useState("");
-    const [newTel, setNewTel] = useState("");
     const [customerList, setCustomerList] = useState([]);
 
-    const addCustomer = () => {
-        Axios.post('http://localhost:8080/create', {
-          username: Username,
-          password: Password,
-          name: User_fname,
-          surname: User_lname,
-          birthday: User_birthday,
-          address: User_address,
-          tel: User_tel
-        }).then(() => {
-          setCustomerList([
-            ...customerList,
-            {
-              username: Username,
-              password: Password,
-              name: User_fname,
-              surname: User_lname,
-              birthday: User_birthday,
-              address: User_address,
-              tel: User_tel
-            }
-          ])
-    
-        })
-      }
+    const register = () => {
+      Axios.post('http://localhost:8080/register', {
+        username: Username,
+        password: Password,
+        name: User_fname,
+        surname: User_lname,
+        birthday: User_birthday,
+        address: User_address,
+        tel: User_tel
+      }).then((response) => {
+        console.log(response);
+  
+      })
+    }
     return (
 
         <div className="App container">
         <h1>Register</h1>
-        <dir className="information">
+        <dir className="information"> 
           <form action="">
             <dir className="mb-3">
               <label htmlFor="username" className="form-label">Username</label>
@@ -71,7 +59,7 @@ export default function Login() {
               <label htmlFor="tel" className="form-label">Tel number</label>
               <input type="tel" className="form-control" placeholder="Enter tel number" onChange={(event) => { setUser_tel(event.target.value) }} />
             </dir>
-            <button className="btn btn-success" onClick={addCustomer}>Add user</button>
+            <button className="btn btn-success" onClick={register}>Register</button>
           </form>
         </dir>
         

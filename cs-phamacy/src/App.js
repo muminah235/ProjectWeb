@@ -7,19 +7,17 @@ import Navbar from './components/Navbar';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
-import Axios from 'axios'
+import Axios from 'axios';
+
+
 
 
 function App() {
-
-  
-
   return (
     <div className="app">
       
 
       <Navbar/>
-      
       <div className="app-grid">
         <DrugItem title="ยาพารา" thumbnailUrl="/img/para500.jpg" />
         <DrugItem title="ยาแก้ไอ" thumbnailUrl="/img/iiii.png" />
