@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Axios from 'axios'
+import LoginPage from './Login'
+import ReactDOM from 'react-dom';
 
 export default function Login() {
     const [Username, setUsername] = useState("");
@@ -13,7 +15,7 @@ export default function Login() {
     const [customerList, setCustomerList] = useState([]);
 
     const register = () => {
-      Axios.post('http://localhost:4005/register', {
+      Axios.post('http://localhost:8080/register', {
         username: Username,
         password: Password,
         name: User_fname,
@@ -23,8 +25,15 @@ export default function Login() {
         tel: User_tel
       }).then((response) => {
         console.log(response);
+        alert("register complete");
+        ReactDOM.render(
+          <LoginPage />,
+        document.getElementById('root')
+        );
+        
       })
     }
+
     return (
 
         <div className="App container">
@@ -66,7 +75,7 @@ export default function Login() {
         
                 
                 
-            
+        
         </div> 
     );
 }

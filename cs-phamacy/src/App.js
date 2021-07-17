@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React ,{ useState } from 'react';
 import './App.css';
 import AppHeader from './AppHeader';
 import DrugItem from './DrugItem';
@@ -7,13 +7,12 @@ import Navbar from './components/Navbar';
 import {BrowserRouter as Router,Route} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
+import Admin from './components/Admin';
 import Axios from 'axios';
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 
 
-
-dotenv.config({path:'./.env'});
 
 function App() {
   return (
@@ -30,6 +29,8 @@ function App() {
         <Router>
           <Route path="/login"><Login /></Route>
           <Route path="/register"><Register /></Route>
+          <Route path="/admin"><Admin /></Route>
+
         </Router>
       </div>
 

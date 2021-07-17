@@ -27,6 +27,10 @@ export default function Navbar() {
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/login">ล็อกอิน</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
+                        </li>
+                        
 
                     </ul>
                 
