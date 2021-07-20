@@ -12,21 +12,20 @@ export default function Login() {
     const [Password, setPassword] = useState("");
     const [LoginStatus, setLoginStatus] = useState("");
     const login = () => {
-      Axios.post("http://localhost:8080/login", {
+      Axios.post("http://localhost:4001/login", {
         username: Username,
         password: Password,
       }).then((response) => {
         console.log(response);
-        alert("login complete");
-        ReactDOM.render(
+        //alert("login complete");
+        /*ReactDOM.render(
           <Admin />,
         document.getElementById('root')
-      );
+      );*/
       })
     }
     return (
         <div className="App container">
-            <h4>{LoginStatus}</h4>
             <center><h1>Login from</h1></center>
             <form action="">
             <dir className="mb-3">

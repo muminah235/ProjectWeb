@@ -15,7 +15,7 @@ export default function Login() {
     const [customerList, setCustomerList] = useState([]);
 
     const register = () => {
-      Axios.post('http://localhost:8080/register', {
+      Axios.post('http://localhost:4001/register', {
         username: Username,
         password: Password,
         name: User_fname,

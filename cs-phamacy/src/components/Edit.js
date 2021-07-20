@@ -22,39 +22,18 @@ export default function Admin() {
     const [newAddress, setNewAddress] = useState("");
     const [newTel, setNewTel] = useState("");
     const [customerList, setCustomerList] = useState([]);
-    const [customerEdit,setcustomerEdit] = useState([]);
-    
-
-    const getCustomer = () => {
-        Axios.get('http://localhost:4001/customer').then((response) => {
-            setCustomerList(response.data);
-            console.log(customerList);
-            console.log(response);
-        })
-    }
 
     
-    const editCustomer = (User_ID) => {
-        Axios.put('http://localhost:4001/edit',{
-            User_ID: User_ID
-        }).then((response) => {
-            setcustomerEdit(response.data);
-            console.log(customerEdit);
-            console.log(response);
-        })
-    }
 
-    
-    
     const updateCustomer = (User_ID) => {
         Axios.put("http://localhost:4001/update", {
-            Username: newUsername || customerEdit[0].Username,
-            Password: newPassword || customerEdit[0].Password,
-            User_fname: newName || customerEdit[0].User_fname,
-            User_lname: newSurname || customerEdit[0].User_lname,
-            User_birthday: newBirthDay || customerEdit[0].User_birthday,
-            User_address: newAddress || customerEdit[0].User_address,
-            User_tel: newTel || customerEdit[0].User_tel,
+            Username: newUsername || customerList,
+            Password: newPassword || Password,
+            User_fname: newName || User_fname,
+            User_lname: newSurname || User_lname,
+            User_birthday: newBirthDay || User_birthday,
+            User_address: newAddress || User_address,
+            User_tel: newTel || User_tel,
             User_ID: User_ID
         })
         .then((response) => {
@@ -107,7 +86,7 @@ export default function Admin() {
                   <p className="card-text">Tel number:{val.User_tel}</p>
                   <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username</label>
-                    <input type="text" defaultValue={val.Username} style={{ width: "300px" }} className="form-control" onChange={(event) => {setNewUsername(event.target.value) }} />
+                    <input type="text" defaultValue={val.Username}   style={{ width: "300px" }} className="form-control" onChange={(event) => {setNewUsername(event.target.value) }} />
 
                     <label htmlFor="password" className="form-label">Password</label>
                     <input type="password"  defaultValue={val.Password}  style={{ width: "300px" }} className="form-control" placeholder="Enter password" onChange={(event) => { setNewPassword(event.target.value) }} />
@@ -128,9 +107,7 @@ export default function Admin() {
                     <input type="tel"  defaultValue={val.User_tel}  style={{ width: "300px" }}  className="form-control" onChange={(event) => { setNewTel(event.target.value) }} />
                     
                 
-                    <button className="btn btn-warning" onClick={() => { editCustomer(val.User_ID) }}>Edit</button>
                     <button className="btn btn-warning" onClick={() => { updateCustomer(val.User_ID) }}>Update</button>
-                    <button className="btn btn-danger" onClick={() => { deleteCustomer(val.User_ID) }}>Delete</button>
                     
                   </div>
                 </div>

@@ -8,7 +8,7 @@ const { response } = require('express');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+
 
 const db = mysql.createConnection({
     user: "root",
@@ -39,28 +39,17 @@ app.get('/customer',(req ,res)=>{
     });
 });
 
-app.post('/create',(req,res)=>{
-    const Username = req.body.username;
-    const Password = req.body.password;
-    const User_fname = req.body.name;
-    const User_lname = req.body.surname;
-    const User_birthday = req.body.birthday;
-    const User_address = req.body.address;
-    const User_tel = req.body.tel;
-
-    console.log(Username);
-
-    db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
-    [Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel],
-    (err,result)=>{
+app.put('/edit',(req ,res)=>{
+    const id = req.body.User_ID;
+    console.log(id);
+    db.query("SELECT * FROM customer WHERE User_ID = ?",[id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
-            res.send("Values insert");
+            res.send(result);
         }
-    }
-    );
-})
+    });
+});
 
 app.put('/update',(req,res)=>{
     const id = req.body.User_ID;
@@ -71,6 +60,7 @@ app.put('/update',(req,res)=>{
     const birthday = req.body.User_birthday;
     const address = req.body.User_address;
     const tel = req.body.User_tel;
+    console.log("id: "+ id);
     console.log("username: "+ username);
     console.log("password: "+ password);
     console.log("fname: "+ fname);
@@ -78,6 +68,26 @@ app.put('/update',(req,res)=>{
     console.log("birthday: "+ birthday);
     console.log("address: "+ address);
     console.log("tel: "+ tel);
+
+    /*db.query("SELECT * from customer WHERE Username = ? ",[username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result.Username);
+        }
+    })*/
+    /*if(username == ''){
+        db.query("SELECT Username FROM customer WHERE User_ID =? ",[id],(err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.send(result);
+            }
+        })
+        const username = result.data;
+        console.lon("New Username: " + username);
+    }*/
+
     db.query("UPDATE customer SET Username = ? ,Password = ?,User_fname = ? ,User_lname = ? ,User_birthday = ?,User_address = ?,User_tel =?  WHERE User_ID = ?",[username,password,fname,surname,birthday,address,tel,id],(err,result)=>{
         if(err){
             console.log(err);
@@ -85,6 +95,11 @@ app.put('/update',(req,res)=>{
             res.send(result);
         }
     })
+    
+   
+    
+    
+    
 })
 
 app.delete('/delete/:User_ID',(req,res) =>{
@@ -118,12 +133,14 @@ app.post('/register', (req, res) => {
     );
 })
 
-app.post('/login', async (req, res) => {
+app.post("/login",  (req, res) => {
 
     const Username = req.body.username;
     const Password = req.body.password;
+    
     if (!Username || !Password) {
         console.log("no username/password");
+        res.send({message: "no username/password"});
         return;
     }
 
@@ -138,12 +155,13 @@ app.post('/login', async (req, res) => {
                 return;
             } else {
                 console.log("err");
-                return res.send({ message: "Wrong username/password" });
+                res.send({ message: "Wrong username/password" });
+                return;
             }
         }
     })
 
 })
-app.listen('8080', () => {
-    console.log('Sever is running on port 8080');
+app.listen('4001', () => {
+    console.log('Sever is running on port 4001');
 })
