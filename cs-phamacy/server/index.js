@@ -150,13 +150,9 @@ app.post("/login",  (req, res) => {
             res.send({ err: err });
         } else {
             if (result.length > 0) {
-                console.log("complete");
-                res.send({ message: "Complete" });
-                return;
+                res.send(result);
             } else {
-                console.log("err");
                 res.send({ message: "Wrong username/password" });
-                return;
             }
         }
     })

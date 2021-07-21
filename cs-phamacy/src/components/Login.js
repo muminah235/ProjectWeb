@@ -3,6 +3,7 @@ import Axios from 'axios'
 import ReactDOM from 'react-dom';
 
 import Admin from './Admin'
+import CustomerIndex from './CustomerIndex';
 
 
 export default function Login() {
@@ -11,21 +12,28 @@ export default function Login() {
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [LoginStatus, setLoginStatus] = useState("");
-    const login = () => {
+    const login = (e) => {
+      e.preventDefault();
       Axios.post("http://localhost:4001/login", {
         username: Username,
         password: Password,
       }).then((response) => {
-        console.log(response);
-        //alert("login complete");
-        /*ReactDOM.render(
-          <Admin />,
-        document.getElementById('root')
-      );*/
+        if(response.data.message){
+          setLoginStatus(response.data.message)
+        }else{
+          e.preventDefault();
+          setLoginStatus(response.data[0].Username)
+          alert("login complete");
+          ReactDOM.render(
+            <Admin/>,
+          document.getElementById('root')
+        );
+        }
       })
     }
     return (
         <div className="App container">
+            <h1>{LoginStatus}</h1>
             <center><h1>Login from</h1></center>
             <form action="">
             <dir className="mb-3">
