@@ -14,7 +14,7 @@ export default function Login() {
     const [LoginStatus, setLoginStatus] = useState("");
     const login = (e) => {
       e.preventDefault();
-      Axios.post("http://localhost:4001/login", {
+      Axios.post("http://localhost:4001/adminlogin", {
         username: Username,
         password: Password,
       }).then((response) => {
@@ -24,20 +24,17 @@ export default function Login() {
           e.preventDefault();
           setLoginStatus(response.data[0].Username)
           alert("login complete");
-          e.preventDefault();
           ReactDOM.render(
-            <CustomerIndex/>,
+            <Admin/>,
           document.getElementById('root')
-          
         );
-        e.preventDefault();
         }
       })
     }
     return (
         <div className="App container">
             <h1>{LoginStatus}</h1>
-            <center><h1>Login from</h1></center>
+            <center><h1>Admin Login </h1></center>
             <form action="">
             <dir className="mb-3">
               <label htmlFor="username" className="form-label">Username</label>
@@ -47,8 +44,7 @@ export default function Login() {
               <label htmlFor="password" className="form-label">Password</label>
               <input type="password" className="form-control" placeholder="Enter password" onChange={(event) => { setPassword(event.target.value) }} />
             </dir>
-            <a class = "navbar-brand" href="/register">Register</a>
-            <a class = "navbar-brand" href="/adminlogin">Admin Login</a>
+            <a class = "navbar-brand" href="/login">User login</a>
             <center><button className="btn btn-success" onClick={login}>Login</button></center>
             </form>
                 

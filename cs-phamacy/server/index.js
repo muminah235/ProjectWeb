@@ -158,6 +158,32 @@ app.post("/login",  (req, res) => {
     })
 
 })
+
+app.post("/adminlogin",  (req, res) => {
+
+    const Username = req.body.username;
+    const Password = req.body.password;
+    
+    if (!Username || !Password) {
+        console.log("no username/password");
+        res.send({message: "no username/password"});
+        return;
+    }
+
+    db.query("SELECT * FROM admin WHERE Username = ? AND Password = ? ", [Username, Password], (err, result) => {
+        console.log(result);
+        if (err) {
+            res.send({ err: err });
+        } else {
+            if (result.length > 0) {
+                res.send(result);
+            } else {
+                res.send({ message: "Wrong username/password" });
+            }
+        }
+    })
+
+})
 app.listen('4001', () => {
     console.log('Sever is running on port 4001');
 })

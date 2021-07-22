@@ -8,6 +8,7 @@ import {BrowserRouter as Router,Route} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Admin from './components/Admin';
+import AdminLogin from './components/AdminLogin';
 import Axios from 'axios';
 import CustomerIndex from './components/CustomerIndex';
 const dotenv = require('dotenv');
@@ -31,7 +32,9 @@ function App() {
           <Route path="/login"><Login /></Route>
           <Route path="/register"><Register /></Route>
           <Route path="/admin"><Admin /></Route>
+          <Route path="/adminlogin"><AdminLogin /></Route>
           <Route path="/customerindex"><CustomerIndex /></Route>
+          
 
         </Router>
       </div>
