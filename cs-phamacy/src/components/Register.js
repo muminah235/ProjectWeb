@@ -13,30 +13,34 @@ export default function Login() {
     const [User_address, setUser_address] = useState("");
     const [User_tel, setUser_tel] = useState("");
     const [customerList, setCustomerList] = useState([]);
+    const [registerStatus, setRegisterStatus] = useState("");
 
-    const register = () => {
+    const register = (e) => {
+      e.preventDefault();
       Axios.post('http://localhost:4001/register', {
         username: Username,
         password: Password,
+        PasswordConfirm : PasswordConfirm,
         name: User_fname,
         surname: User_lname,
         birthday: User_birthday,
         address: User_address,
         tel: User_tel
       }).then((response) => {
+        e.preventDefault();
         console.log(response);
-        alert("register complete");
-        ReactDOM.render(
-          <LoginPage />,
-        document.getElementById('root')
-        );
-        
+        if(response.data.message){
+          setRegisterStatus(response.data.message)
+          console.log(response);
+        }
+        e.preventDefault();
       })
     }
 
     return (
 
         <div className="App container">
+        <h1>{registerStatus}</h1>
         <h1>Register</h1>
         <dir className="information"> 
           <form action="">
@@ -48,7 +52,10 @@ export default function Login() {
               <label htmlFor="password" className="form-label">Password</label>
               <input type="password" className="form-control" placeholder="Enter password" onChange={(event) => { setPassword(event.target.value) }} />
             </dir>
-            
+            <dir className="mb-3">
+              <label htmlFor="PasswordConfirm" className="form-label">Confirm Password</label>
+              <input type="password" className="form-control" placeholder="Enter password" onChange={(event) => { setPasswordConfirm(event.target.value) }} />
+            </dir>
             <dir className="mb-3">
               <label htmlFor="name" className="form-label">Name</label>
               <input type="text" className="form-control" placeholder="Enter name" onChange={(event) => { setUser_fname(event.target.value) }} />

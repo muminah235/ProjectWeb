@@ -2,8 +2,8 @@ import { useState ,response} from 'react';
 import Axios from 'axios'
 import Register from './Register'
 import ReactDOM from 'react-dom';
-
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
 
 export default function Admin() {
     const [Username, setUsername] = useState("");
@@ -23,7 +23,8 @@ export default function Admin() {
     const [newTel, setNewTel] = useState("");
     const [customerList, setCustomerList] = useState([]);
     const [customerEdit,setcustomerEdit] = useState([]);
-    
+
+    const now = new Date().toISOString().split("T")[0];
 
     const getCustomer = () => {
         Axios.get('http://localhost:4001/customer').then((response) => {
@@ -91,6 +92,7 @@ export default function Admin() {
         })
     }
     return (
+        
         <dir className="customer">
         <h1>Admin</h1>
           <button className="btn btn-primary" onClick={getCustomer}>Show customer</button>
@@ -119,15 +121,15 @@ export default function Admin() {
                     <input type="text" defaultValue={val.User_lname}  style={{ width: "300px" }} className="form-control" placeholder="Enter surname" onChange={(event) => { setNewSurname(event.target.value) }} />
 
                     <label htmlFor="birthday" className="form-label">Birthday</label>
-                    <input type="date" defaultValue={val.User_birthday}  style={{ width: "300px" }} className="form-control" placeholder="Enter birthday" onChange={(event) => { setNewBirthDay(event.target.value) }} />
-            
+                    <input type="date"  defaultValue={val.User_birthday} max={now} style={{ width: "300px" }} className="form-control" placeholder="Enter birthday" onChange={(event) => { setNewBirthDay(event.target.value) }} />
+
+
                     <label htmlFor="address" className="form-label">Address</label>
                     <input type="text"  defaultValue={val.User_address}  style={{ width: "300px" }} className="form-control" onChange={(event) => { setNewAddress(event.target.value) }} />
                     
                     <label htmlFor="tel" className="form-label">Tel number</label>
                     <input type="tel"  defaultValue={val.User_tel}  style={{ width: "300px" }}  className="form-control" onChange={(event) => { setNewTel(event.target.value) }} />
                     
-                
                     <button className="btn btn-warning" onClick={() => { editCustomer(val.User_ID) }}>Edit</button>
                     <button className="btn btn-warning" onClick={() => { updateCustomer(val.User_ID) }}>Update</button>
                     <button className="btn btn-danger" onClick={() => { deleteCustomer(val.User_ID) }}>Delete</button>
@@ -144,5 +146,14 @@ export default function Admin() {
 
 }
 
-
+                /*<div>
+                        <DatePicker 
+                        selected={newBirthDay}
+                        onChange={date => setNewBirthDay(date)}
+                        defaultValue={val.User_birthday}
+                        maxDate={new Date()}
+                        dateFormat="yyyy-MM-dd"
+                        />
+                    </div>*/
+//<input type="date" defaultValue={val.User_birthday}  style={{ width: "300px" }} className="form-control" placeholder="Enter birthday" onChange={(event) => { setNewBirthDay(event.target.value) }} />
 //<button className="btn btn-danger" onClick={() => { deleteCustomer(val.User_ID) }}>Delete</button>

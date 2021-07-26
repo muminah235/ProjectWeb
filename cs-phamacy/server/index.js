@@ -5,10 +5,16 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { response } = require('express');
+const cookieParser = require('cookie-parser');
+const path = require('path');
 
+const publicDirectory=path.join(__dirname,'./public')
+
+app.use(express.static(publicDirectory));
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended:false }));
+app.use(cookieParser());
 
 const db = mysql.createConnection({
     user: "root",
@@ -30,25 +36,27 @@ app.get("/",(req,res)=>{
 
 
 app.get('/customer',(req ,res)=>{
-    db.query("SELECT * FROM customer",(err,result)=>{
+    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer ",(err,result)=>{
         if(err){
             console.log(err);
         }else{
             res.send(result);
         }
     });
+
 });
 
 app.put('/edit',(req ,res)=>{
     const id = req.body.User_ID;
     console.log(id);
-    db.query("SELECT * FROM customer WHERE User_ID = ?",[id],(err,result)=>{
+    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer WHERE User_ID = ?"  ,[id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
             res.send(result);
         }
     });
+   
 });
 
 app.put('/update',(req,res)=>{
@@ -113,15 +121,48 @@ app.delete('/delete/:User_ID',(req,res) =>{
     })
 })
 app.post('/register', (req, res) => {
-    const Username = req.body.username;
+    const { username, name, surname, tel ,birthday, address, password, PasswordConfirm } = req.body;
+    console.log(req.body)
+    /*const Username = req.body.username;
     const Password = req.body.password;
+    const passwordConfirm = req.body.PasswordConfirm
     const User_fname = req.body.name;
     const User_lname = req.body.surname;
     const User_birthday = req.body.birthday;
     const User_address = req.body.address;
-    const User_tel = req.body.tel;
+    const User_tel = req.body.tel;*/
+    
 
-    db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
+    db.query("SELECT Username FROM customer WHERE Username = ?", [username], async (error, results) => {
+        console.log(results)
+        if (error) {
+            console.log(error);
+        }
+        if (results.length > 0) {
+            console.log("That username is already in use");
+            res.send({message: "That username is already in use"});
+        }else if (password !== PasswordConfirm) {
+            console.log("Password do not match");
+            res.send({message: "Password do not match"});
+        }else if((username !== results) && (password == PasswordConfirm)){
+            console.log("correct")
+            db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
+            [username, password, name, surname, birthday, address, tel],
+            (err, result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send({message:"Register complete"});
+                }
+            }
+        );
+        } 
+        
+        
+        
+    });
+
+    /*db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
         [Username, Password, User_fname, User_lname, User_birthday, User_address, User_tel],
         (err, result) => {
             if (err) {
@@ -130,7 +171,17 @@ app.post('/register', (req, res) => {
                 res.send("Values insert");
             }
         }
-    );
+    );*/
+
+    /*db.query("INSERT INTO customer SET ?",{Username:Username,Password: Password,User_fname: User_fname,User_lname: User_lname,User_address: User_address,User_tel:User_tel},
+        (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values insert");
+            }
+        }
+    );*/
 })
 
 app.post("/login",  (req, res) => {
@@ -187,3 +238,15 @@ app.post("/adminlogin",  (req, res) => {
 app.listen('4001', () => {
     console.log('Sever is running on port 4001');
 })
+
+
+/*db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
+        [Username, Password, User_fname, User_lname, User_birthday, User_address, User_tel],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values insert");
+            }
+        }
+    );*/

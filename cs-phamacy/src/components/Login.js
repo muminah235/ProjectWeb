@@ -28,7 +28,6 @@ export default function Login() {
           ReactDOM.render(
             <CustomerIndex/>,
           document.getElementById('root')
-          
         );
         e.preventDefault();
         }
@@ -51,9 +50,6 @@ export default function Login() {
             <a class = "navbar-brand" href="/adminlogin">Admin Login</a>
             <center><button className="btn btn-success" onClick={login}>Login</button></center>
             </form>
-                
-                
-            
         </div> 
     );
 }

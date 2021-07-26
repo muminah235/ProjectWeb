@@ -11,8 +11,6 @@ import Admin from './components/Admin';
 import AdminLogin from './components/AdminLogin';
 import Axios from 'axios';
 import CustomerIndex from './components/CustomerIndex';
-const dotenv = require('dotenv');
-const cookieParser = require('cookie-parser');
 
 
 
@@ -34,8 +32,6 @@ function App() {
           <Route path="/admin"><Admin /></Route>
           <Route path="/adminlogin"><AdminLogin /></Route>
           <Route path="/customerindex"><CustomerIndex /></Route>
-          
-
         </Router>
       </div>
 

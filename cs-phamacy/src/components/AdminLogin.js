@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 import Admin from './Admin'
 import CustomerIndex from './CustomerIndex';
+import Navbar from './Navbar';
 
 
 export default function Login() {
