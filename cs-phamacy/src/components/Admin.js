@@ -1,9 +1,10 @@
 import { useState ,response} from 'react';
 import Axios from 'axios'
-import Register from './Register'
+
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
+import { Link } from 'react-router-dom';
 
 export default function Admin() {
     const [Username, setUsername] = useState("");
@@ -23,11 +24,13 @@ export default function Admin() {
     const [newTel, setNewTel] = useState("");
     const [customerList, setCustomerList] = useState([]);
     const [customerEdit,setcustomerEdit] = useState([]);
+    const [pharmaList, setPharmaList] = useState([]);
+    
 
     const now = new Date().toISOString().split("T")[0];
 
     const getCustomer = () => {
-        Axios.get('http://localhost:4001/customer').then((response) => {
+        Axios.get('http://localhost:4002/customer').then((response) => {
             setCustomerList(response.data);
             console.log(customerList);
             console.log(response);
@@ -36,7 +39,7 @@ export default function Admin() {
 
     
     const editCustomer = (User_ID) => {
-        Axios.put('http://localhost:4001/edit',{
+        Axios.put('http://localhost:4002/edit',{
             User_ID: User_ID
         }).then((response) => {
             setcustomerEdit(response.data);
@@ -48,7 +51,7 @@ export default function Admin() {
     
     
     const updateCustomer = (User_ID) => {
-        Axios.put("http://localhost:4001/update", {
+        Axios.put("http://localhost:4002/update", {
             Username: newUsername || customerEdit[0].Username,
             Password: newPassword || customerEdit[0].Password,
             User_fname: newName || customerEdit[0].User_fname,
@@ -83,7 +86,7 @@ export default function Admin() {
         })
     }
     const deleteCustomer = (User_ID) => {
-        Axios.delete(`http://localhost:4001/delete/${User_ID}`).then((reponse) => {
+        Axios.delete(`http://localhost:4002/delete/${User_ID}`).then((reponse) => {
             setCustomerList(
                 customerList.filter((val) => {
                     return val.User_ID != User_ID;
@@ -95,7 +98,10 @@ export default function Admin() {
         
         <dir className="customer">
         <h1>Admin</h1>
-          <button className="btn btn-primary" onClick={getCustomer}>Show customer</button>
+        <button className="btn btn-primary" onClick={getCustomer}>Show customer</button>
+        <a class = "navbar-brand" href="/showpharmacist">Show pharmacist</a>
+        <a class = "navbar-brand" href="/addproduct">Add product</a>
+        
           {customerList.map((val, key) => {
             return (
               <div className="customer card">
@@ -140,6 +146,7 @@ export default function Admin() {
             )
         
           })}
+    
         </dir>
       
     )

@@ -3,7 +3,7 @@ import Axios from 'axios'
 import LoginPage from './Login'
 import ReactDOM from 'react-dom';
 
-export default function Login() {
+export default function Register() {
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [PasswordConfirm, setPasswordConfirm] = useState("");
@@ -17,7 +17,7 @@ export default function Login() {
 
     const register = (e) => {
       e.preventDefault();
-      Axios.post('http://localhost:4001/register', {
+      Axios.post('http://localhost:4002/register', {
         username: Username,
         password: Password,
         PasswordConfirm : PasswordConfirm,

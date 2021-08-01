@@ -35,8 +35,43 @@ app.get("/",(req,res)=>{
 })
 
 
+app.get('/pharmacist',(req ,res)=>{
+    db.query("SELECT * FROM pharmacist",(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+app.put('/PharmaEdit',(req ,res)=>{
+    const id = req.body.Pharma_ID;
+    console.log(id);
+    db.query("SELECT * from pharmacist WHERE Pharma_ID = ?"  ,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+   
+});
+
 app.get('/customer',(req ,res)=>{
     db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer ",(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+app.get('/showproduct',(req ,res)=>{
+    db.query("SELECT * from product",(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -59,6 +94,64 @@ app.put('/edit',(req ,res)=>{
    
 });
 
+app.post('/addproduct',(req,res)=>{
+    const name = req.body.name;
+    const detail = req.body.detail;
+    const price = req.body.price;
+    const image = req.body.image;
+    const status = req.body.status;
+    const flag = req.body.flag;
+
+    console.log("name: " +name);
+    console.log("detail: " +detail);
+    console.log("price: " +price);
+    console.log("image: "+image);
+    console.log("status: "+status);
+    console.log("flag: "+flag);
+
+    db.query("INSERT into product(Product_name,Product_detail,Product_price,Product_img,Product_status,Product_flag) VALUES(?,?,?,?,?,?)",
+    [name,detail,price,image,status,flag],(err,result)=>{
+        if (err) {
+            console.log(err);
+        } else {
+            res.send({message:"Add Product complete"});
+        }
+    })
+    
+})
+
+app.put('/updatePharmacist',(req,res)=>{
+    const id = req.body.Pharma_ID;
+    const username = req.body.Username;
+    const password = req.body.Password;
+    const fname = req.body.Pharma_fname;
+    const surname = req.body.Pharma_lname;
+    console.log("id: "+ id);
+    console.log("username: "+ username);
+    console.log("password: "+ password);
+    console.log("fname: "+ fname);
+    console.log("surname: "+ surname);
+
+
+    db.query("UPDATE pharmacist SET Username = ? ,Password = ?,Pharma_fname = ? ,Pharma_lname = ?  WHERE Pharma_ID = ?",[username,password,fname,surname,id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
+app.delete('/deletePharmacist/:Pharma_ID',(req,res) =>{
+    const id = req.params.Pharma_ID;
+    db.query("DELETE FROM pharmacist WHERE Pharma_ID = ?",id,(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+})
 app.put('/update',(req,res)=>{
     const id = req.body.User_ID;
     const username = req.body.Username;
@@ -77,24 +170,6 @@ app.put('/update',(req,res)=>{
     console.log("address: "+ address);
     console.log("tel: "+ tel);
 
-    /*db.query("SELECT * from customer WHERE Username = ? ",[username],(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.send(result.Username);
-        }
-    })*/
-    /*if(username == ''){
-        db.query("SELECT Username FROM customer WHERE User_ID =? ",[id],(err,result)=>{
-            if(err){
-                console.log(err);
-            }else{
-                res.send(result);
-            }
-        })
-        const username = result.data;
-        console.lon("New Username: " + username);
-    }*/
 
     db.query("UPDATE customer SET Username = ? ,Password = ?,User_fname = ? ,User_lname = ? ,User_birthday = ?,User_address = ?,User_tel =?  WHERE User_ID = ?",[username,password,fname,surname,birthday,address,tel,id],(err,result)=>{
         if(err){
@@ -120,18 +195,10 @@ app.delete('/delete/:User_ID',(req,res) =>{
         }
     })
 })
+
 app.post('/register', (req, res) => {
     const { username, name, surname, tel ,birthday, address, password, PasswordConfirm } = req.body;
     console.log(req.body)
-    /*const Username = req.body.username;
-    const Password = req.body.password;
-    const passwordConfirm = req.body.PasswordConfirm
-    const User_fname = req.body.name;
-    const User_lname = req.body.surname;
-    const User_birthday = req.body.birthday;
-    const User_address = req.body.address;
-    const User_tel = req.body.tel;*/
-    
 
     db.query("SELECT Username FROM customer WHERE Username = ?", [username], async (error, results) => {
         console.log(results)
@@ -162,26 +229,6 @@ app.post('/register', (req, res) => {
         
     });
 
-    /*db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
-        [Username, Password, User_fname, User_lname, User_birthday, User_address, User_tel],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values insert");
-            }
-        }
-    );*/
-
-    /*db.query("INSERT INTO customer SET ?",{Username:Username,Password: Password,User_fname: User_fname,User_lname: User_lname,User_address: User_address,User_tel:User_tel},
-        (err, results) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values insert");
-            }
-        }
-    );*/
 })
 
 app.post("/login",  (req, res) => {
@@ -235,18 +282,8 @@ app.post("/adminlogin",  (req, res) => {
     })
 
 })
-app.listen('4001', () => {
+app.listen('4002', () => {
     console.log('Sever is running on port 4001');
 })
 
 
-/*db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
-        [Username, Password, User_fname, User_lname, User_birthday, User_address, User_tel],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values insert");
-            }
-        }
-    );*/
