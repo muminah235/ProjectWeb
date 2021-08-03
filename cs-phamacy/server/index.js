@@ -282,6 +282,19 @@ app.post("/adminlogin",  (req, res) => {
     })
 
 })
+
+app.put('/profile',(req ,res)=>{
+    const username = req.body.username;
+    console.log("username: "+ username);
+    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer WHERE Username = ?"  ,[username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+   
+});
 app.listen('4002', () => {
     console.log('Sever is running on port 4001');
 })

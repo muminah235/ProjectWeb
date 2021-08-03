@@ -14,6 +14,7 @@ import CustomerScreen from './screens/CustomerScreen';
 import HomeScreens from './screens/HomeScreen';
 import AddProduct from './components/AddProduct';
 import ShowPharmacist from './components/ShowPharmacist';
+import Profile from './components/Profile';
 
 
 
@@ -34,7 +35,7 @@ function App() {
           <Route path="/CustomerScreen" component={CustomerScreen}/>
           <Route path="/addproduct" component={AddProduct}/>
           <Route path="/showpharmacist" component={ShowPharmacist}/>
-
+          <Route path="/profile" component={Profile}/>
         </Router>
       </div>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Axios from 'axios'
 import ReactDOM from 'react-dom';
 
@@ -11,7 +11,15 @@ export default function Login() {
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [LoginStatus, setLoginStatus] = useState("");
+    
+    useEffect(()=>{
+      localStorage.setItem('password', JSON.stringify(Password));
+      localStorage.setItem('user',  JSON.stringify(Username));
+    })
+
     const login = (e) => {
+
+    
       e.preventDefault();
       Axios.post("http://localhost:4002/login", {
         username: Username,
@@ -24,11 +32,12 @@ export default function Login() {
           setLoginStatus(response.data[0].Username)
           alert("login complete");
           e.preventDefault();
+          
           ReactDOM.render(
             <CustomerScreen />,
           document.getElementById('root')
         );
-        e.preventDefault();
+        
         }
       })
     }

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
+import Navbar from '../components/Navbar';
 
 export default function HomeScreens(){
+
     const [productsList,setProductsList] = useState([]);
+    
     useEffect(()=>{
         const fecthData = async () =>{
             const {data} = await Axios.get('http://localhost:4002/showproduct');
@@ -15,6 +18,7 @@ export default function HomeScreens(){
     },[]);
     return(
         <div>
+            <Navbar />
             <h1>Show product</h1>
             <div className="row center">
             {productsList.map((val) => {
@@ -34,6 +38,8 @@ export default function HomeScreens(){
             
             
             </div>
+            <div>
+      </div>
         </div>
     ) 
     
