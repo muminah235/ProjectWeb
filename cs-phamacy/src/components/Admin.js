@@ -77,10 +77,7 @@ export default function Admin() {
                     } : val;
                 })
             )
-            /*ReactDOM.render(
-                <Register />,
-                document.getElementById('root')
-            );*/
+        
 
 
         })

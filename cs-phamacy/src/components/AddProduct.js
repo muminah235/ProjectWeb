@@ -10,6 +10,7 @@ export default function AddProduct() {
   const [Product_img, setProductImg] = useState("");
   const [Product_status, setProductStatus] = useState("in stock");
   const [Product_flag, setProductFlag] = useState("1");
+  const [Product_Type, setProductType] = useState("1");
   const [ProDuctList, setProductList] = useState([]);
 
 
@@ -65,6 +66,16 @@ export default function AddProduct() {
                 <option value="2">Out list</option>
                 </select>
           </dir>
+          <dir className="mb-3">
+            <label htmlFor="type" className="form-label">Type</label>
+              <select class="form-select" aria-label="Default select flag" onChange={(event) => { setProductType(event.target.value) }} >
+                <option value="1">headache medicine</option>
+                <option value="2">stomach ache medicine</option>
+                <option value="3">nasal decongestant</option>
+                </select>
+          </dir>
+
+
 
           <button className="btn btn-success" onClick={addproduct}>AddProduct</button>
         </form>

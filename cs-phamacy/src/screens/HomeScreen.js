@@ -18,7 +18,6 @@ export default function HomeScreens(){
     },[]);
     return(
         <div>
-            <Navbar />
             <h1>Show product</h1>
             <div className="row center">
             {productsList.map((val) => {
