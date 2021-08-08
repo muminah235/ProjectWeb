@@ -1,45 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import Navbar from '../components/Navbar';
+import Itemcard from "../components/Itemcard";
+import Cart from "../components/Cart"
+import { CartProvider } from "react-use-cart";
+import jsxToString from "jsx-to-string";
 
-export default function HomeScreens(){
+export default function HomeScreens(props){
+    
 
     const [productsList,setProductsList] = useState([]);
-    
+
     useEffect(()=>{
         const fecthData = async () =>{
             const {data} = await Axios.get('http://localhost:4002/showproduct');
             console.log(data);
             setProductsList(data);
-            console.log("productsList");
-            console.log(productsList);
         };
         fecthData();
     },[]);
+
+    console.warn(productsList)
+
     return(
+        <CartProvider>
         <div>
-            <h1>Show product</h1>
-            <div className="row center">
-            {productsList.map((val) => {
-            return(
-                <div className="customer card">
-                <div className="card-body terxt-left">
-                  <p className="card-text">Product name:{val.Product_name}</p>
-                  <p className="card-text">Product details:{val.Product_detail}</p>
-                  <p className="card-text">Product price:{val.Product_price}</p>
-                  <p className="card-text">Product image:{val.Product_image}</p>
-                  <p className="card-text">Product status:{val.Product_status}</p>
-                  <p className="card-text">Product flag:{val.Product_flag}</p>
+            <h1 className="text-center mt-3">Show product</h1>
+            <section className="py-4 container">
+                <div className="row justify-content-center">
+                    {productsList.map((item,index)=>{
+                        return(
+                            <Itemcard 
+                            id={item.Product_ID.toString()}
+                            Product_name={item.Product_name} 
+                            Product_detail={item.Product_detail}
+                            Product_price={item.Product_price}
+                            Product_status={item.Product_status}
+                            Product_flag={item.Product_flag}
+                            item={item}
+                            key ={item.Product_ID}
+                            />
+                        )
+                    })}
+                    <Cart />
                 </div>
-            </div>
-            )
-            })}
-            
-            
-            </div>
-            <div>
-      </div>
+
+            </section>
         </div>
+        </CartProvider>
     ) 
     
 

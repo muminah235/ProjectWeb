@@ -33,6 +33,9 @@ export default function CustomerNavbar() {
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+                        </li>
 
                     </ul>
                 

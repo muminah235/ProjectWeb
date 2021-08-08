@@ -15,6 +15,8 @@ import HomeScreens from './screens/HomeScreen';
 import AddProduct from './components/AddProduct';
 import ShowPharmacist from './components/ShowPharmacist';
 import Profile from './components/Profile';
+import Logout from './components/Logout';
+
 
 
 
@@ -22,8 +24,6 @@ function App() {
   return (
     <BrowserRouter>
     <div className="app">
-      
-
       <Navbar/>
       <div>
         <Router>
@@ -36,11 +36,11 @@ function App() {
           <Route path="/addproduct" component={AddProduct}/>
           <Route path="/showpharmacist" component={ShowPharmacist}/>
           <Route path="/profile" component={Profile}/>
+          <Route path="/cus_profile" component={Profile}/>
+          <Route path="/logout" component={Logout}/>
+          
         </Router>
       </div>
-
-      
-
     </div>
     </BrowserRouter>
   );

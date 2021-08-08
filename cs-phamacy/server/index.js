@@ -95,12 +95,14 @@ app.put('/edit',(req ,res)=>{
 });
 
 app.post('/addproduct',(req,res)=>{
+    const id = req.body.id;
     const name = req.body.name;
     const detail = req.body.detail;
     const price = req.body.price;
     const image = req.body.image;
     const status = req.body.status;
     const flag = req.body.flag;
+    const type = req.body.type;
 
     console.log("name: " +name);
     console.log("detail: " +detail);
@@ -108,15 +110,25 @@ app.post('/addproduct',(req,res)=>{
     console.log("image: "+image);
     console.log("status: "+status);
     console.log("flag: "+flag);
+    console.log("type: "+type);
 
     db.query("INSERT into product(Product_name,Product_detail,Product_price,Product_img,Product_status,Product_flag) VALUES(?,?,?,?,?,?)",
     [name,detail,price,image,status,flag],(err,result)=>{
         if (err) {
             console.log(err);
         } else {
-            res.send({message:"Add Product complete"});
+            res.send(result);
+
         }
     })
+
+    /*db.query("INSERT into proType(Protype_ID) VALUES (?)",[type],(err,result)=>{
+        if (err) {
+            console.log(err);
+        } else {
+            res.send({message:"Add complete"});
+        }
+    })*/
     
 })
 

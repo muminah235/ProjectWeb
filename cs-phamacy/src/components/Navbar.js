@@ -33,6 +33,10 @@ export default function Navbar() {
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/cart">Cart</a>
+                        </li>
+                        
 
                     </ul>
                 

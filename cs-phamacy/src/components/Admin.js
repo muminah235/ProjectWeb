@@ -43,7 +43,7 @@ export default function Admin() {
             User_ID: User_ID
         }).then((response) => {
             setcustomerEdit(response.data);
-            console.log(customerEdit);
+            console.log("customerEdit: "+customerEdit);
             console.log(response);
         })
     }

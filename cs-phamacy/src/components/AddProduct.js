@@ -13,7 +13,7 @@ export default function AddProduct() {
   const [Product_Type, setProductType] = useState("1");
   const [ProDuctList, setProductList] = useState([]);
 
-
+  
   
   const addproduct = (e) => {
     e.preventDefault();
@@ -23,7 +23,8 @@ export default function AddProduct() {
       price: Product_price,
       image: Product_img,
       status: Product_status,
-      flag: Product_flag
+      flag: Product_flag,
+      type:Product_Type
     }).then((response) => {
       e.preventDefault();
       console.log(response);
