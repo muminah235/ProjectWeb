@@ -16,7 +16,8 @@ import AddProduct from './components/AddProduct';
 import ShowPharmacist from './components/ShowPharmacist';
 import Profile from './components/Profile';
 import Logout from './components/Logout';
-
+import Cart from './components/Cart'
+import { CartProvider } from "react-use-cart";
 
 
 
@@ -25,7 +26,8 @@ function App() {
     <BrowserRouter>
     <div className="app">
       <Navbar/>
-      <div>
+      
+    <div>
         <Router>
           <Route path="/login" component={Login} />
           <Route exact path="/" component={HomeScreens}/>
@@ -38,7 +40,7 @@ function App() {
           <Route path="/profile" component={Profile}/>
           <Route path="/cus_profile" component={Profile}/>
           <Route path="/logout" component={Logout}/>
-          
+          <Route path="/cart" component={Cart}/>
         </Router>
       </div>
     </div>

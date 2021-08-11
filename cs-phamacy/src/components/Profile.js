@@ -23,7 +23,6 @@ export default function Profile() {
         } else {
             return [];
         }
-
     });
     useEffect(() => {
         console.log("UsernameLogin: " + UsernameLogin);

@@ -1,9 +1,22 @@
 import React from 'react';
 import { useCart } from "react-use-cart";
+import { useState ,response} from 'react';
+import Axios from 'axios'
 
 const Itemcard = (props) => {
-    const { addItem } = useCart();
-    console.log(props.item);
+    const {addItem} = useCart();
+    const [cartList,setcartList] = useState([]);
+    /*const addItem = (id) => {
+        Axios.put('http://localhost:4002/addToCart',{
+            id: id
+        }).then((response) => {
+            setcartList(response.data);
+            console.log("cartlist: "+cartList);
+            console.log(response);
+            localStorage.setItem('cart', JSON.stringify(cartList));
+        })
+    }*/
+    
     return (
         <div className ="col-11 col-md-6 col-lg-3 mx-0 mb-4">
             <div class="card p-0 overflow-hidden h-100 shadow" >

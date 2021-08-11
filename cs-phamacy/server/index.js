@@ -59,6 +59,18 @@ app.put('/PharmaEdit',(req ,res)=>{
    
 });
 
+app.put('/addToCart',(req ,res)=>{
+    const id = req.body.id;
+    db.query("SELECT * from product WHERE Product_ID = ?"  ,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+   
+});
+
 app.get('/customer',(req ,res)=>{
     db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer ",(err,result)=>{
         if(err){
@@ -72,6 +84,17 @@ app.get('/customer',(req ,res)=>{
 
 app.get('/showproduct',(req ,res)=>{
     db.query("SELECT * from product",(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+app.get('/test',(req ,res)=>{
+    db.query("SELECT * from test",(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -208,6 +231,11 @@ app.delete('/delete/:User_ID',(req,res) =>{
     })
 })
 
+app.post('/order',(req,res)=>{
+    const num  = req.body.num;
+    const price = req.body.price;
+    console.log("num: " +num);
+})
 app.post('/register', (req, res) => {
     const { username, name, surname, tel ,birthday, address, password, PasswordConfirm } = req.body;
     console.log(req.body)
