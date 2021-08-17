@@ -13,6 +13,7 @@ export default function Logout() {
     const resetUsername = () => {
         localStorage.setItem('password', "");
         localStorage.setItem('user', "");
+        localStorage.setItem('User_ID', "");
         ReactDOM.render(
             <Screen />,
             document.getElementById('root')

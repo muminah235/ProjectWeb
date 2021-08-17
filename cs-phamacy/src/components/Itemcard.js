@@ -6,6 +6,19 @@ import Axios from 'axios'
 const Itemcard = (props) => {
     const {addItem} = useCart();
     const [cartList,setcartList] = useState([]);
+
+    const addtoDatabase = (e) => {
+        Axios.post('http://localhost:4002/addTocart', {
+        name: props.Product_name,
+        detail: props.Product_detail,
+        price : props.Product_price,
+        status: props.Product_status,
+        flag: props.Product_flag,
+        id: props.id,
+      }).then((response) => {
+        console.log(response.data);
+      })
+    }
     /*const addItem = (id) => {
         Axios.put('http://localhost:4002/addToCart',{
             id: id
@@ -28,7 +41,7 @@ const Itemcard = (props) => {
                         <p class="card-text">status: {props.Product_status}</p>
                         <p class="card-text">flag: {props.Product_flag}</p>
                         <p class="card-text">id: {props.id}</p>
-                        <a class="btn btn-success" onClick={()=>addItem(props.item)}>Add to cart</a>
+                        <a class="btn btn-success" onClick={()=>{addItem(props.item); addtoDatabase();}}>Add to cart</a>
                     </div>
             </div>
         </div>

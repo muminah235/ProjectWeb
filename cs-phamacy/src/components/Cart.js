@@ -2,6 +2,10 @@ import React from 'react';
 import { useCart } from "react-use-cart";
 import { useState, response } from 'react';
 import Axios from 'axios'
+import ReactDOM from 'react-dom';
+import Login from './Login';
+
+
 const Cart = (props) => {
 
     const {
@@ -16,14 +20,55 @@ const Cart = (props) => {
         emptyCart,
     } = useCart();
 
+    localStorage.setItem('Cart_ID', "1");
+
     const order = () => {
-        Axios.post('http://localhost:4002/order', {
-            price: cartTotal,
-            num: totalItems,
-        }).then((response) => {
-            console.log(response);
-        })
-    }
+        const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
+        const saveUserID = localStorage.getItem("User_ID");
+        const saveUsername = localStorage.getItem("user");
+        const saveLastUserID = localStorage.getItem("lastUser_ID");
+        console.log(saveUserID);
+
+        if (saveUserID === "" || saveUserID === null) {
+            ReactDOM.render(
+                <Login />,
+                document.getElementById('root')
+            )
+        } if (saveUserID !== "") {
+                console.log("User: " + saveUserID);
+                localStorage.setItem('Cart_ID', JSON.stringify(Cart_ID));
+                const saveLastUserID = localStorage.getItem("lastUser_ID");
+                console.log("lastUser: " + saveLastUserID);
+                console.log("User: " + saveUserID);
+        }
+        if (saveLastUserID === saveUserID) {
+                console.log("yes");
+                const saveCartID = localStorage.getItem("Cart_ID");
+                console.log(saveCartID)
+                Axios.post('http://localhost:4002/order', {
+                    Cart_ID: saveCartID,
+                    price: cartTotal,
+                    num: totalItems,
+                }).then((response) => {
+                    console.log(response);
+                })
+                localStorage.setItem('lastUser_ID', saveUserID);
+            }
+        if (saveLastUserID !== saveUserID) {
+                const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
+                console.log(Cart_ID);
+                const newCart_ID = Cart_ID + 1;
+                console.log("newCart_ID" + newCart_ID)
+                localStorage.setItem('Cart_ID', JSON.stringify(newCart_ID));
+                localStorage.setItem('lastUser_ID', saveUserID);
+            }
+
+
+        }
+
+    
+
+
     console.warn(items);
     return (
         <section className="py-4 container">

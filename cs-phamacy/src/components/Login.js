@@ -11,6 +11,8 @@ export default function Login() {
     const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [LoginStatus, setLoginStatus] = useState("");
+    const [UserID, setUserID] = useState("");
+    
     
     useEffect(()=>{
       localStorage.setItem('password', JSON.stringify(Password));
@@ -18,8 +20,6 @@ export default function Login() {
     })
 
     const login = (e) => {
-
-    
       e.preventDefault();
       Axios.post("http://localhost:4002/login", {
         username: Username,
@@ -32,10 +32,10 @@ export default function Login() {
           setLoginStatus(response.data[0].Username)
           alert("login complete");
           e.preventDefault();
-          
           ReactDOM.render(
             <CustomerScreen />,
           document.getElementById('root')
+          
         );
         
         }

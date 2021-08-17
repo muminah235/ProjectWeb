@@ -232,10 +232,26 @@ app.delete('/delete/:User_ID',(req,res) =>{
 })
 
 app.post('/order',(req,res)=>{
+    const item = req.body.item;
+    const Cart_ID = req.body.Cart_ID;
     const num  = req.body.num;
     const price = req.body.price;
+    console.log("Items: " +item);
+    console.log("Cart_ID: " +Cart_ID);
     console.log("num: " +num);
 })
+
+app.post('/addtocart',(req,res)=>{
+    const name = req.body.name;
+    const detail = req.body.detail;
+    const price = req.body.price;
+    const status = req.body.tatus;
+    const flag = req.body.flag;
+    const id = req.body.id;
+    console.log("name: " +name);
+    console.log("price: " +price);
+})
+
 app.post('/register', (req, res) => {
     const { username, name, surname, tel ,birthday, address, password, PasswordConfirm } = req.body;
     console.log(req.body)
@@ -322,6 +338,20 @@ app.post("/adminlogin",  (req, res) => {
     })
 
 })
+
+app.put('/userID',(req ,res)=>{
+    const username = req.body.username;
+    console.log("username: "+ username);
+    db.query("SELECT User_ID from customer WHERE Username = ?"  ,[username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+            console.log(result);
+        }
+    });
+   
+});
 
 app.put('/profile',(req ,res)=>{
     const username = req.body.username;

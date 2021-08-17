@@ -6,7 +6,7 @@ import Cart from "../components/Cart"
 import { CartProvider } from "react-use-cart";
 import jsxToString from "jsx-to-string";
 import { useCart } from "react-use-cart";
-import data from '../components/Data'
+
 
 
 export default function HomeScreens(props) {
@@ -14,6 +14,7 @@ export default function HomeScreens(props) {
 
     const [productsList, setProductsList] = useState([]);
     const [dataList, setDataList] = useState([]);
+    const [UserID, setUserID] = useState("");
 
     /*useEffect(() => {
         const fecthData = async () => {
@@ -24,6 +25,15 @@ export default function HomeScreens(props) {
         };
         fecthData();
     }, []);*/
+    const [UsernameLogin, setUsernameLogin] = useState(() => {
+        const saveUsername = localStorage.getItem("user");
+        console.log(saveUsername)
+        if (saveUsername) {
+            return JSON.parse(saveUsername);
+        } else {
+            return [];
+        }
+    });
 
     useEffect(() => {
         const fecthData = async () => {
@@ -33,6 +43,7 @@ export default function HomeScreens(props) {
             console.log(data)
         };
         fecthData();
+        
     }, []);
 
 
