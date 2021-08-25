@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from "react-use-cart";
-import { useState ,response} from 'react';
+import { response} from 'react';
 import Axios from 'axios';
 import ReactDOM from 'react-dom';
 import Login from './Login';
+
 
 const Itemcard = (props) => {
     const {addItem} = useCart();
@@ -19,8 +20,20 @@ const Itemcard = (props) => {
         emptyCart,
     } = useCart();
     const [cartList,setcartList] = useState([]);
-    localStorage.setItem('Cart_ID', "0");
+    localStorage.setItem('Cart_ID', "1");
+
+    useEffect(() => {
+        const fecthData = async () => {
+            const { data } = await Axios.get('http://localhost:4002/showcart');
+            console.log("cart");
+            setcartList(data);
+            console.warn(data)
+        };
+        fecthData();
+    }, []);
    
+    
+    
     const order = () => {
         const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
         const saveUserID = localStorage.getItem("User_ID");
@@ -38,37 +51,61 @@ const Itemcard = (props) => {
             )
         } 
         
-        for (let i = 0; i < items.length; i++) {
-            console.log(items[i]);
-            if (saveLastUserID ===  saveUserID ) {
+        
+        if (saveLastUserID ===  saveUserID ) {
             console.log("yes");
             const saveCartID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(saveCartID)
+            for(let i=0;i<cartList.length;i++){
+                console.log("incart: ");
+                console.log(cartList[i]);
+                
+                if(props.Product_id === parseInt(cartList[i].Cart_ID)){
+                    Axios.put("http://localhost:4002/updateCart", {
+                    Cart_id: saveCartID,
+                    Product_id: cartList[i].Product_ID,
+                    num: parseInt(cartList[i].Cart_Amount) + 1,
+                    }).then((response) => {
+                        console.log(response);
+                    })
+                }
+            }
             
-            if(saveCartID >=1 ){
-                Axios.post('http://localhost:4002/order', {
-                Product_ID: items[i].id,
+            /*if(saveCartID >=1){
+                Axios.post('http://localhost:4002/ordera', {
+                Product_ID: props.id,
                 Cart_ID: saveCartID,
-                price: cartTotal,
-                name: items[i].name,
-                num: items[i].quantity,
+                price: props.Product_price,
+                name: props.Product_name,
+                num: 1,
             }).then((response) => {
                 console.log(response);
             })
-            }
+            }*/
             localStorage.setItem('lastUser_ID', saveUserID);
         }
-        }
         
-        if (saveLastUserID !== saveUserID) {
+        
+        if ((saveLastUserID !== saveUserID) || (isEmpty === true)) {
             const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(Cart_ID);
             const newCart_ID = Cart_ID + 1;
             console.log("newCart_ID" + newCart_ID)
             localStorage.setItem('Cart_ID', JSON.stringify(newCart_ID));
             localStorage.setItem('lastUser_ID', saveUserID);
+            
+            if(Cart_ID >=1){
+                Axios.post('http://localhost:4002/order', {
+                Product_ID: props.Product_id,
+                Cart_ID: Cart_ID,
+                price: parseInt(props.Product_price),
+                name: props.Product_name,
+                num: 1,
+            }).then((response) => {
+                console.log(response);
+            })
+            }
         }
-
         }
     /*const addtoDatabase = (e) => {
         Axios.post('http://localhost:4002/addTocart', {

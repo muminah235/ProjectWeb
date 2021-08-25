@@ -87,7 +87,6 @@ const Cart = (props) => {
                             })}
                         </tbody>
                     </table>
-
                 </div>
                 <div className="col-auto ms-auto">
                     <h2>total price: {cartTotal} ฿</h2>

@@ -93,6 +93,18 @@ app.get('/showproduct',(req ,res)=>{
 
 });
 
+app.get('/showcart',(req ,res)=>{
+    db.query("SELECT * from O_detail",(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+
 app.get('/test',(req ,res)=>{
     db.query("SELECT * from test",(err,result)=>{
         if(err){
@@ -114,6 +126,23 @@ app.put('/edit',(req ,res)=>{
             res.send(result);
         }
     });
+   
+});
+
+app.put('/updateCart',(req ,res)=>{
+    const num = req.body.num;
+    const Cart_id = req.body.Cart_id;
+    const Product_id = req.body.Product_id;
+
+   console.log("num"+num);
+    
+    db.query("UPDATE O_detail SET Cart_Amount = ? where Cart_ID = ? && Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
    
 });
 
@@ -242,6 +271,19 @@ app.post('/order',(req,res)=>{
     console.log("num: " +num);
     console.log("id: " +id);
     console.log("name: " +name);
+    console.log("price: " +price);
+    console.log("-------");
+
+    db.query("INSERT INTO O_detail(Cart_ID,Product_ID,Cart_Amount,Unit_price) VALUES(?,?,?,?)",
+    [Cart_ID, id, num, price],
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send({message:"Register complete"});
+        }
+    }
+);
 })
 
 app.post('/addtocart',(req,res)=>{
@@ -368,7 +410,7 @@ app.put('/profile',(req ,res)=>{
    
 });
 app.listen('4002', () => {
-    console.log('Sever is running on port 4001');
+    console.log('Sever is running on port 4002');
 })
 
 

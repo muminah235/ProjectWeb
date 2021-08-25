@@ -64,6 +64,7 @@ export default function HomeScreens(props) {
                                     Product_price={item.price}
                                     Product_status={item.Product_status}
                                     Product_flag={item.Product_flag}
+                                    Product_id={item.id}
                                     item={item}
                                     key={idex}
                                 />
