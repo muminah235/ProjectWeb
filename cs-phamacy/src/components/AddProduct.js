@@ -34,7 +34,8 @@ export default function AddProduct() {
 
   return (
     <div className="App container">
-      <h1>Product</h1>
+      <a class = "navbar-brand" href="/admin">back</a>
+      <h1>Add Product</h1>
       <dir className="information">
         <form action="">
           <dir className="mb-3">

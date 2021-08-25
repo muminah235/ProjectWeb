@@ -22,20 +22,13 @@ export default function Navbar() {
                             <a class="nav-link active" aria-current="page" href="/">ติดต่อเรา</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">ตะกร้าสินค้า</a>
+                            <a class="nav-link active" aria-current="page" href="/cart">ตะกร้าสินค้า</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/login">ล็อกอิน</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/cart">Cart</a>
-                        </li>
+                        
+                        
                         
 
                     </ul>

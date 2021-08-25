@@ -25,16 +25,10 @@ export default function CustomerNavbar() {
                             <a class="nav-link active" aria-current="page" href="/">ตะกร้าสินค้า</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/login">ล็อกอิน</a>
+                            <a class="nav-link active" aria-current="page" href="/profile">ข้อมูลส่วนตัว</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+                            <a class="nav-link active" aria-current="page" href="/logout">ล็อกเอ้าท์</a>
                         </li>
 
                     </ul>

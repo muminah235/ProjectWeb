@@ -18,15 +18,20 @@ import Profile from './components/Profile';
 import Logout from './components/Logout';
 import Cart from './components/Cart'
 import { CartProvider } from "react-use-cart";
+import ReactDOM from 'react-dom';
+import CustomerNavbar from './components/CustomerNavbar';
 
 
 
 function App() {
+  const saveUsername = localStorage.getItem("user");
+  console.log("saveUser"+saveUsername)
+  
   return (
+    
     <BrowserRouter>
     <div className="app">
-      <Navbar/>
-      
+    
     <div>
         <Router>
           <Route path="/login" component={Login} />

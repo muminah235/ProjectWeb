@@ -16,7 +16,7 @@ export default function CustomerScreen(props) {
     const [dataList, setDataList] = useState([]);
     const [UserID, setUserID] = useState("");
 
-    /*useEffect(() => {
+    useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get('http://localhost:4002/showproduct');
             console.log("data");
@@ -24,7 +24,7 @@ export default function CustomerScreen(props) {
             console.warn(data)
         };
         fecthData();
-    }, []);*/
+    }, []);
 
     const [UsernameLogin, setUsernameLogin] = useState(() => {
         const saveUsername = localStorage.getItem("user");
@@ -36,16 +36,16 @@ export default function CustomerScreen(props) {
         }
     });
 
-    useEffect((e) => {
+    /*useEffect((e) => {
         const fecthData = async () => {
             const { data } = await Axios.get('http://localhost:4002/test');
             console.log("data");
             setProductsList(data);
             console.log(data)
         };fecthData();
-    }, []);
+    }, []);*/
 
-    useEffect((e) => {
+    /*useEffect((e) => {
         const fecthUserID = async (e) => {
             Axios.put('http://localhost:4002/userID', {
                 username: UsernameLogin,
@@ -60,7 +60,7 @@ export default function CustomerScreen(props) {
         fecthUserID();
        
         
-    }, []);
+    }, []);*/
     const fecthUserID = async (e) => {
         Axios.put('http://localhost:4002/userID', {
             username: UsernameLogin,

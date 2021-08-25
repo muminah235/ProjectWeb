@@ -29,12 +29,7 @@ const Cart = (props) => {
         const saveLastUserID = localStorage.getItem("lastUser_ID");
         console.log(saveUserID);
 
-        if (saveUserID === "" || saveUserID === null) {
-            ReactDOM.render(
-                <Login />,
-                document.getElementById('root')
-            )
-        } if (saveUserID !== "") {
+       if (saveUserID !== "") {
                 console.log("User: " + saveUserID);
                 localStorage.setItem('Cart_ID', JSON.stringify(Cart_ID));
                 const saveLastUserID = localStorage.getItem("lastUser_ID");
@@ -45,7 +40,7 @@ const Cart = (props) => {
                 console.log("yes");
                 const saveCartID = localStorage.getItem("Cart_ID");
                 console.log(saveCartID)
-                Axios.post('http://localhost:4002/order', {
+                Axios.post('http://localhost:4002/addtocart', {
                     Cart_ID: saveCartID,
                     price: cartTotal,
                     num: totalItems,
@@ -53,23 +48,21 @@ const Cart = (props) => {
                     console.log(response);
                 })
                 localStorage.setItem('lastUser_ID', saveUserID);
-            }
-        if (saveLastUserID !== saveUserID) {
+        }
+        /*if (saveLastUserID !== saveUserID) {
                 const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
                 console.log(Cart_ID);
                 const newCart_ID = Cart_ID + 1;
                 console.log("newCart_ID" + newCart_ID)
                 localStorage.setItem('Cart_ID', JSON.stringify(newCart_ID));
                 localStorage.setItem('lastUser_ID', saveUserID);
-            }
+            }*/
 
 
-        }
+    }
 
     
-
-
-    console.warn(items);
+    
     return (
         <section className="py-4 container">
             <div className="row justify-content-center">
@@ -91,7 +84,6 @@ const Cart = (props) => {
                                         </td>
                                     </tr>
                                 )
-
                             })}
                         </tbody>
                     </table>

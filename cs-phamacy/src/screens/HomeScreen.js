@@ -6,6 +6,7 @@ import Cart from "../components/Cart"
 import { CartProvider } from "react-use-cart";
 import jsxToString from "jsx-to-string";
 import { useCart } from "react-use-cart";
+import CustomerNavbar from "../components/CustomerNavbar"
 
 
 
@@ -16,7 +17,7 @@ export default function HomeScreens(props) {
     const [dataList, setDataList] = useState([]);
     const [UserID, setUserID] = useState("");
 
-    /*useEffect(() => {
+    useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get('http://localhost:4002/showproduct');
             console.log("data");
@@ -24,7 +25,8 @@ export default function HomeScreens(props) {
             console.warn(data)
         };
         fecthData();
-    }, []);*/
+    }, []);
+    
     const [UsernameLogin, setUsernameLogin] = useState(() => {
         const saveUsername = localStorage.getItem("user");
         console.log(saveUsername)
@@ -35,7 +37,7 @@ export default function HomeScreens(props) {
         }
     });
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get('http://localhost:4002/test');
             console.log("data");
@@ -44,13 +46,14 @@ export default function HomeScreens(props) {
         };
         fecthData();
         
-    }, []);
+    }, []);*/
 
 
     return (
+        
         <CartProvider>
+            {UsernameLogin===null ? <Navbar/>:<CustomerNavbar/>}
             <div>
-                <h1 className="text-center mt-3">Show product</h1>
                 <section className="py-4 container">
                     <div className="row justify-content-center">
                         {productsList.map((item, idex) => {

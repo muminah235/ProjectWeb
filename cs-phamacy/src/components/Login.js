@@ -3,6 +3,8 @@ import Axios from 'axios'
 import ReactDOM from 'react-dom';
 
 import CustomerScreen from '../screens/CustomerScreen'
+import Navbar from '../components/Navbar';
+import CustomerNavbar from "../components/CustomerNavbar"
 
 
 export default function Login() {
@@ -12,8 +14,16 @@ export default function Login() {
     const [Password, setPassword] = useState("");
     const [LoginStatus, setLoginStatus] = useState("");
     const [UserID, setUserID] = useState("");
-    
-    
+    const [UsernameLogin, setUsernameLogin] = useState(() => {
+      const saveUsername = localStorage.getItem("user");
+      console.log(saveUsername)
+      if (saveUsername) {
+          return JSON.parse(saveUsername);
+      } else {
+          return [];
+      }
+  });
+
     useEffect(()=>{
       localStorage.setItem('password', JSON.stringify(Password));
       localStorage.setItem('user',  JSON.stringify(Username));
@@ -43,6 +53,7 @@ export default function Login() {
     }
     return (
         <div className="App container">
+          {UsernameLogin===null ? <Navbar/>:<CustomerNavbar/>}
             <h1>{LoginStatus}</h1>
             <center><h1>Login form</h1></center>
             <form action="">

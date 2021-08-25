@@ -135,7 +135,7 @@ app.post('/addproduct',(req,res)=>{
     console.log("flag: "+flag);
     console.log("type: "+type);
 
-    db.query("INSERT into product(Product_name,Product_detail,Product_price,Product_img,Product_status,Product_flag) VALUES(?,?,?,?,?,?)",
+    db.query("INSERT into product(name,detail,price,Product_img,Product_status,Product_flag) VALUES(?,?,?,?,?,?)",
     [name,detail,price,image,status,flag],(err,result)=>{
         if (err) {
             console.log(err);
@@ -232,13 +232,16 @@ app.delete('/delete/:User_ID',(req,res) =>{
 })
 
 app.post('/order',(req,res)=>{
-    const item = req.body.item;
+    const id = req.body.Product_ID;
     const Cart_ID = req.body.Cart_ID;
     const num  = req.body.num;
     const price = req.body.price;
-    console.log("Items: " +item);
+    const name = req.body.name;
+    
     console.log("Cart_ID: " +Cart_ID);
     console.log("num: " +num);
+    console.log("id: " +id);
+    console.log("name: " +name);
 })
 
 app.post('/addtocart',(req,res)=>{
@@ -247,7 +250,7 @@ app.post('/addtocart',(req,res)=>{
     const price = req.body.price;
     const status = req.body.tatus;
     const flag = req.body.flag;
-    const id = req.body.id;
+    const id = req.body.Product_ID;
     console.log("name: " +name);
     console.log("price: " +price);
 })
@@ -310,7 +313,6 @@ app.post("/login",  (req, res) => {
             }
         }
     })
-
 })
 
 app.post("/adminlogin",  (req, res) => {

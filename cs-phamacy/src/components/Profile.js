@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import CustomerNavbar from './CustomerNavbar';
+import Navbar from './Navbar'
 
 
 export default function Profile() {
@@ -82,7 +83,7 @@ export default function Profile() {
     return (
         
         <div>
-            
+            {UsernameLogin===null ? <Navbar/>:<CustomerNavbar/>}
             <h1></h1>
             <div className="row center">
                 {customerList.map((val) => {

@@ -3,7 +3,9 @@ import HomeScreens from '../screens/HomeScreen';
 import ReactDOM from 'react-dom';
 import App from '../App';
 import Navbar from './Navbar';
-import Screen from '../screens/Screen'
+
+import { Redirect } from 'react-router';
+import Login from './Login';
 
 export default function Logout() {
 
@@ -12,12 +14,12 @@ export default function Logout() {
 
     const resetUsername = () => {
         localStorage.setItem('password', "");
-        localStorage.setItem('user', "");
+        localStorage.setItem('user', null);
         localStorage.setItem('User_ID', "");
         ReactDOM.render(
-            <Screen />,
-            document.getElementById('root')
-        )
+            <HomeScreens/>,
+        document.getElementById('root')
+        );
     }
     return (
         <div>

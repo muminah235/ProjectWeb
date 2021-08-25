@@ -61,7 +61,9 @@ export default function ShowPharmacist() {
         })
     }
     return(
+        
         <dir className="pharmasict">
+            <a class = "navbar-brand" href="/admin">back</a>
         <h1>Phamacist</h1>
         <button className="btn btn-primary" onClick={getPharmacist}>Show Pharmacist</button>
         {pharmaList.map((val,key)=>{
