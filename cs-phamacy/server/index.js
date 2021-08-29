@@ -105,16 +105,7 @@ app.get('/showcart',(req ,res)=>{
 });
 
 
-app.get('/test',(req ,res)=>{
-    db.query("SELECT * from test",(err,result)=>{
-        if(err){
-            console.log(err);
-        }else{
-            res.send(result);
-        }
-    });
 
-});
 
 app.put('/edit',(req ,res)=>{
     const id = req.body.User_ID;
@@ -134,9 +125,11 @@ app.put('/updateCart',(req ,res)=>{
     const Cart_id = req.body.Cart_id;
     const Product_id = req.body.Product_id;
 
-   console.log("num"+num);
+   console.log("num: "+num);
+   console.log("Cart_id: "+Cart_id);
+   console.log("Product_id: "+Product_id);
     
-    db.query("UPDATE O_detail SET Cart_Amount = ? where Cart_ID = ? && Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
+    db.query("UPDATE O_detail SET Cart_Amount = ? where Cart_ID = ? AND Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -209,6 +202,20 @@ app.put('/updatePharmacist',(req,res)=>{
 app.delete('/deletePharmacist/:Pharma_ID',(req,res) =>{
     const id = req.params.Pharma_ID;
     db.query("DELETE FROM pharmacist WHERE Pharma_ID = ?",id,(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+})
+app.delete('/deletetoCart/:itemID/:Cart_ID',(req,res) =>{
+    const id = req.params.itemID;
+    const Cartid = req.params.Cart_ID;
+    console.log("---------");
+    console.log("id: "+id);
+    console.log("cartID: "+Cartid);
+    db.query("DELETE FROM O_detail WHERE Product_ID = ? AND Cart_ID =? ",[id,Cartid],(err,result)=>{
         if(err){
             console.log(err);
         }else{

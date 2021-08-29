@@ -20,6 +20,7 @@ const Itemcard = (props) => {
         emptyCart,
     } = useCart();
     const [cartList,setcartList] = useState([]);
+    const [productID,setProductID] = useState("");
     localStorage.setItem('Cart_ID', "1");
 
     useEffect(() => {
@@ -41,9 +42,7 @@ const Itemcard = (props) => {
         const saveLastUserID = localStorage.getItem("lastUser_ID");
         
         
-        for (let i = 0; i < items.length; i++) {
-            console.log(items[i]);
-        }
+        
         if (saveUserID === "" || saveUsername === null) {
             ReactDOM.render(
                 <Login />,
@@ -52,15 +51,15 @@ const Itemcard = (props) => {
         } 
         
         
-        if (saveLastUserID ===  saveUserID ) {
+        if (saveLastUserID ===  saveUserID || (isEmpty === false)) {
             console.log("yes");
             const saveCartID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(saveCartID)
-            for(let i=0;i<cartList.length;i++){
-                console.log("incart: ");
-                console.log(cartList[i]);
-                
-                if(props.Product_id === parseInt(cartList[i].Cart_ID)){
+            for(let i = 0; i < cartList.length; i++){
+                console.log("cart list")
+                if(props.Product_id === parseInt(cartList[i].Product_ID)){
+                    console.log("cart list")
+                    
                     Axios.put("http://localhost:4002/updateCart", {
                     Cart_id: saveCartID,
                     Product_id: cartList[i].Product_ID,
@@ -68,20 +67,15 @@ const Itemcard = (props) => {
                     }).then((response) => {
                         console.log(response);
                     })
+                    const fecthData = async () => {
+                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        console.log("cart");
+                        setcartList(data);
+                        console.warn(data)
+                    };
+                    fecthData();
                 }
             }
-            
-            /*if(saveCartID >=1){
-                Axios.post('http://localhost:4002/ordera', {
-                Product_ID: props.id,
-                Cart_ID: saveCartID,
-                price: props.Product_price,
-                name: props.Product_name,
-                num: 1,
-            }).then((response) => {
-                console.log(response);
-            })
-            }*/
             localStorage.setItem('lastUser_ID', saveUserID);
         }
         
@@ -96,7 +90,7 @@ const Itemcard = (props) => {
             
             if(Cart_ID >=1){
                 Axios.post('http://localhost:4002/order', {
-                Product_ID: props.Product_id,
+                Product_ID: parseInt(props.Product_id),
                 Cart_ID: Cart_ID,
                 price: parseInt(props.Product_price),
                 name: props.Product_name,
@@ -104,6 +98,13 @@ const Itemcard = (props) => {
             }).then((response) => {
                 console.log(response);
             })
+            const fecthData = async () => {
+                const { data } = await Axios.get('http://localhost:4002/showcart');
+                console.log("cart");
+                setcartList(data);
+                console.warn(data)
+            };
+            fecthData();
             }
         }
         }
@@ -139,6 +140,7 @@ const Itemcard = (props) => {
                         <p class="card-text">detail: {props.Product_detail}</p>
                         <p class="card-text">price: {props.Product_price} ฿</p>
                         <p class="card-text">status: {props.Product_status}</p>
+                        <p class="card-text">id: {props.Product_id}</p>
                         <a class="btn btn-success" onClick={()=>{addItem(props.item); order();}}>Add to cart</a>
                     </div>
             </div>
