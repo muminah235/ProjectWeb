@@ -59,11 +59,10 @@ const Itemcard = (props) => {
                 console.log("cart list")
                 if(props.Product_id === parseInt(cartList[i].Product_ID)){
                     console.log("cart list")
-                    
                     Axios.put("http://localhost:4002/updateCart", {
                     Cart_id: saveCartID,
                     Product_id: cartList[i].Product_ID,
-                    num: parseInt(cartList[i].Cart_Amount) + 1,
+                    num: cartList[i].Cart_Amount + 1,
                     }).then((response) => {
                         console.log(response);
                     })
@@ -74,8 +73,31 @@ const Itemcard = (props) => {
                         console.warn(data)
                     };
                     fecthData();
+                }else if(props.Product_id !== parseInt(cartList[i].Product_ID)){
+                    if(Cart_ID >=1){
+                        Axios.post('http://localhost:4002/order', {
+                        Product_ID: parseInt(props.Product_id),
+                        Cart_ID: saveCartID,
+                        price: parseInt(props.Product_price),
+                        name: props.Product_name,
+                        num: 1,
+                    }).then((response) => {
+                        console.log(response);
+                    })
+                    
+                    const fecthData = async () => {
+                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        console.log("cart");
+                        setcartList(data);
+                        console.warn(data)
+                    };
+                    fecthData();
+                    }
+                
                 }
-            }
+                }
+                    
+            
             localStorage.setItem('lastUser_ID', saveUserID);
         }
         
@@ -90,7 +112,7 @@ const Itemcard = (props) => {
             
             if(Cart_ID >=1){
                 Axios.post('http://localhost:4002/order', {
-                Product_ID: parseInt(props.Product_id),
+                Product_ID: props.Product_id,
                 Cart_ID: Cart_ID,
                 price: parseInt(props.Product_price),
                 name: props.Product_name,
@@ -107,7 +129,7 @@ const Itemcard = (props) => {
             fecthData();
             }
         }
-        }
+    }
     /*const addtoDatabase = (e) => {
         Axios.post('http://localhost:4002/addTocart', {
         name: props.Product_name,

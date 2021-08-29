@@ -124,12 +124,12 @@ app.put('/updateCart',(req ,res)=>{
     const num = req.body.num;
     const Cart_id = req.body.Cart_id;
     const Product_id = req.body.Product_id;
-
+    console.log("update")
    console.log("num: "+num);
    console.log("Cart_id: "+Cart_id);
    console.log("Product_id: "+Product_id);
     
-    db.query("UPDATE O_detail SET Cart_Amount = ? where Cart_ID = ? AND Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
+    db.query("UPDATE O_detail SET Cart_Amount = ? where Order_ID = ? AND Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -138,6 +138,10 @@ app.put('/updateCart',(req ,res)=>{
     })
    
 });
+
+
+   
+
 
 app.post('/addproduct',(req,res)=>{
     const id = req.body.id;
@@ -215,7 +219,7 @@ app.delete('/deletetoCart/:itemID/:Cart_ID',(req,res) =>{
     console.log("---------");
     console.log("id: "+id);
     console.log("cartID: "+Cartid);
-    db.query("DELETE FROM O_detail WHERE Product_ID = ? AND Cart_ID =? ",[id,Cartid],(err,result)=>{
+    db.query("DELETE FROM O_detail WHERE Product_ID = ? AND Order_ID =? ",[id,Cartid],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -268,12 +272,13 @@ app.delete('/delete/:User_ID',(req,res) =>{
 })
 
 app.post('/order',(req,res)=>{
-    const id = req.body.Product_ID;
+    const id = parseInt(req.body.Product_ID);
     const Cart_ID = req.body.Cart_ID;
     const num  = req.body.num;
     const price = req.body.price;
     const name = req.body.name;
-    
+    console.log("-------");
+    console.log("Insert");
     console.log("Cart_ID: " +Cart_ID);
     console.log("num: " +num);
     console.log("id: " +id);
@@ -281,7 +286,7 @@ app.post('/order',(req,res)=>{
     console.log("price: " +price);
     console.log("-------");
 
-    db.query("INSERT INTO O_detail(Cart_ID,Product_ID,Cart_Amount,Unit_price) VALUES(?,?,?,?)",
+    db.query("INSERT INTO O_detail(Order_ID,Product_ID,Cart_Amount,Unit_price) VALUES(?,?,?,?)",
     [Cart_ID, id, num, price],
     (err, result) => {
         if (err) {
@@ -293,16 +298,7 @@ app.post('/order',(req,res)=>{
 );
 })
 
-app.post('/addtocart',(req,res)=>{
-    const name = req.body.name;
-    const detail = req.body.detail;
-    const price = req.body.price;
-    const status = req.body.tatus;
-    const flag = req.body.flag;
-    const id = req.body.Product_ID;
-    console.log("name: " +name);
-    console.log("price: " +price);
-})
+
 
 app.post('/register', (req, res) => {
     const { username, name, surname, tel ,birthday, address, password, PasswordConfirm } = req.body;

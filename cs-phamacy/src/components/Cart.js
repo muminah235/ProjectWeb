@@ -86,10 +86,9 @@ const Cart = (props) => {
             const saveCartID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(saveCartID)
             for(let i = 0; i < cartList.length; i++){
-                console.log("Delete")
-                if(itemID === parseInt(cartList[i].Product_ID)){
-                    console.log("DELETE")
-                    console.log(cartList[i])
+                if(parseInt(itemID) === parseInt(cartList[i].Product_ID)){
+                    console.log("plus")
+                    console.log(cartList[i].Product_ID)
                     Axios.put("http://localhost:4002/updateCart", {
                     Cart_id: saveCartID,
                     Product_id: cartList[i].Product_ID,

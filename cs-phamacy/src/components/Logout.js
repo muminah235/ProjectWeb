@@ -3,19 +3,20 @@ import HomeScreens from '../screens/HomeScreen';
 import ReactDOM from 'react-dom';
 import App from '../App';
 import Navbar from './Navbar';
-
+import { useCart } from "react-use-cart";
 import { Redirect } from 'react-router';
 import Login from './Login';
 
 export default function Logout() {
 
-            
+         
 
 
     const resetUsername = () => {
         localStorage.setItem('password', "");
         localStorage.setItem('user', null);
         localStorage.setItem('User_ID', "");
+        localStorage.setItem('react-use-cart',"");
         ReactDOM.render(
             <HomeScreens/>,
         document.getElementById('root')

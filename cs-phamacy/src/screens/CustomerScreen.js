@@ -11,7 +11,7 @@ import { useCart } from "react-use-cart";
 
 export default function CustomerScreen(props) {
 
-
+    const [cartList,setcartList] = useState([]);
     const [productsList, setProductsList] = useState([]);
     const [dataList, setDataList] = useState([]);
     const [UserID, setUserID] = useState("");
@@ -24,6 +24,13 @@ export default function CustomerScreen(props) {
             console.warn(data)
         };
         fecthData();
+        const fecthCart = async () => {
+            const { data } = await Axios.get('http://localhost:4002/showcart');
+            console.log("cart");
+            setcartList(data);
+            console.warn(data)
+        };
+        fecthCart();
     }, []);
 
     const [UsernameLogin, setUsernameLogin] = useState(() => {
@@ -73,6 +80,19 @@ export default function CustomerScreen(props) {
         });
     };
     fecthUserID();
+
+    /*const fecthCart = async (e) => {
+        Axios.put('http://localhost:4002/', {
+            username: UsernameLogin,
+        }).then((response) => {
+            console.log(response.data[0].User_ID);
+            setUserID(response.data[0].User_ID);
+            console.log("User_ID");
+            console.log(UserID);
+            localStorage.setItem('User_ID', JSON.stringify(UserID));
+        });
+    };
+    fecthCart();*/
 
     return (
         
