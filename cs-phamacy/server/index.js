@@ -93,8 +93,9 @@ app.get('/showproduct',(req ,res)=>{
 
 });
 
-app.get('/showcart',(req ,res)=>{
-    db.query("SELECT * from O_detail",(err,result)=>{
+app.get('/showcart/:Username',(req ,res)=>{
+    const Username = req.params.Username;
+    db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -121,13 +122,19 @@ app.put('/edit',(req ,res)=>{
 });
 
 app.put('/updateCart',(req ,res)=>{
+    const Cartstatus = req.body.Cartstatus;
+    const Username = req.body.Username;
     const num = req.body.num;
     const Cart_id = req.body.Cart_id;
     const Product_id = req.body.Product_id;
+    console.log("----------");
     console.log("update")
+    console.log("user: "+Username)
    console.log("num: "+num);
    console.log("Cart_id: "+Cart_id);
    console.log("Product_id: "+Product_id);
+   console.log("status: "+Cartstatus)
+   console.log("----------");
     
     db.query("UPDATE O_detail SET Cart_Amount = ? where Order_ID = ? AND Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
         if(err){
@@ -272,6 +279,8 @@ app.delete('/delete/:User_ID',(req,res) =>{
 })
 
 app.post('/order',(req,res)=>{
+    const Cartstatus = req.body.Cartstatus;
+    const Username = req.body.Username;
     const id = parseInt(req.body.Product_ID);
     const Cart_ID = req.body.Cart_ID;
     const num  = req.body.num;
@@ -279,15 +288,17 @@ app.post('/order',(req,res)=>{
     const name = req.body.name;
     console.log("-------");
     console.log("Insert");
+    console.log("User: "+Username);
     console.log("Cart_ID: " +Cart_ID);
     console.log("num: " +num);
     console.log("id: " +id);
     console.log("name: " +name);
     console.log("price: " +price);
+    console.log("status: " +Cartstatus);
     console.log("-------");
 
-    db.query("INSERT INTO O_detail(Order_ID,Product_ID,Cart_Amount,Unit_price) VALUES(?,?,?,?)",
-    [Cart_ID, id, num, price],
+    db.query("INSERT INTO O_detail(Order_ID,Product_ID,Cart_Amount,Unit_price,Username,Cart_status) VALUES(?,?,?,?,?,?)",
+    [Cart_ID, id, num, price,Username,Cartstatus],
     (err, result) => {
         if (err) {
             console.log(err);
@@ -390,6 +401,20 @@ app.put('/userID',(req ,res)=>{
     const username = req.body.username;
     console.log("username: "+ username);
     db.query("SELECT User_ID from customer WHERE Username = ?"  ,[username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+            console.log(result);
+        }
+    });
+   
+});
+
+app.put('/cusCart',(req ,res)=>{
+    const username = req.body.username;
+    console.log("username: "+ username);
+    db.query("SELECT * from O_detail WHERE Username = ?"  ,[username],(err,result)=>{
         if(err){
             console.log(err);
         }else{

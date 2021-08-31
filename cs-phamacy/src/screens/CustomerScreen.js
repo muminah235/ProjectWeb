@@ -81,18 +81,17 @@ export default function CustomerScreen(props) {
     };
     fecthUserID();
 
-    /*const fecthCart = async (e) => {
-        Axios.put('http://localhost:4002/', {
+    
+
+    const fecthCart = async (e) => {
+        Axios.put('http://localhost:4002/cusCart', {
             username: UsernameLogin,
         }).then((response) => {
-            console.log(response.data[0].User_ID);
-            setUserID(response.data[0].User_ID);
-            console.log("User_ID");
-            console.log(UserID);
-            localStorage.setItem('User_ID', JSON.stringify(UserID));
+            console.log(response.data);
+            
         });
     };
-    fecthCart();*/
+    fecthCart();
 
     return (
         

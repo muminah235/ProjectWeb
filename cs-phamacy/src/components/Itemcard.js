@@ -7,32 +7,35 @@ import Login from './Login';
 
 
 const Itemcard = (props) => {
+    const [cartList,setcartList] = useState([]);
     const {addItem} = useCart();
     const {
         id,
         isEmpty,
         totalUniqueItems,
-        items,
+        items ,
         totalItems,
         cartTotal,
         updateItemQuantity,
         removeItem,
         emptyCart,
     } = useCart();
-    const [cartList,setcartList] = useState([]);
+    
     const [productID,setProductID] = useState("");
     localStorage.setItem('Cart_ID', "1");
-
+    const Username = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showcart');
+            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
         };
+        
         fecthData();
     }, []);
-   
+
+    
     
     
     const order = () => {
@@ -52,6 +55,8 @@ const Itemcard = (props) => {
         
         
         if (saveLastUserID ===  saveUserID || (isEmpty === false)) {
+            const Username = JSON.parse(localStorage.getItem("user"));
+            console.log(Username);
             console.log("yes");
             const saveCartID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(saveCartID)
@@ -60,33 +65,38 @@ const Itemcard = (props) => {
                 if(props.Product_id === parseInt(cartList[i].Product_ID)){
                     console.log("cart list")
                     Axios.put("http://localhost:4002/updateCart", {
+                    Username: Username,
                     Cart_id: saveCartID,
                     Product_id: cartList[i].Product_ID,
                     num: cartList[i].Cart_Amount + 1,
+                    Cartstatus: 1
                     }).then((response) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
                     };
                     fecthData();
                 }else if(props.Product_id !== parseInt(cartList[i].Product_ID)){
+                    console.log("no math")
                     if(Cart_ID >=1){
                         Axios.post('http://localhost:4002/order', {
+                        Username: Username,
                         Product_ID: parseInt(props.Product_id),
                         Cart_ID: saveCartID,
                         price: parseInt(props.Product_price),
                         name: props.Product_name,
                         num: 1,
+                        Cartstatus: 1
                     }).then((response) => {
                         console.log(response);
                     })
                     
                     const fecthData = async () => {
-                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
@@ -103,6 +113,8 @@ const Itemcard = (props) => {
         
         
         if ((saveLastUserID !== saveUserID) || (isEmpty === true)) {
+            const Username = JSON.parse(localStorage.getItem("user"));
+            console.log(Username);
             const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(Cart_ID);
             const newCart_ID = Cart_ID + 1;
@@ -112,16 +124,19 @@ const Itemcard = (props) => {
             
             if(Cart_ID >=1){
                 Axios.post('http://localhost:4002/order', {
+                Username: Username,
                 Product_ID: props.Product_id,
                 Cart_ID: Cart_ID,
                 price: parseInt(props.Product_price),
                 name: props.Product_name,
                 num: 1,
+                Cartstatus: 1
             }).then((response) => {
                 console.log(response);
+                
             })
             const fecthData = async () => {
-                const { data } = await Axios.get('http://localhost:4002/showcart');
+                const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
                 console.log("cart");
                 setcartList(data);
                 console.warn(data)

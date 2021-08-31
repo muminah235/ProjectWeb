@@ -35,6 +35,8 @@ const Cart = (props) => {
     }, []);
 
     const deleteCart = (itemID) =>{
+        const Username = JSON.parse(localStorage.getItem("user"));
+        console.log(Username);
         const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
         const saveUserID = localStorage.getItem("User_ID");
         const saveUsername = localStorage.getItem("user");
@@ -82,6 +84,8 @@ const Cart = (props) => {
         }
         console.log("ID: "+itemID)
         if (saveLastUserID ===  saveUserID || (isEmpty === false)) {
+            const Username = JSON.parse(localStorage.getItem("user"));
+            console.log(Username);
             console.log("yes");
             const saveCartID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(saveCartID)
@@ -97,7 +101,7 @@ const Cart = (props) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
