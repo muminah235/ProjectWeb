@@ -93,6 +93,20 @@ app.get('/showproduct',(req ,res)=>{
 
 });
 
+app.put('/search',(req ,res)=>{
+    const search = req.body.seachtext;
+    console.log("search: "+search);
+    db.query("SELECT * from product WHERE name = ? ",[search],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+
 app.get('/showcart/:Username',(req ,res)=>{
     const Username = req.params.Username;
     db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{
@@ -136,7 +150,7 @@ app.put('/updateCart',(req ,res)=>{
    console.log("status: "+Cartstatus)
    console.log("----------");
     
-    db.query("UPDATE O_detail SET Cart_Amount = ? where Order_ID = ? AND Product_ID =?",[num,Cart_id,Product_id],(err,result)=>{
+    db.query("UPDATE O_detail SET Cart_Amount = ? where Order_ID = ? AND id =?",[num,Cart_id,Product_id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -226,7 +240,7 @@ app.delete('/deletetoCart/:itemID/:Cart_ID',(req,res) =>{
     console.log("---------");
     console.log("id: "+id);
     console.log("cartID: "+Cartid);
-    db.query("DELETE FROM O_detail WHERE Product_ID = ? AND Order_ID =? ",[id,Cartid],(err,result)=>{
+    db.query("DELETE FROM O_detail WHERE id = ? AND Order_ID =? ",[id,Cartid],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -286,6 +300,7 @@ app.post('/order',(req,res)=>{
     const num  = req.body.num;
     const price = req.body.price;
     const name = req.body.name;
+    const detail = req.body.detail;
     console.log("-------");
     console.log("Insert");
     console.log("User: "+Username);
@@ -295,15 +310,16 @@ app.post('/order',(req,res)=>{
     console.log("name: " +name);
     console.log("price: " +price);
     console.log("status: " +Cartstatus);
+    console.log("detail: " +detail);
     console.log("-------");
 
-    db.query("INSERT INTO O_detail(Order_ID,Product_ID,Cart_Amount,Unit_price,Username,Cart_status) VALUES(?,?,?,?,?,?)",
-    [Cart_ID, id, num, price,Username,Cartstatus],
+    db.query("INSERT INTO O_detail(Order_ID,id,name,detail,Cart_Amount,price,Username,Cart_status) VALUES(?,?,?,?,?,?,?,?)",
+    [Cart_ID, id,name,detail, num, price,Username,Cartstatus],
     (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            res.send({message:"Register complete"});
+            res.send({message:"aad to cart complete"});
         }
     }
 );

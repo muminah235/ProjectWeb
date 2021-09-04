@@ -12,7 +12,7 @@ import CustomerNavbar from "../components/CustomerNavbar"
 
 export default function HomeScreens(props) {
 
-
+    const [SearchText, setSearchText] = useState("");
     const [productsList, setProductsList] = useState([]);
     const [dataList, setDataList] = useState([]);
     const [UserID, setUserID] = useState("");
@@ -37,6 +37,16 @@ export default function HomeScreens(props) {
         }
     });
 
+    const searchtext = (searchtext) => {
+        console.log(searchtext)
+        Axios.put('http://localhost:4002/search',{
+            seachtext: searchtext
+        }).then((response) => {
+           console.log(response)
+           setProductsList(response.data)
+        })
+    }
+
     /*useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get('http://localhost:4002/test');
@@ -54,6 +64,11 @@ export default function HomeScreens(props) {
         <CartProvider>
             {UsernameLogin===null ? <Navbar/>:<CustomerNavbar/>}
             <div>
+                <dir>
+                    <label htmlFor="search" className="form-label">ค้นหา</label>
+                    <input type="text"  style={{ width: "300px" }} className="form-control" onChange={(event) => {setSearchText(event.target.value) }} />
+                </dir>
+                <button className="btn btn-warning" onClick={() =>  {searchtext(SearchText)} }>ค้นหา</button>
                 <section className="py-4 container">
                     <div className="row justify-content-center">
                         {productsList.map((item, idex) => {
@@ -71,6 +86,7 @@ export default function HomeScreens(props) {
                             )
                         })}
                     </div>
+                    
                     <Cart />
                 </section>
             </div>

@@ -31,7 +31,6 @@ const Itemcard = (props) => {
             setcartList(data);
             console.warn(data)
         };
-        
         fecthData();
     }, []);
 
@@ -62,14 +61,14 @@ const Itemcard = (props) => {
             console.log(saveCartID)
             for(let i = 0; i < cartList.length; i++){
                 console.log("cart list")
-                if(props.Product_id === parseInt(cartList[i].Product_ID)){
+                if(props.Product_id === parseInt(cartList[i].id)){
                     console.log("cart list")
                     Axios.put("http://localhost:4002/updateCart", {
                     Username: Username,
                     Cart_id: saveCartID,
-                    Product_id: cartList[i].Product_ID,
+                    Product_id: cartList[i].id,
                     num: cartList[i].Cart_Amount + 1,
-                    Cartstatus: 1
+                    Cartstatus: 1,
                     }).then((response) => {
                         console.log(response);
                     })
@@ -80,9 +79,10 @@ const Itemcard = (props) => {
                         console.warn(data)
                     };
                     fecthData();
-                }else if(props.Product_id !== parseInt(cartList[i].Product_ID)){
-                    console.log("no math")
+                }else if(props.Product_id !== parseInt(cartList[i].id)){
+                    
                     if(Cart_ID >=1){
+                        console.log("no math")
                         Axios.post('http://localhost:4002/order', {
                         Username: Username,
                         Product_ID: parseInt(props.Product_id),
@@ -90,7 +90,9 @@ const Itemcard = (props) => {
                         price: parseInt(props.Product_price),
                         name: props.Product_name,
                         num: 1,
-                        Cartstatus: 1
+                        Cartstatus: 1,
+                        name: props.Product_name,
+                        detail: props.Product_detail
                     }).then((response) => {
                         console.log(response);
                     })
@@ -130,7 +132,9 @@ const Itemcard = (props) => {
                 price: parseInt(props.Product_price),
                 name: props.Product_name,
                 num: 1,
-                Cartstatus: 1
+                Cartstatus: 1,
+                name: props.Product_name,
+                detail: props.Product_detail
             }).then((response) => {
                 console.log(response);
                 

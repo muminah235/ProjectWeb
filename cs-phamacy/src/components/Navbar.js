@@ -5,6 +5,7 @@ export default function Navbar() {
 
     const [SearchText, setSearchText] = useState('');
     const [SeachStatus, setSearchStatus] = useState('');
+    
 
     useEffect(()=>{
         localStorage.setItem('seachtext', JSON.stringify(SearchText));
@@ -12,19 +13,11 @@ export default function Navbar() {
 
     const seachtext = (e) => {
         e.preventDefault();
-        Axios.post('http://localhost:4002/search',{
-            seachtext: Product_name
+        Axios.get('http://localhost:4002/search',{
+            seachtext: SearchText
         }).then((response) => {
-            if(response.data.message){
-              setSeachStatus(response.data.message)
-            }else{
-              e.preventDefault();
-              setSearchStatus(response.data[0].Product_name)
-              alert("ไม่พบยาที่ต้องการ");
-              e.preventDefault();
-            }
-
-            })
+           console.log(response)
+        })
     }
 
 

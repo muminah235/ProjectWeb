@@ -10,12 +10,25 @@ import { useCart } from "react-use-cart";
 
 
 export default function CustomerScreen(props) {
-
+    const [SearchText, setSearchText] = useState('');
+    const {addItem} = useCart();
+    const {
+        id,
+        isEmpty,
+        totalUniqueItems,
+        items ,
+        totalItems,
+        cartTotal,
+        updateItemQuantity,
+        removeItem,
+        emptyCart,
+        setItems,
+    } = useCart();
     const [cartList,setcartList] = useState([]);
     const [productsList, setProductsList] = useState([]);
     const [dataList, setDataList] = useState([]);
     const [UserID, setUserID] = useState("");
-
+    const Username = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get('http://localhost:4002/showproduct');
@@ -25,14 +38,31 @@ export default function CustomerScreen(props) {
         };
         fecthData();
         const fecthCart = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showcart');
+            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
+            
         };
         fecthCart();
+        
+        
+        
+         
     }, []);
 
+    /*useEffect(() => {
+        const fecthData = async () => {
+            const { data } = await Axios.get('http://localhost:4002/showproduct');
+            console.log("data");
+            
+            console.warn(data)
+            for(let i = 0;i<data.length;i++){
+                addItem(data[i]);
+            }
+        };
+        fecthData();
+    }, []);*/
     const [UsernameLogin, setUsernameLogin] = useState(() => {
         const saveUsername = localStorage.getItem("user");
         console.log(saveUsername)
@@ -81,25 +111,44 @@ export default function CustomerScreen(props) {
     };
     fecthUserID();
 
+    const searchtext = (e) => {
+        
+        Axios.put('http://localhost:4002/search',{
+            seachtext: SearchText
+        }).then((response) => {
+           console.log(response)
+           setProductsList(response.data)
+        })
+    }
     
 
-    const fecthCart = async (e) => {
+    /*const fecthCart = async (e) => {
         Axios.put('http://localhost:4002/cusCart', {
             username: UsernameLogin,
         }).then((response) => {
             console.log(response.data);
-            
+
+            for(let i=0;i<response.data.length;i++){
+                console.log("proId: ");
+                console.log(response.data[i].Id)
+            }
         });
     };
-    fecthCart();
+    fecthCart();*/
 
     return (
         
         <CartProvider>
             <div>
                 <CustomerNavbar />
-                <h1 className="text-center mt-3">Show product</h1>
+                <dir>
+                    <label htmlFor="search" className="form-label">ค้นหา</label>
+                    <input type="text"  style={{ width: "300px" }} className="form-control" onChange={(event) => {setSearchText(event.target.value) }} />
+                </dir>
+                <button className="btn btn-warning" onClick={() =>  {searchtext(SearchText)} }>ค้นหา</button>
                 <section className="py-4 container">
+
+                <h1 className="text-center mt-3">Show product</h1>
                     <div className="row justify-content-center">
                         {productsList.map((item, idex) => {
                             return (

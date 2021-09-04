@@ -7,7 +7,7 @@ import Login from './Login';
 
 
 const Cart = (props) => {
-
+    const {addItem} = useCart();
     const {
         id,
         isEmpty,
@@ -19,17 +19,46 @@ const Cart = (props) => {
         removeItem,
         emptyCart,
     } = useCart();
-
-    localStorage.setItem('Cart_ID', "1");
-    const [cartList,setcartList] = useState([]);
-    const [productID,setProductID] = useState("");
-
-    useEffect(() => {
-        const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showcart');
+    /*useEffect(() => {
+        const fecthCart = async () => {
+            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
+            for(let i = 0;i<data.length;i++){
+                addItem(data[i]);
+            }
+            
+        };
+        fecthCart();
+    }, []);*/
+
+    ///เพิ่มค่า price
+    /*useEffect(() => {
+        const fecthData = async () => {
+            const { data } = await Axios.get('http://localhost:4002/showproduct');
+            console.log("data");
+            
+            console.warn(data)
+            for(let i = 0;i<data.length;i++){
+                addItem(data[i]);
+            }
+        };
+        fecthData();
+    }, []);*/
+    localStorage.setItem('Cart_ID', "1");
+    const [cartList,setcartList] = useState([]);
+    const [productID,setProductID] = useState("");
+    const Username = JSON.parse(localStorage.getItem("user"));
+    useEffect(() => {
+        const fecthData = async () => {
+            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+            console.log("cart");
+            setcartList(data);
+            console.warn(data)
+            for(let i = 0;i<data.length;i++){
+                addItem(data[i],data[i].Cart_Amount);
+            }
         };
         fecthData();
     }, []);
@@ -51,18 +80,18 @@ const Cart = (props) => {
             console.log(saveCartID)
             for(let i = 0; i < cartList.length; i++){
                 console.log("Delete")
-                if(itemID === parseInt(cartList[i].Product_ID)){
+                if(itemID === parseInt(cartList[i].id)){
                     console.log("DELETE")
                     console.log(cartList[i])
                     Axios.put("http://localhost:4002/updateCart", {
                     Cart_id: saveCartID,
-                    Product_id: cartList[i].Product_ID,
-                    num: parseInt(cartList[i].Cart_Amount) - 1,
+                    Product_id: cartList[i].id,
+                    num: (parseInt(cartList[i].Cart_Amount) - 1),
                     }).then((response) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
@@ -89,14 +118,14 @@ const Cart = (props) => {
             console.log("yes");
             const saveCartID = parseInt(localStorage.getItem("Cart_ID"));
             console.log(saveCartID)
+            
             for(let i = 0; i < cartList.length; i++){
-                if(parseInt(itemID) === parseInt(cartList[i].Product_ID)){
+                if(parseInt(itemID) === parseInt(cartList[i].id)){
                     console.log("plus")
-                    console.log(cartList[i].Product_ID)
                     Axios.put("http://localhost:4002/updateCart", {
                     Cart_id: saveCartID,
-                    Product_id: cartList[i].Product_ID,
-                    num: parseInt(cartList[i].Cart_Amount) + 1,
+                    Product_id: cartList[i].id,
+                    num: (parseInt(cartList[i].Cart_Amount) + 1),
                     }).then((response) => {
                         console.log(response);
                     })
