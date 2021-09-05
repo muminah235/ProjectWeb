@@ -96,7 +96,7 @@ app.get('/showproduct',(req ,res)=>{
 app.put('/search',(req ,res)=>{
     const search = req.body.seachtext;
     console.log("search: "+search);
-    db.query("SELECT * from product WHERE name = ? ",[search],(err,result)=>{
+    db.query("SELECT * from product WHERE name  LIKE ' % ? % ' ",[search],(err,result)=>{
         if(err){
             console.log(err);
         }else{
