@@ -20,7 +20,9 @@ import Cart from './components/Cart'
 import { CartProvider } from "react-use-cart";
 import ReactDOM from 'react-dom';
 import CustomerNavbar from './components/CustomerNavbar';
-
+import PharmacistLogin from './components/PharmacistLogin';
+import Pharmacist from './components/Pharmacist';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' 
 
 
 function App() {
@@ -30,7 +32,7 @@ function App() {
   return (
     
     <BrowserRouter>
-    <div className="app">
+    <div container="app">
     
     <div>
         <Router>
@@ -39,6 +41,42 @@ function App() {
           <Route path="/register" component={Register}/>
           <Route path="/admin" component={Admin}/>
           <Route path="/adminlogin" component={AdminLogin}/>
+          <Route path="/pharmacist" component={Pharmacist}/>
+          <Route path="/pharmalogin" component={PharmacistLogin}/>
+          <Route path="/CustomerScreen" component={CustomerScreen}/>
+          <Route path="/addproduct" component={AddProduct}/>
+          <Route path="/showpharmacist" component={ShowPharmacist}/>
+          <Route path="/profile" component={Profile}/>
+          <Route path="/cus_profile" component={Profile}/>
+          <Route path="/logout" component={Logout}/>
+          <Route path="/cart" component={Cart}/>
+        </Router>
+      </div>
+    </div>
+    </BrowserRouter> 
+    
+    
+   
+    
+  );
+  
+}
+/*
+<div className="app-grid">
+        <DrugItem title="ยาพารา" thumbnailUrl="/img/para500.jpg" />
+        <DrugItem title="ยาแก้ไอ" thumbnailUrl="/img/iiii.png" />
+        <DrugItem title="เครื่องดื่มเกลือแร่" thumbnailUrl="/img/vitamin.jpg" />
+      </div>
+  
+      <div>
+        <Router>
+          <Route path="/login" component={Login} />
+          <Route exact path="/" component={HomeScreens}/>
+          <Route path="/register" component={Register}/>
+          <Route path="/admin" component={Admin}/>
+          <Route path="/adminlogin" component={AdminLogin}/>
+          <Route path="/pharmacist" component={Pharmacist}/>
+          <Route path="/pharmalogin" component={PharmacistLogin}/>
           <Route path="/CustomerScreen" component={CustomerScreen}/>
           <Route path="/addproduct" component={AddProduct}/>
           <Route path="/showpharmacist" component={ShowPharmacist}/>
@@ -50,13 +88,19 @@ function App() {
       </div>
     </div>
     </BrowserRouter>
-  );
-  
-}
-/*
-<div className="app-grid">
-        <DrugItem title="ยาพารา" thumbnailUrl="/img/para500.jpg" />
-        <DrugItem title="ยาแก้ไอ" thumbnailUrl="/img/iiii.png" />
-        <DrugItem title="เครื่องดื่มเกลือแร่" thumbnailUrl="/img/vitamin.jpg" />
-      </div>*/
+      
+
+
+    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+  <TileLayer
+    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <Marker position={[51.505, -0.09]}>
+    <Popup>
+      A pretty CSS3 popup. <br /> Easily customizable.
+    </Popup>
+  </Marker>
+</MapContainer>
+*/
 export default App;

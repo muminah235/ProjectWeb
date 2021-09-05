@@ -2,11 +2,12 @@ import { useState } from 'react';
 import Axios from 'axios'
 import ReactDOM from 'react-dom';
 
-import Admin from './Admin'
+import Admin from './Admin';
+import Pharmacist from './Pharmacist';
 import Navbar from './Navbar';
 
 
-export default function AdminLogin() {
+export default function PharmacistLogin() {
 
     
     const [Username, setUsername] = useState("");
@@ -14,7 +15,7 @@ export default function AdminLogin() {
     const [LoginStatus, setLoginStatus] = useState("");
     const login = (e) => {
       e.preventDefault();
-      Axios.post("http://localhost:4002/adminlogin", {
+      Axios.post("http://localhost:4002/pharmalogin", {
         username: Username,
         password: Password,
       }).then((response) => {
@@ -25,7 +26,7 @@ export default function AdminLogin() {
           setLoginStatus(response.data[0].Username)
           alert("login complete");
           ReactDOM.render(
-            <Admin/>,
+            <Pharmacist/>,
           document.getElementById('root')
         );
         }
@@ -34,7 +35,7 @@ export default function AdminLogin() {
     return (
         <div className="App container">
             <h1>{LoginStatus}</h1>
-            <center><h1>Admin Login </h1></center>
+            <center><h1>Pharma Login </h1></center>
             <form action="">
             <dir className="mb-3">
               <label htmlFor="username" className="form-label">Username</label>

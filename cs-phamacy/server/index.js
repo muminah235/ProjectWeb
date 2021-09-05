@@ -119,6 +119,18 @@ app.get('/showcart/:Username',(req ,res)=>{
 
 });
 
+app.put('/showcartPharma',(req ,res)=>{
+    const Username = req.body.username;
+    console.log("user: "+Username);
+    db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
 
 
 
@@ -413,6 +425,31 @@ app.post("/adminlogin",  (req, res) => {
 
 })
 
+app.post("/pharmalogin",  (req, res) => {
+
+    const Username = req.body.username;
+    const Password = req.body.password;
+    
+    if (!Username || !Password) {
+        console.log("no username/password");
+        res.send({message: "no username/password"});
+        return;
+    }
+
+    db.query("SELECT * FROM pharmacist WHERE Username = ? AND Password = ? ", [Username, Password], (err, result) => {
+        console.log(result);
+        if (err) {
+            res.send({ err: err });
+        } else {
+            if (result.length > 0) {
+                res.send(result);
+            } else {
+                res.send({ message: "Wrong username/password" });
+            }
+        }
+    })
+
+})
 app.put('/userID',(req ,res)=>{
     const username = req.body.username;
     console.log("username: "+ username);
