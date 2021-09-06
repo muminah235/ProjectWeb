@@ -38,9 +38,11 @@ export default function HomeScreens(props) {
     });
 
     const searchtext = (searchtext) => {
-        console.log(searchtext)
+        const search = SearchText.replace(/\'/gi,'')
+        console.log("search: "+ search)
+        console.log("serach text: "+ SearchText)
         Axios.put('http://localhost:4002/search',{
-            seachtext: searchtext
+            seachtext: search
         }).then((response) => {
            console.log(response)
            setProductsList(response.data)

@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useForm } from "react-hook-form";
 import Axios from 'axios'
 import LoginPage from './Login'
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 export default function AddProduct() {
   const [Product_name, setProductName] = useState("");
@@ -13,23 +15,42 @@ export default function AddProduct() {
   const [Product_Type, setProductType] = useState("1");
   const [ProDuctList, setProductList] = useState([]);
 
-  
+  const [product,setProduct] = useState({
+    file:[],
+  })
+  const handleInputChange = (event) =>{
+    setProduct({
+      ...product,
+      file:event.target.files[0],
+
+    })
+  }
   
   const addproduct = (e) => {
     e.preventDefault();
+    const formData = new FormData()
+    formData.append('img',product.file);
+    Axios.post('http://localhost:4002/upload' ,formData,{
+      headers:{"Content-type": "multipart/form-data"}
+    }).then(res=>{
+      e.preventDefault();
+      console.warn(res);
+    })
+    e.preventDefault();
+    /*e.preventDefault();
     Axios.post('http://localhost:4002/addproduct', {
       name: Product_name,
       detail: Product_detail,
       price: Product_price,
-      image: Product_img,
       status: Product_status,
       flag: Product_flag,
       type:Product_Type
-    }).then((response) => {
+
+    },formData).then((response) => {
       e.preventDefault();
       console.log(response);
       alert("Add product complete")
-    })
+    })*/
   }
 
   return (
@@ -37,7 +58,7 @@ export default function AddProduct() {
       <a class = "navbar-brand" href="/admin">back</a>
       <h1>Add Product</h1>
       <dir className="information">
-        <form action="">
+        <form action="" >
           <dir className="mb-3">
             <label htmlFor="name" className="form-label">Name</label>
             <input type="text" className="form-control" placeholder="Enter Name" onChange={(event) => { setProductName(event.target.value) }} />
@@ -52,7 +73,7 @@ export default function AddProduct() {
           </dir>
           <dir className="mb-3">
             <label htmlFor="image" className="form-label">Image</label>
-            <input type="file" className="form-control" placeholder="Enter image" onChange={(event) => { setProductImg(event.target.files) }} />
+            <input type="file" className="form-control" placeholder="Enter image"  onChange={handleInputChange} />
           </dir>
           <dir className="mb-3">
             <label htmlFor="status" className="form-label">Status</label>
@@ -81,6 +102,7 @@ export default function AddProduct() {
 
           <button className="btn btn-success" onClick={addproduct}>AddProduct</button>
         </form>
+       
       </dir>
 
 

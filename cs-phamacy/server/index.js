@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const { response } = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const multer =require('multer');
 
 const publicDirectory=path.join(__dirname,'./public')
 
@@ -15,6 +16,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 app.use(cookieParser());
+
+
+const storage = multer.diskStorage({
+    destination:path.join(__dirname,'../public','uploads'),
+    filename: function(req,file,cb){
+        cb(null,Date.now()+'-'+file.originalname)
+    }
+})
+
 
 const db = mysql.createConnection({
     user: "root",
@@ -34,7 +44,19 @@ app.get("/",(req,res)=>{
     res.send("hello wolrd");
 })
 
-
+app.post('/upload',async (req,res) =>{
+    try{
+        let upload = multer({storage:storage}).single('img');
+        upload(req,res,function(err){
+            if(!req.file){
+                return res.send('Please select img');
+            }
+            else if(err instanceof multer.MulterError){
+                return res.send(err);
+            }
+        }) ;  
+    }catch(err){console.log(err)}
+})
 app.get('/pharmacist',(req ,res)=>{
     db.query("SELECT * FROM pharmacist",(err,result)=>{
         if(err){
@@ -96,7 +118,7 @@ app.get('/showproduct',(req ,res)=>{
 app.put('/search',(req ,res)=>{
     const search = req.body.seachtext;
     console.log("search: "+search);
-    db.query("SELECT * from product WHERE name  LIKE ' % ? % ' ",[search],(err,result)=>{
+    db.query("SELECT * from product WHERE name  LIKE ? ",[search],(err,result)=>{
         if(err){
             console.log(err);
         }else{

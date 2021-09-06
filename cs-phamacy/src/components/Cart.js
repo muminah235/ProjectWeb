@@ -50,6 +50,7 @@ const Cart = (props) => {
     const [cartList,setcartList] = useState([]);
     const [productID,setProductID] = useState("");
     const Username = JSON.parse(localStorage.getItem("user"));
+    
     useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);

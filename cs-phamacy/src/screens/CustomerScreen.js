@@ -112,9 +112,10 @@ export default function CustomerScreen(props) {
     fecthUserID();
 
     const searchtext = (e) => {
-        
+        const search = SearchText.replace(/\'/gi,'')
+        console.log("search: "+ search)
         Axios.put('http://localhost:4002/search',{
-            seachtext: SearchText
+            seachtext:  search
         }).then((response) => {
            console.log(response)
            setProductsList(response.data)

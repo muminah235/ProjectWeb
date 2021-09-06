@@ -25,14 +25,17 @@ import Pharmacist from './components/Pharmacist';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' 
 
 
+
 function App() {
   const saveUsername = localStorage.getItem("user");
   console.log("saveUser"+saveUsername)
   
+  
   return (
     
+    
     <BrowserRouter>
-    <div container="app">
+    <div id="mapid">
     
     <div>
         <Router>
@@ -53,7 +56,10 @@ function App() {
         </Router>
       </div>
     </div>
-    </BrowserRouter> 
+    </BrowserRouter>  
+
+   
+   
     
     
    
@@ -102,5 +108,44 @@ function App() {
     </Popup>
   </Marker>
 </MapContainer>
+
+<BrowserRouter>
+    <div id="mapid">
+    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+  <TileLayer
+    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <Marker position={[51.505, -0.09]}>
+    <Popup>
+      A pretty CSS3 popup. <br /> Easily customizable.
+    </Popup>
+  </Marker>
+</MapContainer>
+    <div>
+        <Router>
+          <Route path="/login" component={Login} />
+          <Route exact path="/" component={HomeScreens}/>
+          <Route path="/register" component={Register}/>
+          <Route path="/admin" component={Admin}/>
+          <Route path="/adminlogin" component={AdminLogin}/>
+          <Route path="/pharmacist" component={Pharmacist}/>
+          <Route path="/pharmalogin" component={PharmacistLogin}/>
+          <Route path="/CustomerScreen" component={CustomerScreen}/>
+          <Route path="/addproduct" component={AddProduct}/>
+          <Route path="/showpharmacist" component={ShowPharmacist}/>
+          <Route path="/profile" component={Profile}/>
+          <Route path="/cus_profile" component={Profile}/>
+          <Route path="/logout" component={Logout}/>
+          <Route path="/cart" component={Cart}/>
+        </Router>
+      </div>
+    </div>
+    </BrowserRouter> 
+    
+    
+   
+    
+
 */
 export default App;

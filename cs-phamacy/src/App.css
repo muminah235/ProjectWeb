@@ -23,3 +23,9 @@
     height: 268px;
 }
 
+.leaflet-container{
+    width: 100 vw;
+    height: 100 vh;
+}
+
+
