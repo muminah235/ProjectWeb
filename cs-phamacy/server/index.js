@@ -21,7 +21,7 @@ app.use(cookieParser());
 const storage = multer.diskStorage({
     destination:path.join(__dirname,'../public','uploads'),
     filename: function(req,file,cb){
-        cb(null,Date.now()+'-'+file.originalname)
+        cb(null,file.originalname)
     }
 })
 
@@ -45,8 +45,10 @@ app.get("/",(req,res)=>{
 })
 
 app.post('/upload',async (req,res) =>{
+    
     try{
         let upload = multer({storage:storage}).single('img');
+        
         upload(req,res,function(err){
             if(!req.file){
                 return res.send('Please select img');
@@ -54,8 +56,12 @@ app.post('/upload',async (req,res) =>{
             else if(err instanceof multer.MulterError){
                 return res.send(err);
             }
+            
         }) ;  
+        
     }catch(err){console.log(err)}
+    
+
 })
 app.get('/pharmacist',(req ,res)=>{
     db.query("SELECT * FROM pharmacist",(err,result)=>{
@@ -104,6 +110,18 @@ app.get('/customer',(req ,res)=>{
 
 });
 
+app.get('/selectcustomer',(req ,res)=>{
+    const Username = req.body.username
+    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer WHERE Username =?",[Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
 app.get('/showproduct',(req ,res)=>{
     db.query("SELECT * from product",(err,result)=>{
         if(err){
@@ -119,6 +137,19 @@ app.put('/search',(req ,res)=>{
     const search = req.body.seachtext;
     console.log("search: "+search);
     db.query("SELECT * from product WHERE name  LIKE ? ",[search],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+app.put('/cat',(req ,res)=>{
+    const type = req.body.type;
+    console.log("type: "+type);
+    db.query("SELECT * from product WHERE Product_type = ? ",[type],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -203,7 +234,7 @@ app.post('/addproduct',(req,res)=>{
     const name = req.body.name;
     const detail = req.body.detail;
     const price = req.body.price;
-    const image = req.body.image;
+    const image = req.body.img;
     const status = req.body.status;
     const flag = req.body.flag;
     const type = req.body.type;
@@ -216,8 +247,8 @@ app.post('/addproduct',(req,res)=>{
     console.log("flag: "+flag);
     console.log("type: "+type);
 
-    db.query("INSERT into product(name,detail,price,Product_img,Product_status,Product_flag) VALUES(?,?,?,?,?,?)",
-    [name,detail,price,image,status,flag],(err,result)=>{
+    db.query("INSERT into product(name,detail,price,Product_img,Product_status,Product_flag,Product_type) VALUES(?,?,?,?,?,?,?)",
+    [name,detail,price,image,status,flag,type],(err,result)=>{
         if (err) {
             console.log(err);
         } else {

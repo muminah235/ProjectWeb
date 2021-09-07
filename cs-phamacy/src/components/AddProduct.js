@@ -18,6 +18,7 @@ export default function AddProduct() {
   const [product,setProduct] = useState({
     file:[],
   })
+
   const handleInputChange = (event) =>{
     setProduct({
       ...product,
@@ -26,19 +27,36 @@ export default function AddProduct() {
     })
   }
   
+  console.log(product.file.name)
+
   const addproduct = (e) => {
+    console.log("Product: "+product.file.name)
     e.preventDefault();
     const formData = new FormData()
     formData.append('img',product.file);
     Axios.post('http://localhost:4002/upload' ,formData,{
-      headers:{"Content-type": "multipart/form-data"}
+      headers:{"Content-type": "multipart/form-data"},
     }).then(res=>{
       e.preventDefault();
       console.warn(res);
     })
     e.preventDefault();
-    /*e.preventDefault();
-    Axios.post('http://localhost:4002/addproduct', {
+    Axios.post('http://localhost:4002/addproduct' ,{
+      name: Product_name,
+      detail: Product_detail,
+      price: Product_price,
+      img: "/uploads/"+(product.file.name),
+      status: Product_status,
+      flag: Product_flag,
+      type:Product_Type
+    }).then(res=>{
+      e.preventDefault();
+      console.warn(res);
+    })
+    e.preventDefault();
+    
+    
+    /*Axios.post('http://localhost:4002/addproduct', {
       name: Product_name,
       detail: Product_detail,
       price: Product_price,
@@ -73,7 +91,7 @@ export default function AddProduct() {
           </dir>
           <dir className="mb-3">
             <label htmlFor="image" className="form-label">Image</label>
-            <input type="file" className="form-control" placeholder="Enter image"  onChange={handleInputChange} />
+            <input type="file" className="form-control" placeholder="Enter image"  onChange={(event)=>{setProductImg(event.target.value)},handleInputChange} />
           </dir>
           <dir className="mb-3">
             <label htmlFor="status" className="form-label">Status</label>

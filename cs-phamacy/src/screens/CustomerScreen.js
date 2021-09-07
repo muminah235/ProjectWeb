@@ -122,6 +122,32 @@ export default function CustomerScreen(props) {
         })
     }
     
+    const head = () =>{
+        Axios.put('http://localhost:4002/cat',{
+            type: 1
+        }).then((response) => {
+           console.log(response)
+           setProductsList(response.data)
+        })
+    }
+
+    const stomach = () =>{
+        Axios.put('http://localhost:4002/cat',{
+            type: 2
+        }).then((response) => {
+           console.log(response)
+           setProductsList(response.data)
+        })
+    }
+
+    const nasal = () =>{
+        Axios.put('http://localhost:4002/cat',{
+            type: 3
+        }).then((response) => {
+           console.log(response)
+           setProductsList(response.data)
+        })
+    }
 
     /*const fecthCart = async (e) => {
         Axios.put('http://localhost:4002/cusCart', {
@@ -147,6 +173,11 @@ export default function CustomerScreen(props) {
                     <input type="text"  style={{ width: "300px" }} className="form-control" onChange={(event) => {setSearchText(event.target.value) }} />
                 </dir>
                 <button className="btn btn-warning" onClick={() =>  {searchtext(SearchText)} }>ค้นหา</button>
+                <dir>
+                <button className="btn btn-success" onClick={() =>  {head()} }>ปวดหัว</button>
+                <button className="btn btn-success" onClick={() =>  {stomach()} }>ปวดท้อง</button>
+                <button className="btn btn-success" onClick={() =>  {nasal()} }>ละลายเสมหะ</button>
+                </dir>
                 <section className="py-4 container">
 
                 <h1 className="text-center mt-3">Show product</h1>
@@ -160,6 +191,7 @@ export default function CustomerScreen(props) {
                                     Product_status={item.Product_status}
                                     Product_flag={item.Product_flag}
                                     Product_id={item.id}
+                                    Product_img={item.Product_img}
                                     item={item}
                                     key={idex}
                                 />
