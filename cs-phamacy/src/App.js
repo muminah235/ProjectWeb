@@ -23,7 +23,7 @@ import CustomerNavbar from './components/CustomerNavbar';
 import PharmacistLogin from './components/PharmacistLogin';
 import Pharmacist from './components/Pharmacist';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' 
-
+import Map from './components/Map';
 
 
 function App() {
@@ -53,6 +53,7 @@ function App() {
           <Route path="/cus_profile" component={Profile}/>
           <Route path="/logout" component={Logout}/>
           <Route path="/cart" component={Cart}/>
+          <Route path="/Map" component={Map}/>
         </Router>
       </div>
     </div>
