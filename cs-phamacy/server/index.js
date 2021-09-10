@@ -8,14 +8,41 @@ const { response } = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const multer =require('multer');
+const http = require('http')
 
 const publicDirectory=path.join(__dirname,'./public')
+
+const {Server} = require("socket.io")
 
 app.use(express.static(publicDirectory));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 app.use(cookieParser());
+const server = http.createServer(app);
+const io = new Server(server,{
+    cors: {
+        origin: "http://localhost:3004",
+        methods: ["GET","POST"],
+    }
+})
+
+io.on("connection",(socket)=>{
+    console.log(`User Connected:${socket.id}`);
+
+    socket.on("join_room",(data)=>{
+        socket.join(data);
+        console.log(`User with ID: ${socket.id} joined room: ${data}`)
+    })
+
+    
+    socket.on("send_message",(data)=>{
+        socket.to(data.room).emit("receive_message",data)
+    })
+    socket.on("disconnect",()=>{
+        console.log("User Disconnected",socket.id)
+    });
+});
 
 
 const storage = multer.diskStorage({
@@ -452,6 +479,31 @@ app.post("/login",  (req, res) => {
     })
 })
 
+app.post("/chatlogin",  (req, res) => {
+
+    const Username = req.body.username;
+    console.log("Username: "+Username)
+    
+    if (!Username) {
+        console.log("no username");
+        res.send({message: "no username"});
+        return;
+    }
+
+    db.query("SELECT * FROM customer WHERE Username = ? ", [Username], (err, result) => {
+       
+        if (err) {
+            res.send({ err: err });
+        } else {
+            if (result.length > 0) {
+                res.send(result);
+            } else {
+                res.send({ message: "Wrong username" });
+            }
+        }
+    })
+})
+
 app.post("/adminlogin",  (req, res) => {
 
     const Username = req.body.username;
@@ -543,8 +595,11 @@ app.put('/profile',(req ,res)=>{
     });
    
 });
-app.listen('4002', () => {
+app.listen('4005', () => {
     console.log('Sever is running on port 4002');
 })
 
+server.listen('3001',()=>{
+    console.log('Socket is running on port 3001');
+})
 

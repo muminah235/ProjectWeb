@@ -23,20 +23,22 @@ import CustomerNavbar from './components/CustomerNavbar';
 import PharmacistLogin from './components/PharmacistLogin';
 import Pharmacist from './components/Pharmacist';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' 
-
-
+import MessengerCustomerChat from 'react-messenger-customer-chat';
+import ChatHomePage from './containers/ChatHome'
+import ChatLogin from './containers/Chat'
+import ChatRegister from './containers/RegisterPage'
+ 
 
 function App() {
   const saveUsername = localStorage.getItem("user");
   console.log("saveUser"+saveUsername)
-  
   
   return (
     
     
     <BrowserRouter>
     <div id="mapid">
-    
+     
     <div>
         <Router>
           <Route path="/login" component={Login} />
@@ -53,8 +55,12 @@ function App() {
           <Route path="/cus_profile" component={Profile}/>
           <Route path="/logout" component={Logout}/>
           <Route path="/cart" component={Cart}/>
+          <Route path="/chat" component={ChatHomePage}/>
+          <Route path="/chatlogin" component={ChatLogin}/>
+          <Route path="/chatregister" component={ChatRegister}/>
         </Router>
       </div>
+      
     </div>
     </BrowserRouter>  
 
