@@ -1,0 +1,10 @@
+.map-viwe{
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+}
+.maker-icon{
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50%;
+}
