@@ -27,8 +27,8 @@ import MessengerCustomerChat from 'react-messenger-customer-chat';
 import ChatHomePage from './containers/ChatHome'
 import ChatLogin from './containers/Chat'
 import ChatRegister from './containers/RegisterPage'
+import Map from './components/Map'
  
-
 function App() {
   const saveUsername = localStorage.getItem("user");
   console.log("saveUser"+saveUsername)
@@ -58,6 +58,7 @@ function App() {
           <Route path="/chat" component={ChatHomePage}/>
           <Route path="/chatlogin" component={ChatLogin}/>
           <Route path="/chatregister" component={ChatRegister}/>
+          <Route path="/map" component={Map}/>
         </Router>
       </div>
       

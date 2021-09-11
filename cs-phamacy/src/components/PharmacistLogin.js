@@ -33,7 +33,7 @@ export default function PharmacistLogin() {
       })
     }
     return (
-        <div className="App container">
+        <div className="">
             <h1>{LoginStatus}</h1>
             <center><h1>Pharma Login </h1></center>
             <form action="">
@@ -45,7 +45,7 @@ export default function PharmacistLogin() {
               <label htmlFor="password" className="form-label">Password</label>
               <input type="password" className="form-control" placeholder="Enter password" onChange={(event) => { setPassword(event.target.value) }} />
             </dir>
-            <a class = "navbar-brand" href="/login">User login</a>
+            
             <center><button className="btn btn-success" onClick={login}>Login</button></center>
             </form>
                 

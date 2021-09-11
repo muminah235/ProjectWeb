@@ -20,6 +20,8 @@ export default function Chat({socket,username,room}) {
             setMessageList((list) => [...list,messageData]);
         }
     }
+    
+    console.log(messageList)
     useEffect(()=>{
         socket.on("receive_message",(data)=>{
             console.log(data)

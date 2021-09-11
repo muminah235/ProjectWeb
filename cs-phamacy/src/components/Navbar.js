@@ -28,17 +28,7 @@ export default function Navbar() {
                     
                     <ul class="navbar-nav">
                     <a class = "navbar-brand" href="/">CS Pharmacy</a>
-                    <form class="d-flex">
-                    <input 
-                        class="form-control me-2" 
-                        type="search" 
-                        placeholder="ค้นหายา" 
-                        aria-label="Search"
-                        value={SearchText} 
-                        onChange={(event) => { setSearchText(event.target.value) }}
-                    />
-                        <button class="btn btn-outline-success" type="submit" onClick={seachtext}>ค้นหา</button>
-                    </form>
+                    
 
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">แนะนำสินค้า</a>

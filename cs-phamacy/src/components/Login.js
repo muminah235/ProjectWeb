@@ -52,7 +52,7 @@ export default function Login() {
       })
     }
     return (
-        <div className="App container">
+        <div className="">
           {UsernameLogin===null ? <Navbar/>:<CustomerNavbar/>}
             <h1>{LoginStatus}</h1>
             <center><h1>Login form</h1></center>

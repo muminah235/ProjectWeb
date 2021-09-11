@@ -22,7 +22,7 @@ app.use(cookieParser());
 const server = http.createServer(app);
 const io = new Server(server,{
     cors: {
-        origin: "http://localhost:3004",
+        origin: "http://localhost:3000",
         methods: ["GET","POST"],
     }
 })
@@ -504,6 +504,8 @@ app.post("/chatlogin",  (req, res) => {
     })
 })
 
+
+
 app.post("/adminlogin",  (req, res) => {
 
     const Username = req.body.username;
@@ -595,7 +597,7 @@ app.put('/profile',(req ,res)=>{
     });
    
 });
-app.listen('4005', () => {
+app.listen('4002', () => {
     console.log('Sever is running on port 4002');
 })
 

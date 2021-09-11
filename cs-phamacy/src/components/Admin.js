@@ -102,7 +102,7 @@ export default function Admin() {
           {customerList.map((val, key) => {
             return (
               <div className="customer card">
-                <div className="card-body terxt-left">
+                <div className="card-body terxt-left ">
                   <p className="card-text">Username:{val.Username}</p>
                   <p className="card-text">Password:{val.Password}</p>
                   <p className="card-text">Name:{val.User_fname}</p>

@@ -39,7 +39,7 @@ export default function Register() {
 
     return (
 
-        <div className="App container">
+        <div className="">
         <h1>{registerStatus}</h1>
         <h1>Register</h1>
         <dir className="information"> 

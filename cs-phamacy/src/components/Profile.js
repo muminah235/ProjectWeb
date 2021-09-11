@@ -91,12 +91,7 @@ export default function Profile() {
                         <div className="customer card">
                             <div className="card-body terxt-left">
                                 <div className="mb-3">
-                                    <label htmlFor="username" className="form-label">Username</label>
-                                    <input type="text" defaultValue={val.Username} style={{ width: "300px" }} className="form-control" onChange={(event) => { setNewUsername(event.target.value) }} />
-
-                                    <label htmlFor="password" className="form-label">Password</label>
-                                    <input type="password" defaultValue={val.Password} style={{ width: "300px" }} className="form-control" placeholder="Enter password" onChange={(event) => { setNewPassword(event.target.value) }} />
-
+                                   
                                     <label htmlFor="name" className="form-label">Name</label>
                                     <input type="text" defaultValue={val.User_fname} style={{ width: "300px" }} className="form-control" placeholder="Enter name" onChange={(event) => { setNewName(event.target.value) }} />
 
