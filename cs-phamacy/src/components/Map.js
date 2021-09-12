@@ -2,7 +2,6 @@ import './Map.css'
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, {useState } from 'react';
-import { divIcon } from 'leaflet';
 import L from 'leaflet';
 
 
