@@ -30,7 +30,7 @@ export default function Admin() {
     const now = new Date().toISOString().split("T")[0];
 
     const getCustomer = () => {
-        Axios.get('http://localhost:4002/customer').then((response) => {
+        Axios.get('http://localhost:4007/customer').then((response) => {
             setCustomerList(response.data);
             console.log(customerList);
             console.log(response);
@@ -39,7 +39,7 @@ export default function Admin() {
 
     
     const editCustomer = (User_ID) => {
-        Axios.put('http://localhost:4002/edit',{
+        Axios.put('http://localhost:4007/edit',{
             User_ID: User_ID
         }).then((response) => {
             setcustomerEdit(response.data);
@@ -51,7 +51,7 @@ export default function Admin() {
     
     
     const updateCustomer = (User_ID) => {
-        Axios.put("http://localhost:4002/update", {
+        Axios.put("http://localhost:4007/update", {
             Username: newUsername || customerEdit[0].Username,
             Password: newPassword || customerEdit[0].Password,
             User_fname: newName || customerEdit[0].User_fname,
@@ -83,7 +83,7 @@ export default function Admin() {
         })
     }
     const deleteCustomer = (User_ID) => {
-        Axios.delete(`http://localhost:4002/delete/${User_ID}`).then((reponse) => {
+        Axios.delete(`http://localhost:4007/delete/${User_ID}`).then((reponse) => {
             setCustomerList(
                 customerList.filter((val) => {
                     return val.User_ID != User_ID;

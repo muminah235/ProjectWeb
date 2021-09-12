@@ -15,7 +15,7 @@ export default function PharmacistLogin() {
     const [LoginStatus, setLoginStatus] = useState("");
     const login = (e) => {
       e.preventDefault();
-      Axios.post("http://localhost:4002/pharmalogin", {
+      Axios.post("http://localhost:4007/pharmalogin", {
         username: Username,
         password: Password,
       }).then((response) => {

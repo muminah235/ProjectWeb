@@ -13,7 +13,7 @@ export default function Navbar() {
 
     const seachtext = (e) => {
         e.preventDefault();
-        Axios.get('http://localhost:4002/search',{
+        Axios.get('http://localhost:4007/search',{
             seachtext: SearchText
         }).then((response) => {
            console.log(response)

@@ -34,14 +34,14 @@ export default function AddProduct() {
     e.preventDefault();
     const formData = new FormData()
     formData.append('img',product.file);
-    Axios.post('http://localhost:4002/upload' ,formData,{
+    Axios.post('http://localhost:4007/upload' ,formData,{
       headers:{"Content-type": "multipart/form-data"},
     }).then(res=>{
       e.preventDefault();
       console.warn(res);
     })
     e.preventDefault();
-    Axios.post('http://localhost:4002/addproduct' ,{
+    Axios.post('http://localhost:4007/addproduct' ,{
       name: Product_name,
       detail: Product_detail,
       price: Product_price,
@@ -56,7 +56,7 @@ export default function AddProduct() {
     e.preventDefault();
     
     
-    /*Axios.post('http://localhost:4002/addproduct', {
+    /*Axios.post('http://localhost:4007/addproduct', {
       name: Product_name,
       detail: Product_detail,
       price: Product_price,

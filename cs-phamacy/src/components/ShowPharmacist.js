@@ -9,14 +9,14 @@ export default function ShowPharmacist() {
     const [pharmaEdit,setpharmaEdit] = useState([]);
 
     const getPharmacist = () => {
-        Axios.get('http://localhost:4002/pharmacist').then((response) => {
+        Axios.get('http://localhost:4007/pharmacist').then((response) => {
             setPharmaList(response.data);
             console.log(pharmaList);
             console.log(response);
         })
     }
     const editPharmacist = (Pharma_ID) => {
-        Axios.put('http://localhost:4002/PharmaEdit',{
+        Axios.put('http://localhost:4007/PharmaEdit',{
             Pharma_ID: Pharma_ID
         }).then((response) => {
             setpharmaEdit(response.data);
@@ -26,7 +26,7 @@ export default function ShowPharmacist() {
     }
 
     const updatePharmacist = (Pharma_ID) => {
-        Axios.put("http://localhost:4002/updatePharmacist", {
+        Axios.put("http://localhost:4007/updatePharmacist", {
             Username: newUsername || pharmaEdit[0].Username,
             Password: newPassword || pharmaEdit[0].Password,
             Pharma_fname: newName || pharmaEdit[0].Pharma_fname,
@@ -52,7 +52,7 @@ export default function ShowPharmacist() {
     }
 
     const deletePharmacist = (Pharma_ID) => {
-        Axios.delete(`http://localhost:4002/deletePharmacist/${Pharma_ID}`).then((reponse) => {
+        Axios.delete(`http://localhost:4007/deletePharmacist/${Pharma_ID}`).then((reponse) => {
             setPharmaList(
                 pharmaList.filter((val) => {
                     return val.Pharma_ID != Pharma_ID;

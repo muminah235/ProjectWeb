@@ -14,7 +14,7 @@ export default function AdminLogin() {
     const [LoginStatus, setLoginStatus] = useState("");
     const login = (e) => {
       e.preventDefault();
-      Axios.post("http://localhost:4002/adminlogin", {
+      Axios.post("http://localhost:4007/adminlogin", {
         username: Username,
         password: Password,
       }).then((response) => {

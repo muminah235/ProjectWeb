@@ -19,7 +19,7 @@ export default function HomeScreens(props) {
 
     useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showproduct');
+            const { data } = await Axios.get('http://localhost:4007/showproduct');
             console.log("data");
             setProductsList(data);
             console.warn(data)
@@ -41,7 +41,7 @@ export default function HomeScreens(props) {
         const search = SearchText.replace(/\'/gi,'')
         console.log("search: "+ search)
         console.log("serach text: "+ SearchText)
-        Axios.put('http://localhost:4002/search',{
+        Axios.put('http://localhost:4007/search',{
             seachtext: search
         }).then((response) => {
            console.log(response)
@@ -50,7 +50,7 @@ export default function HomeScreens(props) {
     }
 
     const head = () =>{
-        Axios.put('http://localhost:4002/cat',{
+        Axios.put('http://localhost:4007/cat',{
             type: 1
         }).then((response) => {
            console.log(response)
@@ -59,7 +59,7 @@ export default function HomeScreens(props) {
     }
 
     const stomach = () =>{
-        Axios.put('http://localhost:4002/cat',{
+        Axios.put('http://localhost:4007/cat',{
             type: 2
         }).then((response) => {
            console.log(response)
@@ -68,7 +68,7 @@ export default function HomeScreens(props) {
     }
 
     const nasal = () =>{
-        Axios.put('http://localhost:4002/cat',{
+        Axios.put('http://localhost:4007/cat',{
             type: 3
         }).then((response) => {
            console.log(response)
@@ -77,7 +77,7 @@ export default function HomeScreens(props) {
     }
     /*useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/test');
+            const { data } = await Axios.get('http://localhost:4007/test');
             console.log("data");
             setProductsList(data);
             console.log(data)

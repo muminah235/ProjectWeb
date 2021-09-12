@@ -27,7 +27,7 @@ const Itemcard = (props) => {
     const Username = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+            const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
@@ -64,7 +64,7 @@ const Itemcard = (props) => {
                 console.log("cart list")
                 if(props.Product_id === parseInt(cartList[i].id)){
                     console.log("cart list")
-                    Axios.put("http://localhost:4002/updateCart", {
+                    Axios.put("http://localhost:4007/updateCart", {
                     Username: Username,
                     Cart_id: saveCartID,
                     Product_id: cartList[i].id,
@@ -74,7 +74,7 @@ const Itemcard = (props) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+                        const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
@@ -84,7 +84,7 @@ const Itemcard = (props) => {
                     
                     if(Cart_ID >=1){
                         console.log("no math")
-                        Axios.post('http://localhost:4002/order', {
+                        Axios.post('http://localhost:4007/order', {
                         Username: Username,
                         Product_ID: parseInt(props.Product_id),
                         Cart_ID: saveCartID,
@@ -99,7 +99,7 @@ const Itemcard = (props) => {
                     })
                     
                     const fecthData = async () => {
-                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+                        const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
@@ -126,7 +126,7 @@ const Itemcard = (props) => {
             localStorage.setItem('lastUser_ID', saveUserID);
             
             if(Cart_ID >=1){
-                Axios.post('http://localhost:4002/order', {
+                Axios.post('http://localhost:4007/order', {
                 Username: Username,
                 Product_ID: props.Product_id,
                 Cart_ID: Cart_ID,
@@ -141,7 +141,7 @@ const Itemcard = (props) => {
                 
             })
             const fecthData = async () => {
-                const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+                const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
                 console.log("cart");
                 setcartList(data);
                 console.warn(data)
@@ -151,7 +151,7 @@ const Itemcard = (props) => {
         }
     }
     /*const addtoDatabase = (e) => {
-        Axios.post('http://localhost:4002/addTocart', {
+        Axios.post('http://localhost:4007/addTocart', {
         name: props.Product_name,
         detail: props.Product_detail,
         price : props.Product_price,
@@ -163,7 +163,7 @@ const Itemcard = (props) => {
       })
     }*/
     /*const addItem = (id) => {
-        Axios.put('http://localhost:4002/addToCart',{
+        Axios.put('http://localhost:4007/addToCart',{
             id: id
         }).then((response) => {
             setcartList(response.data);

@@ -31,14 +31,14 @@ export default function CustomerScreen(props) {
     const Username = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showproduct');
+            const { data } = await Axios.get('http://localhost:4007/showproduct');
             console.log("data");
             setProductsList(data);
             console.warn(data)
         };
         fecthData();
         const fecthCart = async () => {
-            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+            const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
@@ -53,7 +53,7 @@ export default function CustomerScreen(props) {
 
     /*useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showproduct');
+            const { data } = await Axios.get('http://localhost:4007/showproduct');
             console.log("data");
             
             console.warn(data)
@@ -75,7 +75,7 @@ export default function CustomerScreen(props) {
 
     /*useEffect((e) => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/test');
+            const { data } = await Axios.get('http://localhost:4007/test');
             console.log("data");
             setProductsList(data);
             console.log(data)
@@ -84,7 +84,7 @@ export default function CustomerScreen(props) {
 
     /*useEffect((e) => {
         const fecthUserID = async (e) => {
-            Axios.put('http://localhost:4002/userID', {
+            Axios.put('http://localhost:4007/userID', {
                 username: UsernameLogin,
             }).then((response) => {
                 console.log(response.data[0].User_ID);
@@ -99,7 +99,7 @@ export default function CustomerScreen(props) {
         
     }, []);*/
     const fecthUserID = async (e) => {
-        Axios.put('http://localhost:4002/userID', {
+        Axios.put('http://localhost:4007/userID', {
             username: UsernameLogin,
         }).then((response) => {
             console.log(response.data[0].User_ID);
@@ -114,7 +114,7 @@ export default function CustomerScreen(props) {
     const searchtext = (e) => {
         const search = SearchText.replace(/\'/gi,'')
         console.log("search: "+ search)
-        Axios.put('http://localhost:4002/search',{
+        Axios.put('http://localhost:4007/search',{
             seachtext:  search
         }).then((response) => {
            console.log(response)
@@ -123,7 +123,7 @@ export default function CustomerScreen(props) {
     }
     
     const head = () =>{
-        Axios.put('http://localhost:4002/cat',{
+        Axios.put('http://localhost:4007/cat',{
             type: 1
         }).then((response) => {
            console.log(response)
@@ -132,7 +132,7 @@ export default function CustomerScreen(props) {
     }
 
     const stomach = () =>{
-        Axios.put('http://localhost:4002/cat',{
+        Axios.put('http://localhost:4007/cat',{
             type: 2
         }).then((response) => {
            console.log(response)
@@ -141,7 +141,7 @@ export default function CustomerScreen(props) {
     }
 
     const nasal = () =>{
-        Axios.put('http://localhost:4002/cat',{
+        Axios.put('http://localhost:4007/cat',{
             type: 3
         }).then((response) => {
            console.log(response)
@@ -150,7 +150,7 @@ export default function CustomerScreen(props) {
     }
 
     /*const fecthCart = async (e) => {
-        Axios.put('http://localhost:4002/cusCart', {
+        Axios.put('http://localhost:4007/cusCart', {
             username: UsernameLogin,
         }).then((response) => {
             console.log(response.data);

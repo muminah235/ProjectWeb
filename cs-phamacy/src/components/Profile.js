@@ -28,7 +28,7 @@ export default function Profile() {
     useEffect(() => {
         console.log("UsernameLogin: " + UsernameLogin);
         const fecthData = async () => {
-            Axios.put('http://localhost:4002/profile', {
+            Axios.put('http://localhost:4007/profile', {
                 username: UsernameLogin,
             }).then((response) => {
                 console.log(response.data);
@@ -41,7 +41,7 @@ export default function Profile() {
     }, []);
 
     const editCustomer = (User_ID) => {
-        Axios.put('http://localhost:4002/edit',{
+        Axios.put('http://localhost:4007/edit',{
             User_ID: User_ID
         }).then((response) => {
             setcustomerEdit(response.data);
@@ -51,7 +51,7 @@ export default function Profile() {
     }
 
     const updateCustomer = (User_ID) => {
-        Axios.put("http://localhost:4002/update", {
+        Axios.put("http://localhost:4007/update", {
             Username: newUsername || customerEdit[0].Username,
             Password: newPassword || customerEdit[0].Password,
             User_fname: newName || customerEdit[0].User_fname,
@@ -107,6 +107,8 @@ export default function Profile() {
 
                                     <label htmlFor="tel" className="form-label">Tel number</label>
                                     <input type="tel" defaultValue={val.User_tel} style={{ width: "300px" }} className="form-control" onChange={(event) => { setNewTel(event.target.value) }} />
+
+                                    <label htmlFor="tel" className="form-label">Chat Room : {val.Chat_room}</label>   
 
                                     <button className="btn btn-warning" onClick={() => { editCustomer(val.User_ID) }}>Edit</button>
                                     <button className="btn btn-warning" onClick={() => { updateCustomer(val.User_ID) }}>Update</button>

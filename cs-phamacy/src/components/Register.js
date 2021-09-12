@@ -16,8 +16,10 @@ export default function Register() {
     const [registerStatus, setRegisterStatus] = useState("");
 
     const register = (e) => {
+      const rand = Math.floor(Math.random() * 100000+10000);
+      console.log(rand);
       e.preventDefault();
-      Axios.post('http://localhost:4002/register', {
+      Axios.post('http://localhost:4007/register', {
         username: Username,
         password: Password,
         PasswordConfirm : PasswordConfirm,
@@ -25,7 +27,8 @@ export default function Register() {
         surname: User_lname,
         birthday: User_birthday,
         address: User_address,
-        tel: User_tel
+        tel: User_tel,
+        room: rand
       }).then((response) => {
         e.preventDefault();
         console.log(response);

@@ -5,7 +5,8 @@ import { useEffect} from 'react';
 import Axios from 'axios'
 import ReactDOM from 'react-dom';
 
-const socket = io.connect("http://localhost:3001")
+const socket = io.connect("http://localhost:3006")
+
 export default function ChatHome() {
     const [username,setUsername] = useState("");
     const [room,setRoom] = useState("");
@@ -15,7 +16,7 @@ export default function ChatHome() {
 
     const joinRoom = (e) =>{
         if(username !== "" && room != ""){
-            Axios.post("http://localhost:4002/chatlogin", {
+            Axios.post("http://localhost:4007/chatlogin", {
             username: username,
             }).then((response) => {
                 if(response.data.message){

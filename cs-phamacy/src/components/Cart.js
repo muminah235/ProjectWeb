@@ -21,7 +21,7 @@ const Cart = (props) => {
     } = useCart();
     /*useEffect(() => {
         const fecthCart = async () => {
-            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+            const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
@@ -36,7 +36,7 @@ const Cart = (props) => {
     ///เพิ่มค่า price
     /*useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get('http://localhost:4002/showproduct');
+            const { data } = await Axios.get('http://localhost:4007/showproduct');
             console.log("data");
             
             console.warn(data)
@@ -53,7 +53,7 @@ const Cart = (props) => {
     
     useEffect(() => {
         const fecthData = async () => {
-            const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+            const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
             console.log("cart");
             setcartList(data);
             console.warn(data)
@@ -84,7 +84,7 @@ const Cart = (props) => {
                 if(itemID === parseInt(cartList[i].id)){
                     console.log("DELETE")
                     console.log(cartList[i])
-                    Axios.put("http://localhost:4002/updateCart", {
+                    Axios.put("http://localhost:4007/updateCart", {
                     Cart_id: saveCartID,
                     Product_id: cartList[i].id,
                     num: (parseInt(cartList[i].Cart_Amount) - 1),
@@ -92,7 +92,7 @@ const Cart = (props) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+                        const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
@@ -123,7 +123,7 @@ const Cart = (props) => {
             for(let i = 0; i < cartList.length; i++){
                 if(parseInt(itemID) === parseInt(cartList[i].id)){
                     console.log("plus")
-                    Axios.put("http://localhost:4002/updateCart", {
+                    Axios.put("http://localhost:4007/updateCart", {
                     Cart_id: saveCartID,
                     Product_id: cartList[i].id,
                     num: (parseInt(cartList[i].Cart_Amount) + 1),
@@ -131,7 +131,7 @@ const Cart = (props) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get(`http://localhost:4002/showcart/${Username}`);
+                        const { data } = await Axios.get(`http://localhost:4007/showcart/${Username}`);
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)
@@ -144,7 +144,7 @@ const Cart = (props) => {
     }
     const removetoCart = (itemID) => {
         const Cart_ID = parseInt(localStorage.getItem("Cart_ID"));
-        Axios.delete(`http://localhost:4002/deletetoCart/${itemID}/${Cart_ID}`).then((reponse) => {
+        Axios.delete(`http://localhost:4007/deletetoCart/${itemID}/${Cart_ID}`).then((reponse) => {
             setcartList(
                 cartList.filter((val) => {
                     return val.Product_ID != itemID;
@@ -170,14 +170,14 @@ const Cart = (props) => {
                 if(itemID === parseInt(cartList[i].Product_ID)){
                     console.log("DELETE")
                     console.log(cartList[i])
-                    Axios.delete("http://localhost:4002/daletetoCart", {
+                    Axios.delete("http://localhost:4007/daletetoCart", {
                     Product_id: cartList[i].Product_ID,
                     
                     }).then((response) => {
                         console.log(response);
                     })
                     const fecthData = async () => {
-                        const { data } = await Axios.get('http://localhost:4002/showcart');
+                        const { data } = await Axios.get('http://localhost:4007/showcart');
                         console.log("cart");
                         setcartList(data);
                         console.warn(data)

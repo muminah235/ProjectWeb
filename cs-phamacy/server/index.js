@@ -3,16 +3,18 @@ const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+
 const { response } = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const multer =require('multer');
 const http = require('http')
-
 const publicDirectory=path.join(__dirname,'./public')
-
+const writeFileP = require("write-file-p");
 const {Server} = require("socket.io")
+const fs = require('fs')
+const bcrypt = require('bcryptjs');
+
 
 app.use(express.static(publicDirectory));
 app.use(cors());
@@ -36,11 +38,23 @@ io.on("connection",(socket)=>{
     })
 
     
-    socket.on("send_message",(data)=>{
+    socket.on("send_message",(data)=>{ 
         socket.to(data.room).emit("receive_message",data)
     })
-    socket.on("disconnect",()=>{
+
+    socket.on("send_messageList",(data,room)=>{
+        console.log(data)
+        if(data !== ""){
+            writeFileP(`${__dirname}/chat/${room}.txt`, data, (err, data) => {
+            console.log(err || data);
+            });
+        }
+        
+    })
+    
+    socket.on("disconnect",(data)=>{
         console.log("User Disconnected",socket.id)
+        
     });
 });
 
@@ -51,6 +65,7 @@ const storage = multer.diskStorage({
         cb(null,file.originalname)
     }
 })
+
 
 
 const db = mysql.createConnection({
@@ -66,6 +81,8 @@ db.connect((error) => {
         console.log("Mysql Connected")
     }
 })
+
+
 
 app.get("/",(req,res)=>{
     res.send("hello wolrd");
@@ -170,6 +187,26 @@ app.put('/search',(req ,res)=>{
             res.send(result);
         }
     });
+
+});
+app.put('/history',(req ,res)=>{
+    const room = req.body.room;
+    console.log("room: "+room);
+    try {
+        const data = fs.readFileSync(`${__dirname}/chat/${room}.txt`, 'utf8')
+        console.log(data)
+        console.log("complete")
+        res.send(data);
+    } catch (err) {
+        console.error(err)
+    }
+    /*db.query("SELECT * from product WHERE name  LIKE ? ",[search],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });*/
 
 });
 
@@ -420,7 +457,7 @@ app.post('/order',(req,res)=>{
 
 
 app.post('/register', (req, res) => {
-    const { username, name, surname, tel ,birthday, address, password, PasswordConfirm } = req.body;
+    const { username, name, surname, tel ,birthday, address, password, PasswordConfirm,room } = req.body;
     console.log(req.body)
 
     db.query("SELECT Username FROM customer WHERE Username = ?", [username], async (error, results) => {
@@ -436,8 +473,10 @@ app.post('/register', (req, res) => {
             res.send({message: "Password do not match"});
         }else if((username !== results) && (password == PasswordConfirm)){
             console.log("correct")
-            db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel) VALUES(?,?,?,?,?,?,?)",
-            [username, password, name, surname, birthday, address, tel],
+            let hashedPassword = await bcrypt.hash(password, 8);
+            console.log(hashedPassword);
+            db.query("INSERT INTO customer(Username,Password,User_fname,User_lname,User_birthday,User_address,User_tel,Chat_room) VALUES(?,?,?,?,?,?,?,?)",
+            [username, hashedPassword, name, surname, birthday, address, tel,room],
             (err, result) => {
                 if (err) {
                     console.log(err);
@@ -455,7 +494,7 @@ app.post('/register', (req, res) => {
 })
 
 app.post("/login",  (req, res) => {
-
+    try {
     const Username = req.body.username;
     const Password = req.body.password;
     
@@ -465,18 +504,21 @@ app.post("/login",  (req, res) => {
         return;
     }
 
-    db.query("SELECT * FROM customer WHERE Username = ? AND Password = ? ", [Username, Password], (err, result) => {
+    db.query("SELECT * FROM customer WHERE Username = ?  ", [Username], (err, result) => {
         console.log(result);
         if (err) {
             res.send({ err: err });
         } else {
-            if (result.length > 0) {
+            if (bcrypt.compare( Password , result[0].Password)) {
                 res.send(result);
             } else {
                 res.send({ message: "Wrong username/password" });
             }
         }
     })
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 app.post("/chatlogin",  (req, res) => {
@@ -588,7 +630,7 @@ app.put('/cusCart',(req ,res)=>{
 app.put('/profile',(req ,res)=>{
     const username = req.body.username;
     console.log("username: "+ username);
-    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer WHERE Username = ?"  ,[username],(err,result)=>{
+    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel,Chat_room from customer WHERE Username = ?"  ,[username],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -597,11 +639,11 @@ app.put('/profile',(req ,res)=>{
     });
    
 });
-app.listen('4002', () => {
-    console.log('Sever is running on port 4002');
+app.listen('4007', () => {
+    console.log('Sever is running on port 4006');
 })
 
-server.listen('3001',()=>{
-    console.log('Socket is running on port 3001');
+server.listen('3006',()=>{
+    console.log('Socket is running on port 3005');
 })
 

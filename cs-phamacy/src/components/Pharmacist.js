@@ -50,7 +50,7 @@ const Pharmacist = (props) => {
 
   useEffect(() => {
     const fecthData = async () => {
-      const { data } = await Axios.get('http://localhost:4002/showproduct');
+      const { data } = await Axios.get('http://localhost:4007/showproduct');
       console.log("data");
       setProductsList(data);
       console.warn(data)
@@ -61,7 +61,7 @@ const Pharmacist = (props) => {
 
 
   const getCustomer = () => {
-    Axios.get('http://localhost:4002/customer').then((response) => {
+    Axios.get('http://localhost:4007/customer').then((response) => {
       setCustomerList(response.data);
       console.log(customerList);
       console.log(response);
@@ -70,13 +70,13 @@ const Pharmacist = (props) => {
 
   const editCart = async (User) => {
     
-    const { data } = await Axios.get(`http://localhost:4002/showcart/${User}`);
+    const { data } = await Axios.get(`http://localhost:4007/showcart/${User}`);
     console.log("cart");
     setcartList(data);
     console.warn(data)
     localStorage.setItem('user',  JSON.stringify(User));
     
-    /*Axios.put('http://localhost:4002/showcartPharma',{
+    /*Axios.put('http://localhost:4007/showcartPharma',{
           username: User
       }).then((response) => {
           setcartList(response.data);
