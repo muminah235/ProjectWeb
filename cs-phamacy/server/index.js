@@ -130,6 +130,18 @@ app.put('/PharmaEdit',(req ,res)=>{
     });
    
 });
+app.put('/productEdit',(req ,res)=>{
+    const id = req.body.Product_ID;
+    console.log(id);
+    db.query("SELECT * from product WHERE id = ?"  ,[id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+   
+});
 
 app.put('/addToCart',(req ,res)=>{
     const id = req.body.id;
@@ -144,7 +156,7 @@ app.put('/addToCart',(req ,res)=>{
 });
 
 app.get('/customer',(req ,res)=>{
-    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel from customer ",(err,result)=>{
+    db.query("SELECT DATE_FORMAT(User_birthday, '%Y-%m-%d') AS User_birthday,Admin_ID,Chat_ID,Order_ID,User_ID,Username,Password,User_fname,User_lname,User_address,User_tel,Chat_room from customer ",(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -227,6 +239,18 @@ app.put('/cat',(req ,res)=>{
 app.get('/showcart/:Username',(req ,res)=>{
     const Username = req.params.Username;
     db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+app.put('/orderCus',(req ,res)=>{
+    const Username = req.body.Username;
+    console.log(Username)
+    db.query("SELECT * from customer WHERE Username = ? ",[Username],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -334,17 +358,39 @@ app.post('/addproduct',(req,res)=>{
 app.put('/updatePharmacist',(req,res)=>{
     const id = req.body.Pharma_ID;
     const username = req.body.Username;
-    const password = req.body.Password;
+    
     const fname = req.body.Pharma_fname;
     const surname = req.body.Pharma_lname;
     console.log("id: "+ id);
     console.log("username: "+ username);
-    console.log("password: "+ password);
+    
     console.log("fname: "+ fname);
     console.log("surname: "+ surname);
 
 
-    db.query("UPDATE pharmacist SET Username = ? ,Password = ?,Pharma_fname = ? ,Pharma_lname = ?  WHERE Pharma_ID = ?",[username,password,fname,surname,id],(err,result)=>{
+    db.query("UPDATE pharmacist SET Username = ?,Pharma_fname = ? ,Pharma_lname = ?  WHERE Pharma_ID = ?",[username,fname,surname,id],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
+app.put('/updateProduct',(req,res)=>{
+    const id = req.body.id;
+    const name = req.body.name;
+    
+    const detail = req.body.detail;
+    const price = req.body.price;
+    console.log("id: "+ id);
+    console.log("name: "+ name);
+    
+    console.log("detail: "+ detail);
+    console.log("price: "+ price);
+
+
+    db.query("UPDATE product SET name = ?,detail = ? ,price = ?  WHERE id = ?",[name,detail,price,id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -363,6 +409,18 @@ app.delete('/deletePharmacist/:Pharma_ID',(req,res) =>{
         }
     })
 })
+
+app.delete('/deleteProduct/:id',(req,res) =>{
+    const id = req.params.id;
+    db.query("DELETE FROM product WHERE id = ?",id,(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
 app.delete('/deletetoCart/:itemID/:Cart_ID',(req,res) =>{
     const id = req.params.itemID;
     const Cartid = req.params.Cart_ID;
@@ -380,7 +438,7 @@ app.delete('/deletetoCart/:itemID/:Cart_ID',(req,res) =>{
 app.put('/update',(req,res)=>{
     const id = req.body.User_ID;
     const username = req.body.Username;
-    const password = req.body.Password;
+    
     const fname = req.body.User_fname;
     const surname = req.body.User_lname;
     const birthday = req.body.User_birthday;
@@ -388,7 +446,7 @@ app.put('/update',(req,res)=>{
     const tel = req.body.User_tel;
     console.log("id: "+ id);
     console.log("username: "+ username);
-    console.log("password: "+ password);
+    
     console.log("fname: "+ fname);
     console.log("surname: "+ surname);
     console.log("birthday: "+ birthday);
@@ -396,7 +454,7 @@ app.put('/update',(req,res)=>{
     console.log("tel: "+ tel);
 
 
-    db.query("UPDATE customer SET Username = ? ,Password = ?,User_fname = ? ,User_lname = ? ,User_birthday = ?,User_address = ?,User_tel =?  WHERE User_ID = ?",[username,password,fname,surname,birthday,address,tel,id],(err,result)=>{
+    db.query("UPDATE customer SET Username = ? ,User_fname = ? ,User_lname = ? ,User_birthday = ?,User_address = ?,User_tel =?  WHERE User_ID = ?",[username,fname,surname,birthday,address,tel,id],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -524,26 +582,39 @@ app.post("/login",  (req, res) => {
 app.post("/chatlogin",  (req, res) => {
 
     const Username = req.body.username;
+    const room = req.body.room;
     console.log("Username: "+Username)
-    
+    console.log("Room: "+room)
     if (!Username) {
         console.log("no username");
         res.send({message: "no username"});
         return;
     }
-
-    db.query("SELECT * FROM customer WHERE Username = ? ", [Username], (err, result) => {
-       
+    if(room !== "1234"){
+        db.query("SELECT * FROM customer WHERE Username = ? && Chat_room = ?  ", [Username,room], (err, result) => {
+            if (err) {
+                res.send({ err: err });
+            } else {
+                if (result.length > 0) {
+                    res.send(result);
+                } else {
+                    res.send({ message: "Wrong username" }); 
+                }
+            }
+        })
+    }else db.query("SELECT * FROM customer WHERE Username = ?   ", [Username], (err, result) => {
         if (err) {
             res.send({ err: err });
         } else {
             if (result.length > 0) {
                 res.send(result);
             } else {
-                res.send({ message: "Wrong username" });
+                res.send({ message: "Wrong username" }); 
             }
         }
     })
+    
+
 })
 
 

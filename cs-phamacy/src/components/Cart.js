@@ -48,6 +48,7 @@ const Cart = (props) => {
     }, []);*/
     localStorage.setItem('Cart_ID', "1");
     const [cartList,setcartList] = useState([]);
+    const [customerList,setCustomerList] = useState([]);
     const [productID,setProductID] = useState("");
     const Username = JSON.parse(localStorage.getItem("user"));
     
@@ -62,8 +63,11 @@ const Cart = (props) => {
             }
         };
         fecthData();
+        
+
     }, []);
 
+    
     const deleteCart = (itemID) =>{
         const Username = JSON.parse(localStorage.getItem("user"));
         console.log(Username);
@@ -188,7 +192,19 @@ const Cart = (props) => {
             localStorage.setItem('lastUser_ID', saveUserID);
         }
     }*/
-
+    const buynow = (user)=>{
+        console.log(user)
+        Axios.put('http://localhost:4007/orderCus',{
+            Username: user
+        }).then((response) => {
+            setCustomerList(response.data);
+            console.log(response);
+        })
+        const total = cartTotal;
+        console.log(total)
+        
+    }
+    
     return (
         <section className="py-4 container">
             <div className="row justify-content-center">
@@ -219,7 +235,7 @@ const Cart = (props) => {
                 </div>
                 <div className="col-auto ">
                     <button className="btn btn-danger m-2" onClick={() => emptyCart()}>Clear Cart</button>
-                    <button className="btn btn-primary m-2" >Buy now</button>
+                    <button className="btn btn-primary m-2" onClick={() => buynow(Username)}>Buy now</button>
                 </div>
             </div>
         </section>

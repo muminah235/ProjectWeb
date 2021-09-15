@@ -26,6 +26,7 @@ export default function Admin() {
     const [customerEdit,setcustomerEdit] = useState([]);
     const [pharmaList, setPharmaList] = useState([]);
     
+    const [showButton,setShowButton] = useState(false); 
 
     const now = new Date().toISOString().split("T")[0];
 
@@ -45,6 +46,7 @@ export default function Admin() {
             setcustomerEdit(response.data);
             console.log("customerEdit: "+customerEdit);
             console.log(response);
+            setShowButton(true)
         })
     }
 
@@ -53,7 +55,7 @@ export default function Admin() {
     const updateCustomer = (User_ID) => {
         Axios.put("http://localhost:4007/update", {
             Username: newUsername || customerEdit[0].Username,
-            Password: newPassword || customerEdit[0].Password,
+            
             User_fname: newName || customerEdit[0].User_fname,
             User_lname: newSurname || customerEdit[0].User_lname,
             User_birthday: newBirthDay || customerEdit[0].User_birthday,
@@ -67,7 +69,7 @@ export default function Admin() {
                 customerList.map((val) => {
                     return val.User_ID == User_ID ? {
                         Username: newUsername || val.Username,
-                        Password: newPassword || val.Password,
+                       
                         User_fname: newName || val.User_fname,
                         User_lname: newSurname || val.User_lname,
                         User_birthday: newBirthDay || val.User_birthday,
@@ -97,6 +99,7 @@ export default function Admin() {
         <h1>Admin</h1>
         <button className="btn btn-primary" onClick={getCustomer}>Show customer</button>
         <a class = "navbar-brand" href="/showpharmacist">Show pharmacist</a>
+        <a class = "navbar-brand" href="/showproduct">Show product</a>
         <a class = "navbar-brand" href="/addproduct">Add product</a>
         
           {customerList.map((val, key) => {
@@ -104,18 +107,17 @@ export default function Admin() {
               <div className="customer card">
                 <div className="card-body terxt-left ">
                   <p className="card-text">Username:{val.Username}</p>
-                  <p className="card-text">Password:{val.Password}</p>
                   <p className="card-text">Name:{val.User_fname}</p>
                   <p className="card-text">Surname:{val.User_lname}</p>
                   <p className="card-text">Birthday:{val.User_birthday}</p>
                   <p className="card-text">Address:{val.User_address}</p>
                   <p className="card-text">Tel number:{val.User_tel}</p>
+                  <p className="card-text">Chat room:{val.Chat_room}</p>
+                  
                   <div className="mb-3">
+                    <fieldset >
                     <label htmlFor="username" className="form-label">Username</label>
                     <input type="text" defaultValue={val.Username} style={{ width: "300px" }} className="form-control" onChange={(event) => {setNewUsername(event.target.value) }} />
-
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password"  defaultValue={val.Password}  style={{ width: "300px" }} className="form-control" placeholder="Enter password" onChange={(event) => { setNewPassword(event.target.value) }} />
 
                     <label htmlFor="name" className="form-label">Name</label>
                     <input type="text" defaultValue={val.User_fname} style={{ width: "300px" }} className="form-control" placeholder="Enter name" onChange={(event) => { setNewName(event.target.value) }} />
@@ -132,10 +134,17 @@ export default function Admin() {
                     
                     <label htmlFor="tel" className="form-label">Tel number</label>
                     <input type="tel"  defaultValue={val.User_tel}  style={{ width: "300px" }}  className="form-control" onChange={(event) => { setNewTel(event.target.value) }} />
-                    
-                    <button className="btn btn-warning" onClick={() => { editCustomer(val.User_ID) }}>Edit</button>
+                    </fieldset>
+                    {!showButton ? (
+                    <button className="btn btn-warning" onClick={() => { editCustomer(val.User_ID) } } >Edit</button>
+                    ):
+                    <div>
                     <button className="btn btn-warning" onClick={() => { updateCustomer(val.User_ID) }}>Update</button>
                     <button className="btn btn-danger" onClick={() => { deleteCustomer(val.User_ID) }}>Delete</button>
+                    </div>
+                    }
+                    
+                   
                     
                   </div>
                 </div>

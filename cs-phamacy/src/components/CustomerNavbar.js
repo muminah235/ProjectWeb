@@ -23,6 +23,8 @@ export default function CustomerNavbar() {
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/profile">ข้อมูลส่วนตัว</a>
+                        </li><li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/chat">แชท</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/logout">ล็อกเอ้าท์</a>

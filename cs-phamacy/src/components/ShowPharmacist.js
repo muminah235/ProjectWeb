@@ -28,7 +28,7 @@ export default function ShowPharmacist() {
     const updatePharmacist = (Pharma_ID) => {
         Axios.put("http://localhost:4007/updatePharmacist", {
             Username: newUsername || pharmaEdit[0].Username,
-            Password: newPassword || pharmaEdit[0].Password,
+            
             Pharma_fname: newName || pharmaEdit[0].Pharma_fname,
             Pharma_lname: newSurname || pharmaEdit[0].Pharma_lname,
             Pharma_ID: Pharma_ID
@@ -39,7 +39,7 @@ export default function ShowPharmacist() {
                 pharmaList.map((val) => {
                     return val.Pharma_ID == Pharma_ID ? {
                         Username: newUsername || val.Username,
-                        Password: newPassword || val.Password,
+                        
                         Pharma_fname: newName || val.Pharma_fname,
                         Pharma_lname: newSurname || val.Pharma_lname,
                         Pharma_ID: Pharma_ID
@@ -71,7 +71,7 @@ export default function ShowPharmacist() {
             <div className="customer card">
             <div className="card-body terxt-left">
               <p className="card-text">Username:{val.Username}</p>
-              <p className="card-text">Password:{val.Password}</p>
+              
               <p className="card-text">Name:{val.Pharma_fname}</p>
               <p className="card-text">Surname:{val.Pharma_lname}</p>
             </div>
@@ -79,9 +79,7 @@ export default function ShowPharmacist() {
                     <label htmlFor="username" className="form-label">Username</label>
                     <input type="text" defaultValue={val.Username} style={{ width: "300px" }} className="form-control" onChange={(event) => {setNewUsername(event.target.value) }} />
 
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password"  defaultValue={val.Password}  style={{ width: "300px" }} className="form-control" placeholder="Enter password" onChange={(event) => { setNewPassword(event.target.value) }} />
-
+                   
                     <label htmlFor="name" className="form-label">Name</label>
                     <input type="text" defaultValue={val.Pharma_fname} style={{ width: "300px" }} className="form-control" placeholder="Enter name" onChange={(event) => { setNewName(event.target.value) }} />
                     

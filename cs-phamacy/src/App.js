@@ -28,6 +28,7 @@ import ChatHomePage from './containers/ChatHome'
 import ChatLogin from './containers/Chat'
 import ChatRegister from './containers/RegisterPage'
 import Map from './components/Map'
+import ShowProduct from './components/ShowProduct';
  
 function App() {
   const saveUsername = localStorage.getItem("user");
@@ -59,6 +60,7 @@ function App() {
           <Route path="/chatlogin" component={ChatLogin}/>
           <Route path="/chatregister" component={ChatRegister}/>
           <Route path="/map" component={Map}/>
+          <Route path="/showproduct" component={ShowProduct}/>
         </Router>
       </div>
       

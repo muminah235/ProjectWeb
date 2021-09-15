@@ -48,7 +48,12 @@ export default function HomeScreens(props) {
            setProductsList(response.data)
         })
     }
-
+    const allproduct = () =>{
+        Axios.get('http://localhost:4007/showproduct').then((response) => {
+           console.log(response)
+           setProductsList(response.data)
+        })
+    }
     const head = () =>{
         Axios.put('http://localhost:4007/cat',{
             type: 1
@@ -105,6 +110,7 @@ export default function HomeScreens(props) {
                 <label htmlFor="search" className="form-label">หมวดหมู่: </label>
                 </dir>
                 <dir>
+                <button className="btn btn-success" onClick={() =>  {allproduct()} }>ทั้งหมด</button>
                 <button className="btn btn-success" onClick={() =>  {head()} }>ปวดหัว</button>
                 <button className="btn btn-success" onClick={() =>  {stomach()} }>ปวดท้อง</button>
                 <button className="btn btn-success" onClick={() =>  {nasal()} }>ละลายเสมหะ</button>

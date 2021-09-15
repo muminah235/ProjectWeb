@@ -14,6 +14,7 @@ export default function Profile() {
     const [newTel, setNewTel] = useState("");
     const [customerList, setCustomerList] = useState([]);
     const [customerEdit, setcustomerEdit] = useState([]);
+    const [showButton,setShowButton] = useState(false); 
     const now = new Date().toISOString().split("T")[0];
 
     const [UsernameLogin, setUsernameLogin] = useState(() => {
@@ -47,6 +48,7 @@ export default function Profile() {
             setcustomerEdit(response.data);
             console.log(customerEdit);
             console.log(response);
+            setShowButton(true)
         })
     }
 
@@ -109,9 +111,14 @@ export default function Profile() {
                                     <input type="tel" defaultValue={val.User_tel} style={{ width: "300px" }} className="form-control" onChange={(event) => { setNewTel(event.target.value) }} />
 
                                     <label htmlFor="tel" className="form-label">Chat Room : {val.Chat_room}</label>   
-
+                                    {!showButton ? (
                                     <button className="btn btn-warning" onClick={() => { editCustomer(val.User_ID) }}>Edit</button>
+                                    ):
+                                    <div>
                                     <button className="btn btn-warning" onClick={() => { updateCustomer(val.User_ID) }}>Update</button>
+                                    </div>
+                                    }
+                                    
 
                                 </div>
                             </div>

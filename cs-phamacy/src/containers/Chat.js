@@ -7,7 +7,8 @@ import Axios from 'axios'
 export default function Chat({socket,username,room}) {
     
     const [currentMessage,setCurrentMessage] = useState("")
-    const [messageList,setMessageList] = useState([]);   
+    const [messageList,setMessageList] = useState([]);  
+    const [showButton,setButton] = useState(false); 
     const sendMessage = async () =>{
         if(currentMessage !== ""){
             const messageData = {
@@ -32,6 +33,7 @@ export default function Chat({socket,username,room}) {
         }).then((response) => {
             console.log(response.data);
             setMessageList(response.data);
+            setButton(true)
         })
 
     }
@@ -62,7 +64,6 @@ export default function Chat({socket,username,room}) {
             <div>
             <div className="chat-header">
                 <p>Live Chat</p>
-                
             </div>
             <div className="chat-body">
                 <ScrollToBottom className="message-container">
@@ -92,7 +93,13 @@ export default function Chat({socket,username,room}) {
                     event.key =="Enter" && sendMessage();
                 }}
                 />
-                <button onClick={sendMessage}>&#9658;</button>
+            {!showButton?(
+                <div>
+                Please click history
+            </div>
+            ):
+            <button onClick={sendMessage}>&#9658;</button>
+            }
             </div>
             </div>
         </div>
