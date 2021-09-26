@@ -61,6 +61,7 @@ function Map(){
     const redOptions = {color: 'red'};
 
     return (
+    <div> hello   
     <MapContainer className='map-viwe'
         center={center} 
         zoom={15}
@@ -74,7 +75,7 @@ function Map(){
             <Tooltip>ระยะในการจัดส่ง</Tooltip>      
         </CircleMarker>
         <LocationMap /> 
-    </MapContainer>
+    </MapContainer></div>
     );
 }
 

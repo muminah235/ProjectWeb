@@ -66,6 +66,12 @@ const storage = multer.diskStorage({
     }
 })
 
+const storage2 = multer.diskStorage({
+    destination:path.join(__dirname,'../public','slip'),
+    filename: function(req,file,cb){
+        cb(null,file.originalname)
+    }
+})
 
 
 const db = mysql.createConnection({
@@ -82,7 +88,93 @@ db.connect((error) => {
     }
 })
 
+//อัปเดตตรงนี้
+//หน้า Oderlist
+app.get('/orderCus/:username',(req ,res)=>{
+    const Username = req.params.username;
+    db.query("SELECT DATE_FORMAT(Order_date, '%Y-%m-%d') AS Order_date,Order_ID,Order_price,Order_pay,paytime,paybill,Order_status,Tranfer,completeTime,receiveTime,Username from orderCus WHERE Username = ? ", [Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
 
+});
+
+app.get('/showcart/:Username',(req ,res)=>{
+    const Username = req.params.Username;
+    db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
+
+//หน้า Odetail
+app.post('/slip',async (req,res) =>{
+    
+    try{
+        let slip = multer({storage:storage2}).single('slipImg');
+        
+        slip(req,res,function(err){
+            if(!req.file){
+                return res.send('Please select img');
+            }
+            else if(err instanceof multer.MulterError){
+                return res.send(err);
+            }
+            
+        }) ;  
+        
+    }catch(err){console.log(err)}
+
+})
+
+app.put('/updateSlip',(req,res)=>{
+    const orderpay = req.body.Order_pay;
+    const paytime = req.body.paytime;
+    const paybill = req.body.img;
+    const tranfer = req.body.Tranfer;
+    const completetime = req.body.completeTime;
+    const username = req.body.Username;
+    const orderstatus = req.body.Order_Status;
+
+    console.log(orderpay)
+    console.log(paytime)
+    console.log(paybill)
+    console.log(tranfer)
+    console.log(completetime)
+    console.log(username)
+    
+    db.query("UPDATE orderCus SET Order_pay = ?,paytime = ? ,paybill = ?,Order_Status = ?, Tranfer = ?, completeTime = ?  WHERE Username = ?"
+        ,[orderpay,paytime,paybill,orderstatus,tranfer,completetime,username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
+//หน้า status order
+app.put('/updateStatus', (req ,res)=> {
+    const time = req.body.time;
+    const username = req.body.username;
+
+    db.query("UPDATE OrderCus SET receiveTime = ? where Username = ?  ",[time,username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+   
+    
+});
 
 app.get("/",(req,res)=>{
     res.send("hello wolrd");

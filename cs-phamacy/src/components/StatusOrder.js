@@ -4,12 +4,16 @@ import Container from 'react-bootstrap/Container'
 import Axios from 'axios'
 import React, { useEffect, useState } from 'react';
 
-function OrderList() {
+function StatusOrder() {
 
-    const username = JSON.parse(localStorage.getItem("user"));
+    
     const [order, setorder] = useState([]);
     const [product, setproduct] = useState([]);
-
+    const [time, setTime] = useState("");
+    const [username, setUsername] = useState(""); 
+    const [customerList, setCustomerList] = useState([]);
+    const [customerEdit,setcustomerEdit] = useState([]);
+    
     useEffect(() => {
         const fecthData = async () => {
             const { data } = await Axios.get(`http://localhost:4007/orderCus/${username}`);
@@ -28,9 +32,64 @@ function OrderList() {
         };
         fecthProduct();
     }, []);
+
+    const getCustomer = () => {
+        Axios.get('http://localhost:4007/customer').then((response) => {
+            setCustomerList(response.data);
+            console.log(customerList);
+            console.log(response);
+        })
+    }
+
+    
+    const editCustomer = async (User_ID) => {
+        setUsername(User_ID);
+        console.log(username)
+        const { data } = await Axios.get(`http://localhost:4007/orderCus/${username}`);
+            console.log("order");
+            setorder(data);
+            console.log(data)
+        /*Axios.put('http://localhost:4007/editStatus',{
+            User_ID: User_ID
+        }).then((response) => {
+            setcustomerEdit(response.data);
+            console.log("customerEdit: "+customerEdit);
+            console.log(response);
+            setUsername(response.data)
+        })*/
+    }
+
+    const UpdateStatus = (e) => {
+        Axios.put('http://localhost:4007/updateStatus' ,{
+            time: time,
+            username: username,
+           
+            
+          }).then(res=>{
+            e.preventDefault();
+            console.warn(res);
+          })
+    }
     
     return(
         <div>
+            <button className="btn btn-primary" onClick={getCustomer}>Show customer</button>
+            
+            {customerList.map((val, key) => {
+            return (
+
+              <div className="customer card">
+
+                <div className="card-body terxt-left">
+                  <p className="card-text" >Username: {val.Username}</p>
+                  <button className="btn btn-warning" onClick={() => { editCustomer(val.Username) }}>Show Status</button>
+                </div>
+
+
+              </div>
+            )
+
+          })}
         {order.map((Val, key) =>{
                 
             return(
@@ -61,10 +120,11 @@ function OrderList() {
                             })}</td>
                             <td>{Val.Tranfer}</td>
                             <td>{Val.Order_date}</td>
-                            <td>-</td>
+                            <td> <input type="text" className="" placeholder="" onChange={(event)=>{setTime(event.target.value)}}  />
+                            </td>
                             <td>{Val.Order_status}</td>
                             </tr>
-                            
+                            <button className="btn btn-warning" onClick={() => { UpdateStatus(time) }}>Update Status</button>
                         </tbody>
                     </Table>
                     </Container>
@@ -77,4 +137,4 @@ function OrderList() {
         
 }
 
-export default OrderList;
+export default StatusOrder;

@@ -192,7 +192,9 @@ const Cart = (props) => {
             localStorage.setItem('lastUser_ID', saveUserID);
         }
     }*/
-    const buynow = (user)=>{
+    
+    //โค้ดเก่า
+    /*const buynow = (user)=>{
         console.log(user)
         Axios.put('http://localhost:4007/orderCus',{
             Username: user
@@ -201,8 +203,45 @@ const Cart = (props) => {
             console.log(response);
         })
         const total = cartTotal;
-        console.log(total)
-        
+        console.log(total)  
+    }*/
+
+    //โค้ดอัปเดตใหม่
+    const BuyNow = (Username) => {
+
+        Axios.put('http://localhost:4007/BuyNow',{
+            Username: Username
+                }).then((response) => {
+                    
+                    console.log(response);
+
+                    localStorage.setItem('name', JSON.stringify(response.data[0].User_fname));
+                    localStorage.setItem('sername',  JSON.stringify(response.data[0].User_lname));
+                    localStorage.setItem('address',  JSON.stringify(response.data[0].User_address));
+                    localStorage.setItem('tel',  JSON.stringify(response.data[0].User_tel));
+                    setCustomerList(response.data)
+                    
+                    console.log(response.data)
+                }) 
+                const total = cartTotal;
+                console.log(total)
+                const orderID = JSON.parse(localStorage.getItem("Cart_ID"));
+                const now = new Date().toISOString().split("T")[0];
+                if(total !== 0){
+                    Axios.post('http://localhost:4007/orderCus',{
+                        price: total,
+                        Username: Username,
+                        Oderstatus: 1,
+                        Oderdate: now,
+                        orderID: orderID,
+
+                    }).then((response) => {
+                        console.log(response);
+
+                        //localStorage.setItem('total', JSON.stringify(response.data[0].Order_price));
+                    })
+                }      
+                   
     }
     
     return (
@@ -235,7 +274,7 @@ const Cart = (props) => {
                 </div>
                 <div className="col-auto ">
                     <button className="btn btn-danger m-2" onClick={() => emptyCart()}>Clear Cart</button>
-                    <button className="btn btn-primary m-2" onClick={() => buynow(Username)}>Buy now</button>
+                    <button className="btn btn-primary m-2" onClick={() => BuyNow(Username)}>Buy now</button>
                 </div>
             </div>
         </section>
