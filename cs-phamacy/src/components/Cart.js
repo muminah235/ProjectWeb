@@ -208,7 +208,6 @@ const Cart = (props) => {
 
     //โค้ดอัปเดตใหม่
     const BuyNow = (Username) => {
-
         Axios.put('http://localhost:4007/BuyNow',{
             Username: Username
                 }).then((response) => {

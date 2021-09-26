@@ -102,6 +102,42 @@ app.get('/orderCus/:username',(req ,res)=>{
 
 });
 
+app.put('/BuyNow',(req ,res)=>{
+    const Username = req.body.Username;
+    console.log(Username);
+    db.query("SELECT * from customer WHERE Username = ? "  ,[Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+
+});
+
+app.post('/orderCus',(req ,res)=>{
+    const total = req.body.price;
+    const username = req.body.Username;
+    const orderStatus = req.body.Oderstatus;
+    const orderDate = req.body.Oderdate;
+    const orderID = req.body.orderID;
+
+    console.log(total);
+    console.log(username);
+    console.log(orderStatus);
+    console.log(orderDate);
+    console.log(orderID);
+    db.query("INSERT INTO orderCus (Order_ID, Order_price, Order_date, Order_status,Username) VALUE (?,?,?,?,?)"
+                ,[orderID, total, orderDate,orderStatus,username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
 app.get('/showcart/:Username',(req ,res)=>{
     const Username = req.params.Username;
     db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{

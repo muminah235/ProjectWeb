@@ -63,10 +63,7 @@ function StatusOrder() {
         Axios.put('http://localhost:4007/updateStatus' ,{
             time: time,
             username: username,
-           
-            
           }).then(res=>{
-            e.preventDefault();
             console.warn(res);
           })
     }
@@ -119,8 +116,8 @@ function StatusOrder() {
                                     )
                             })}</td>
                             <td>{Val.Tranfer}</td>
-                            <td>{Val.Order_date}</td>
-                            <td> <input type="text" className="" placeholder="" onChange={(event)=>{setTime(event.target.value)}}  />
+                            <td>{Val.completeTime}</td>
+                            <td> <input type="time" className="" placeholder="" onChange={(event)=>{setTime(event.target.value)}}  />
                             </td>
                             <td>{Val.Order_status}</td>
                             </tr>

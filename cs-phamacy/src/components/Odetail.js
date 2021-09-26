@@ -49,9 +49,7 @@ function Odetail({cartTotal}) {
                 ":" +
                 new Date(Date.now()).getMinutes(),
             Username: username,
-            Order_Status:2 ,
-
-            
+            Order_Status:2,
           }).then(res=>{
             e.preventDefault();
             console.warn(res);

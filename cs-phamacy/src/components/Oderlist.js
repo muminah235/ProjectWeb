@@ -60,8 +60,8 @@ function OrderList() {
                                     )
                             })}</td>
                             <td>{Val.Tranfer}</td>
-                            <td>{Val.Order_date}</td>
-                            <td>-</td>
+                            <td>{Val.completeTime}</td>
+                            <td>{Val.receiveTime}</td>
                             <td>{Val.Order_status}</td>
                             </tr>
                             
