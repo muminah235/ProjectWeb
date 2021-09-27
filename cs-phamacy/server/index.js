@@ -200,8 +200,9 @@ app.put('/updateSlip',(req,res)=>{
 app.put('/updateStatus', (req ,res)=> {
     const time = req.body.time;
     const username = req.body.username;
+    const status = req.body.status;
 
-    db.query("UPDATE OrderCus SET receiveTime = ? where Username = ?  ",[time,username],(err,result)=>{
+    db.query("UPDATE OrderCus SET receiveTime = ? ,Order_status = ? where Username = ?  ",[time,status,username],(err,result)=>{
         if(err){
             console.log(err);
         }else{

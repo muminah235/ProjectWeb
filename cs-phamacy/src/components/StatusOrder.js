@@ -10,6 +10,7 @@ function StatusOrder() {
     const [order, setorder] = useState([]);
     const [product, setproduct] = useState([]);
     const [time, setTime] = useState("");
+    const [status, setStatus] = useState("");
     const [username, setUsername] = useState(""); 
     const [customerList, setCustomerList] = useState([]);
     const [customerEdit,setcustomerEdit] = useState([]);
@@ -63,6 +64,7 @@ function StatusOrder() {
         Axios.put('http://localhost:4007/updateStatus' ,{
             time: time,
             username: username,
+            status: status
           }).then(res=>{
             console.warn(res);
           })
@@ -119,7 +121,7 @@ function StatusOrder() {
                             <td>{Val.completeTime}</td>
                             <td> <input type="time" className="" placeholder="" onChange={(event)=>{setTime(event.target.value)}}  />
                             </td>
-                            <td>{Val.Order_status}</td>
+                            <td><input type="text" defaultValue={Val.Order_status} className="" placeholder="" onChange={(event)=>{setStatus(event.target.value)}} /></td>
                             </tr>
                             <button className="btn btn-warning" onClick={() => { UpdateStatus(time) }}>Update Status</button>
                         </tbody>
