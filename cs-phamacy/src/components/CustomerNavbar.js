@@ -13,7 +13,7 @@ export default function CustomerNavbar() {
                             <a class="nav-link active" aria-current="page" href="/">แนะนำสินค้า</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">ติดตามสินค้า</a>
+                            <a class="nav-link active" aria-current="page" href="/StatusOrder">ติดตามสินค้า</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">ติดต่อเรา</a>

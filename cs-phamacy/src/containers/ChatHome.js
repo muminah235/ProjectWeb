@@ -4,6 +4,8 @@ import Chat from './Chat';
 import { useEffect} from 'react';
 import Axios from 'axios'
 import ReactDOM from 'react-dom';
+import Alert from 'react-bootstrap/Alert';
+import { Button } from 'react-bootstrap';
 
 const socket = io.connect("http://localhost:3006")
 export default function ChatHome() {
@@ -34,6 +36,29 @@ export default function ChatHome() {
         }
     }
     
+    function AlertDismissible() {
+        const [show, setShow] = useState(true);
+      
+        return (
+          <>
+            <Alert show={show} variant="success">
+              <Alert.Heading>คำแนะนำในการเข้าสู่การแชท</Alert.Heading>
+              <p>1.ป้อนชื่อ ( username ) กับรหัสห้อง(โดยรหัสห้องต้องตรงกับรหัสห้องของตนเองหรือเป็นรหัสห้องของเภสัชกรเท่านั้น)</p>
+              <p>2.กรณีต้องปรึกษากับเภสัชกรให้ส่งข้อความไปในห้องของเภสัชกร ด้วยคำว่า ”ต้องการคำปรึกษา ” </p>
+              <p>3.รอการตอบกลับจากเภสัชกรในรหัสห้องของตนเอง </p>
+              <hr />
+              <div className="d-flex justify-content-end">
+                <Button onClick={() => setShow(false)} variant="outline-success">
+                  ปิด
+                </Button>
+              </div>
+            </Alert>
+      
+            {!show && <Button onClick={() => setShow(true)}>แสดงข้อความ</Button>}
+          </>
+        );
+    }
+
     return (
         <div className="App">
             {LoginStatus}
@@ -49,7 +74,7 @@ export default function ChatHome() {
                 <Chat socket={socket} username={username} room={room}/>
             </div>)
         }   
-        
+        <AlertDismissible />
         </div>
         
     )

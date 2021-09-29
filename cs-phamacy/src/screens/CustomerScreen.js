@@ -6,7 +6,8 @@ import Cart from "../components/Cart"
 import { CartProvider } from "react-use-cart";
 import jsxToString from "jsx-to-string";
 import { useCart } from "react-use-cart";
-
+import Alert from 'react-bootstrap/Alert';
+import { Button } from 'react-bootstrap';
 
 
 export default function CustomerScreen(props) {
@@ -163,6 +164,28 @@ export default function CustomerScreen(props) {
     };
     fecthCart();*/
 
+    function AlertDismissible() {
+        const [show, setShow] = useState(true);
+      
+        return (
+          <>
+            <Alert show={show} variant="success">
+              <Alert.Heading>การสั่งซื้อยานอกระบบ</Alert.Heading>
+              <p>-ลูกค้าสามารถสั่งซื้อยาที่จ่ายยาโดยเภสัชกร ผ่านที่แชทออนไลน์ กรณีนี้ลูกค้าต้องรับยาเองที่ร้านเท่านั้น
+              (หากลูกค้ากดรับให้จัดส่งตามที่อยู่ ร้านค้าจะทำการยกเลิกออเดอร์นั้นอัตโนมัติ)</p>
+              <hr />
+              <div className="d-flex justify-content-end">
+                <Button onClick={() => setShow(false)} variant="outline-success">
+                  ปิด
+                </Button>
+              </div>
+            </Alert>
+      
+            {!show && <Button onClick={() => setShow(true)}>แสดงข้อความ</Button>}
+          </>
+        );
+    }
+
     return (
         
         <CartProvider>
@@ -200,6 +223,7 @@ export default function CustomerScreen(props) {
                     </div>
                     <Cart />
                 </section>
+                <AlertDismissible />
             </div>
         </CartProvider>
     )
