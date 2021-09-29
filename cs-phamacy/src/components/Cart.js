@@ -208,6 +208,12 @@ const Cart = (props) => {
 
     //โค้ดอัปเดตใหม่
     const BuyNow = (Username) => {
+        Axios.put('http://localhost:4007/statusCart',{
+            Username: Username,
+            status: 2 
+        }).then((response) => {
+            console.log(response);
+        })
         Axios.put('http://localhost:4007/BuyNow',{
             Username: Username
                 }).then((response) => {

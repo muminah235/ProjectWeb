@@ -140,7 +140,7 @@ app.post('/orderCus',(req ,res)=>{
 });
 app.get('/showcart/:Username',(req ,res)=>{
     const Username = req.params.Username;
-    db.query("SELECT * from O_detail WHERE Username = ? ",[Username],(err,result)=>{
+    db.query("SELECT * from O_detail WHERE Username = ? AND Cart_status = 1 ",[Username],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -203,6 +203,21 @@ app.put('/updateStatus', (req ,res)=> {
     const status = req.body.status;
 
     db.query("UPDATE OrderCus SET receiveTime = ? ,Order_status = ? where Username = ?  ",[time,status,username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+   
+    
+});
+
+app.put('/statusCart', (req ,res)=> {
+    const username = req.body.Username
+    const status = req.body.status;
+
+    db.query("UPDATE O_detail SET Cart_status = ?  where Username = ?  ",[status,username],(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -597,13 +612,25 @@ app.put('/update',(req,res)=>{
     
 })
 
-app.delete('/delete/:User_ID',(req,res) =>{
-    const id = req.params.User_ID;
-    db.query("DELETE FROM customer WHERE User_ID = ?",id,(err,result)=>{
+app.delete('/delete/:Username',(req,res) =>{
+    const username = req.params.Username;
+    db.query("DELETE FROM customer WHERE Username = ? ",username,(err,result)=>{
         if(err){
             console.log(err);
         }else{
-            res.send(result);
+            db.query("DELETE FROM O_detail WHERE Username = ? ",username,(err,result)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    db.query("DELETE FROM orderCus WHERE Username = ? ",username,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                        }else{
+                            res.send(result);
+                        }
+                    })
+                }
+            })
         }
     })
 })

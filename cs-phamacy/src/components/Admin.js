@@ -54,8 +54,7 @@ export default function Admin() {
     
     const updateCustomer = (User_ID) => {
         Axios.put("http://localhost:4007/update", {
-            Username: newUsername || customerEdit[0].Username,
-            
+            Username: newUsername || customerEdit[0].Username,      
             User_fname: newName || customerEdit[0].User_fname,
             User_lname: newSurname || customerEdit[0].User_lname,
             User_birthday: newBirthDay || customerEdit[0].User_birthday,
@@ -84,11 +83,11 @@ export default function Admin() {
 
         })
     }
-    const deleteCustomer = (User_ID) => {
-        Axios.delete(`http://localhost:4007/delete/${User_ID}`).then((reponse) => {
+    const deleteCustomer = (Username) => {
+        Axios.delete(`http://localhost:4007/delete/${Username}`).then((reponse) => {
             setCustomerList(
                 customerList.filter((val) => {
-                    return val.User_ID != User_ID;
+                    return val.Username != Username;
                 })
             )
         })
@@ -140,7 +139,7 @@ export default function Admin() {
                     ):
                     <div>
                     <button className="btn btn-warning" onClick={() => { updateCustomer(val.User_ID) }}>Update</button>
-                    <button className="btn btn-danger" onClick={() => { deleteCustomer(val.User_ID) }}>Delete</button>
+                    <button className="btn btn-danger" onClick={() => { deleteCustomer(val.Username) }}>Delete</button>
                     </div>
                     }
                     
