@@ -100,6 +100,7 @@ export default function Admin() {
         <a class = "navbar-brand" href="/showpharmacist">Show pharmacist</a>
         <a class = "navbar-brand" href="/showproduct">Show product</a>
         <a class = "navbar-brand" href="/addproduct">Add product</a>
+        <a class = "navbar-brand" href="/StatusOrder">Update status customer</a>
         
           {customerList.map((val, key) => {
             return (

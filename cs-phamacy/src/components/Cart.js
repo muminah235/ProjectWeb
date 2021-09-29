@@ -4,6 +4,7 @@ import { response } from 'react';
 import Axios from 'axios'
 import ReactDOM from 'react-dom';
 import Login from './Login';
+import Odetail from './Odetail';
 
 
 const Cart = (props) => {
@@ -245,7 +246,12 @@ const Cart = (props) => {
 
                         //localStorage.setItem('total', JSON.stringify(response.data[0].Order_price));
                     })
-                }      
+                }
+                ReactDOM.render(
+                    <Odetail />,
+                  document.getElementById('root')
+                  
+                );      
                    
     }
     

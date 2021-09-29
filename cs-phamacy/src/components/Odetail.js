@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Form} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Axios from 'axios'
-
+import ReactDOM from 'react-dom';
 import { useCart } from "react-use-cart";
+import CustomerScreen from '../screens/CustomerScreen';
 
 function Odetail({cartTotal}) {
     const name = JSON.parse(localStorage.getItem("name"));
@@ -54,6 +55,11 @@ function Odetail({cartTotal}) {
             e.preventDefault();
             console.warn(res);
           })
+          ReactDOM.render(
+            <CustomerScreen />,
+          document.getElementById('root')
+          
+        );
 
     }
 
