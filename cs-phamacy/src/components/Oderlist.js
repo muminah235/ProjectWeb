@@ -2,24 +2,41 @@ import { Table } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container'
 import Axios from 'axios'
 import React, { useEffect, useState } from 'react';
+import { set } from 'react-hook-form';
 
 function OrderList() {
 
     const username = JSON.parse(localStorage.getItem("user"));
+    const [status,setStatus] = useState([]);
     const [order, setorder] = useState([]);
     const [product, setproduct] = useState([]);
 
     useEffect(() => {
-        const fecthData = async () => {
+        const fecthData = async (e) => {
             const { data } = await Axios.get(`http://localhost:4007/orderCus/${username}`);
             console.log("order");
             setorder(data);
             console.log(data)
-            
         };
         fecthData();
+        for(let i=0 ;i<order.length;i++){
+            console.log(order[i].Order_status)
+            if(order[i].Order_status === '2'){
+                console.log("complete")
+                setStatus([...status,{
+                    Order_ID:order[i].Order_ID,
+                    Tranfer:order[i].Tranfer,
+                    completeTime:order[i].completeTime,
+                    receiveTime:order[i].receiveTime,
+                    Order_status:"complete"
+                }])
+            }
+          
+        }
+        console.log("status")
+        console.log(status)
         const fecthProduct = async () => {
-            const { data } = await Axios.get(`http://localhost:4007/showcart/${username}`);
+            const { data } = await Axios.get(`http://localhost:4007/showcart2/${username}`);
             console.log("product");
             setproduct(data);
             console.log(data)
@@ -28,8 +45,10 @@ function OrderList() {
         fecthProduct();
     }, []);
     
+   
     return(
         <div>
+        <h1>order</h1>
         {order.map((Val, key) =>{
                 
             return(

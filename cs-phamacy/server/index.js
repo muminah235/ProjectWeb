@@ -149,6 +149,17 @@ app.get('/showcart/:Username',(req ,res)=>{
     });
 
 });
+app.get('/showcart2/:Username',(req ,res)=>{
+    const Username = req.params.Username;
+    db.query("SELECT * from O_detail WHERE Username = ? AND Cart_status = 2 ",[Username],(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    });
+
+});
 
 //หน้า Odetail
 app.post('/slip',async (req,res) =>{
