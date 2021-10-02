@@ -73,12 +73,12 @@ const storage2 = multer.diskStorage({
     }
 })
 
-
+//us12062557
 const db = mysql.createConnection({
     user: "root",
     host: "127.0.0.1",
-    password: "us12062557",
-    database: "pharmaDelivery"
+    password: "",
+    database: "pharmadelivery"
 })
 db.connect((error) => {
     if (error) {
